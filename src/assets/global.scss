@@ -1,0 +1,47 @@
+#app {     
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0; padding: 0;
+   
+}
+
+$primary:  #e600ac;
+$secondary: #505050;
+
+.btn {
+    display: block;
+    padding: 16px 32px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 1px 1px 1px #fff;
+    font-weight: 700;
+    font-size: 17px;
+    color: white;
+
+    a {
+        text-decoration: none;       
+    }
+}
+
+
+
+.btn-primary {
+    background-color: $primary;   
+}
+
+.btn-secondary {
+    background-color: $secondary;
+}
+
+.btn-round {
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    padding: 0;
+    font-size: 22px;
+}
