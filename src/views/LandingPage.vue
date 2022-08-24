@@ -40,9 +40,11 @@
 
 <style lang="scss" scoped>
 
+     @import "@/assets/global.scss";
 
+    /*****************************   small screens *************************************** */
     @media screen and (max-width: 991px) {
-        .content {         
+       .content {         
             background: url(../assets/images/mobilebackground.jpg) no-repeat center center fixed; 
             -webkit-background-size: cover;
             -moz-background-size: cover;
@@ -54,32 +56,35 @@
             padding: 100px 0 0 16px;
 
             header {
-                display: flex;  
-                position: relative; 
+                .main-content {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center
+                }                   
                 
-                .login-slider {
-                    position: fixed;
-                //    transform: translateX(400px);
+                .login-slider {    
                     z-index: 10;
+                    width: 95vw;
+                    position: relative; 
+                    top: -80px;                       
                 }
-            }
 
-            .main-content {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-              
-            }
-
-            button {
-                margin-top: 16px;
-                width: 200px;
-                font-size: 20px;
-            }
-            
+                button {
+                    margin-top: 24px;
+                    width: 200px;
+                    font-size: 20px;
+                }
+            }    
+        .slide-enter-from   { transform: translateX(100vw) }
+        .slide-enter-to     { transform: translateX(0) }
+        .slide-enter-active { transition: transform 2s ease-in }
+        .slide-leave-from   { transform: translateX(0)}
+        .slide-leave-to     { transform: translateX(100vw) }
+        .slide-leave-active { transition: transform 2s ease-out }   
         }
     }
 
+    /*************************** large screens *******************************************/
     @media screen and (min-width: 992px) {
         
         .content { 
@@ -98,7 +103,6 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: flex-start;
-
                 .main-content {
                     position: relative;
                     width: 100%;

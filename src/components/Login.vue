@@ -3,21 +3,19 @@
         <div class="close-btn">
             <button class="btn btn-secondary btn-round"
                     @click="closeSlider()">x</button>
-        </div>  
-
-       
+        </div>         
         <form @submit.prevent="handleSubmit">   
             <h1>login</h1>
-            <div>
+            <div class="form-element">
                 <label>Email:</label>
                 <input type="email"  v-model="userCreds.email">
             </div>
-            <div>
+            <div class="form-element"  >
                 <label>Password:</label>
                 <input type="password" v-model="userCreds.password">       
             </div>
-            <div>
-                <button @click="attemptLogin()">Log In</button>
+            <div class="form-element">
+                <button class="btn login-btn" @click="attemptLogin()">Log In</button>
             </div>
         </form>        
     </div>  
@@ -45,15 +43,57 @@
 </script>
 
 <style lang="scss" scoped>
-    .form-container {       
-        background-color: white;
-        height: 100vh;
-        width: 400px;
-        padding: 10px 30px;   
+
+    @import "@/assets/global.scss";
+
+    .form-container {
+
+        position: relative;        
+        .close-btn {
+            
+                    position: absolute;
+                    top: 8px;
+                    right: 8px;
+                
+        }
     }
 
     @media screen and (max-width: 991px) {
+        .form-container {
+            margin-top: 20px;
+            width: 95vw;
+            height: 600px;
+            background-color: white;
 
+            form {
+                font-size: 24px;
+                padding: 70px 10px;
+
+                .form-element {
+                    margin-top: 20px;
+                    label, button {
+                        display: block;
+                        margin-top: 10px;
+                    }
+
+                    input, button {
+                        height: 50px;
+                        width: 90%;
+                        border: 1px solid $secondary;
+                        font-size: 18px;
+                    }
+
+                .login-btn {
+                        margin-top: 30px;
+                        font-size: 24px;
+                        background-color: $primary;
+                        color: white;
+                        padding-bottom: 40px;
+
+                    }
+                } 
+            }
+        }
 
     }
 
@@ -64,18 +104,25 @@
             width: 400px;
             padding: 10px 30px; 
 
-            .close-btn {
-                position: absolute;
-                top: 8px;
-                right: 8px;
-            }
-
             form {
                 h1 {
                     padding-top: 50px;
                 }
+
+
+                .form-element {
+                    label, button {
+                        display: block;   
+                        margin-top: 10px;
+                    }
+                    input {
+                        width: 90%;
+                        height: 30px;
+                    
+                    }
+                }
             }
-       }
+        }
     }
 
 
