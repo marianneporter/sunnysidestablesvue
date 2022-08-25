@@ -10,7 +10,9 @@
    
 }
 
-$primary:  #e600ac;
+$primary:  #003399;
+$primaryHighlight: #335cad;
+$accent:  #e600ac;
 $secondary: #505050;
 
 .btn {
@@ -29,7 +31,7 @@ $secondary: #505050;
 }
 
 .btn-primary {
-    background-color: $primary;   
+    background-color: $accent;   
 }
 
 .btn-secondary {

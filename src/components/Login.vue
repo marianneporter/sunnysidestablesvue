@@ -49,12 +49,10 @@
     .form-container {
 
         position: relative;        
-        .close-btn {
-            
-                    position: absolute;
-                    top: 8px;
-                    right: 8px;
-                
+        .close-btn {            
+            position: absolute;
+            top: 8px;
+            right: 8px;                
         }
     }
 
@@ -86,7 +84,7 @@
                 .login-btn {
                         margin-top: 30px;
                         font-size: 24px;
-                        background-color: $primary;
+                        background-color: $accent;
                         color: white;
                         padding-bottom: 40px;
 
