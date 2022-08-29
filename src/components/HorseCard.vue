@@ -1,15 +1,63 @@
 <template>
     <div class="horse-card">
-        
+        <h3>{{ horse.name }}</h3>
+        <h6>Owned by:
+            <span v-for="(owner, index) in horse.owners"
+                  :key="owner.id"
+                  v-text="getFullOwnerName(owner, index)">               
+            </span>
+        </h6>         
+        <img :src="horse.imageUrl" :alt="altMessage">
+        <div class="btn-area">
+            <button class="btn btn-success">Edit</button>
+            <button class="btn btn-primary">Details</button>
+        </div>
+      
+
     </div>
 </template>
 
-<script>
-    export default {
-        
+<script setup>  
+    import { computed } from 'vue'
+
+    const props = defineProps({
+        horse: Object,
+    }); 
+
+    const horse = { ...props.horse };  
+
+    const getFullOwnerName = (owner, index) => {
+        let name = `${owner.firstName} ${owner.lastName}`
+        if ((index + 2) < horse.owners.length) {
+            name += ", "
+        } else if (index + 2 === horse.owners.length) {
+            name += ' and '
+        }        
+        return name;  
     }
+
+    const altMessage = computed(() => `photo of ${horse.name} is not available`)
+    
 </script>
 
 <style lang="scss" scoped>
+    .horse-card {     
+        height: 425px;
+        width: 350px;
+        border: 1px solid black;
+        padding: 20px 10px;
+    }
+    img {
+        display: block;
+        max-width: 320px;
+        height: auto;
+        margin-top: 20px;
+    }
+
+    .btn-area {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-around;
+    }
 
 </style>

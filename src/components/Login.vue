@@ -1,11 +1,11 @@
 <template>  
     <div class="form-container">  
         <div class="close-btn">
-            <button class="btn btn-secondary btn-round"
+            <button class="btn-secondary btn-round"
                     @click="closeSlider()">x</button>
         </div>         
-        <form @submit.prevent="handleSubmit">   
-            <h1>login</h1>
+        <form @submit.prevent="attemptLogin()">   
+            <h1>Login</h1>
             <div class="form-element">
                 <label>Email:</label>
                 <input type="email"  v-model="userCreds.email">
@@ -15,7 +15,7 @@
                 <input type="password" v-model="userCreds.password">       
             </div>
             <div class="form-element">
-                <button class="btn login-btn" @click="attemptLogin()">Log In</button>
+                <button type="submit" class="btn-full btn-primary login-btn">Log In</button>
             </div>
         </form>        
     </div>  
@@ -34,9 +34,12 @@
     const userInfo = reactive({})
 
     const attemptLogin = async ()=> {
+        console.log('in attempt login');
         let loginResult = await login()
         emit('loginSuccess')    
     }
+
+    
 
     const closeSlider = () => emit('closeSlider')      
 
@@ -48,15 +51,26 @@
 
     .form-container {
 
-        position: relative;        
+        position: relative;    
+
         .close-btn {            
             position: absolute;
             top: 8px;
             right: 8px;                
         }
+
+        h1 {
+            color: $primary;
+        }
+
+        input {
+            padding-left: 5px;
+        }
+
+
     }
 
-    @media screen and (max-width: 991px) {
+    @media screen and (max-width: 992px) {
         .form-container {
             margin-top: 20px;
             width: 95vw;
@@ -80,16 +94,16 @@
                         border: 1px solid $secondary;
                         font-size: 18px;
                     }
+                } 
 
                 .login-btn {
-                        margin-top: 30px;
-                        font-size: 24px;
-                        background-color: $accent;
-                        color: white;
-                        padding-bottom: 40px;
-
-                    }
-                } 
+                    margin-top: 30px;
+                    font-size: 24px;
+                 
+                    color: white;
+                    padding-bottom: 40px;
+                   
+                }
             }
         }
 
@@ -115,9 +129,16 @@
                     }
                     input {
                         width: 90%;
-                        height: 30px;
-                    
+                        height: 30px;                    
                     }
+                }
+
+                .login-btn {
+                    margin-top: 40px;
+                    font-size: 18px;
+                
+                    color: white;
+                  
                 }
             }
         }

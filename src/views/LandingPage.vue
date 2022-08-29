@@ -3,7 +3,7 @@
         <header>
             <div class="main-content">
                 <h1 >Welcome to the Sunnyside Stables Vue Demo</h1>                  
-                <button class="btn btn-primary"                      
+                <button class="btn btn-accent"                      
                         @click="startLogin()">
                     Login              
                 </button>  

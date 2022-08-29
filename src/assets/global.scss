@@ -14,15 +14,17 @@ $primary:  #003399;
 $primaryHighlight: #335cad;
 $accent:  #e600ac;
 $secondary: #505050;
+$success: #28a428;
 
 .btn {
-    display: block;
-    padding: 16px 32px;
+    display: block;    
+    padding: 16px 24px;
+    min-width: 100px;
     border: none;
     border-radius: 10px;
     box-shadow: 1px 1px 1px #fff;
     font-weight: 700;
-    font-size: 17px;
+    font-size: 16px;
     color: white;
 
     a {
@@ -31,7 +33,15 @@ $secondary: #505050;
 }
 
 .btn-primary {
+    background-color: $primary;   
+}
+
+.btn-accent {
     background-color: $accent;   
+}
+
+.btn-success {
+    background-color: $success;
 }
 
 .btn-secondary {
@@ -40,8 +50,23 @@ $secondary: #505050;
 
 .btn-round {
     border-radius: 50%;
+    font-weight:700;
+    color: white;
     height: 50px;
     width: 50px;
     padding: 0;
     font-size: 22px;
 }
+
+.btn-full {
+    display: block;    
+    width: 90%;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 1px 1px 1px #fff;
+    font-weight: 700;
+    font-size: 16px;
+    color: white;
+    padding: 16px 0;
+}
+

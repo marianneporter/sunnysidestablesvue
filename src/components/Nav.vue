@@ -1,7 +1,7 @@
 <template>
      <nav class="navbar" >
          <div class="site-name"><font-awesome-icon icon="fa-solid fa-horse fa-lg" />&nbsp; Sunnyside Stables</div>
-         <a href="#" class="navbar-toggle" id="tibbles" @click="toggle()">
+         <a href="#" class="navbar-toggle"  @click="toggle()">
              <span><font-awesome-icon icon="fa-solid fa-bars" /></span> 
          </a>
          <div class="nav-links" :class="{active: toggleNav}">
@@ -23,8 +23,7 @@
              
             </ul>    
         </div>    
-    </nav>
-    {{ toggleNav }}
+    </nav>  
 </template>
 
 <script setup>
