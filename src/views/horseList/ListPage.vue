@@ -15,8 +15,7 @@
 <script setup>
  import useDB from "@/composables/useDB.js"
  import HorseCard from '@/components/HorseCard.vue'
- import { watch } from 'vue'
- 
+  
  const {horses, fetchHorses, loading } = useDB();
  
  fetchHorses()

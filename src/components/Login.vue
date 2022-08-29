@@ -35,7 +35,7 @@
 
     const attemptLogin = async ()=> {
         console.log('in attempt login');
-        let loginResult = await login()
+        let loginResult = await login(userCreds)
         emit('loginSuccess')    
     }
 

@@ -1,24 +1,32 @@
-import { ref, computed } from 'vue'
+import { ref, reactive, computed } from 'vue'
+import useDB from './useDB.js'
 
 const globalDisplayLogin = ref(false)
 
-export default function useAuth() {
-    const baseURL = 'https://localhost:44398/api/horses' 
+export default function useAuth() {   
+
+    const { login: loginAuth } = useDB();
   
-    const loginInfo = ref({})
+   
     const displayLogin = computed(()=> globalDisplayLogin.value)  
    
     const setDisplayLogin   = () => globalDisplayLogin.value = true  
     const resetDisplayLogin = () => globalDisplayLogin.value = false
 
-    const currentUserName = ref('')
-    const currentUserToken = ref('')
 
-    const login = async () => {
-        console.log('in login function')
-        let loginResult = await Promise.resolve({userName: 'Tibbles', token: 'ABC123'})      
-        currentUserName.value  = loginResult.userName
-        currentUserToken.value = loginResult.token       
+    const currentUser = computed ( () => {
+        let user = JSON.parse(localStorage.getItem('user'))
+    })
+
+    const userName = computed( () => user.name)
+    const token = computed( () => user.token) 
+   
+
+    const login = async (userCreds) => {
+        console.log('in login function')  
+        let loginResult = await loginAuth(userCreds)      
+        localStorage.setItem("user", JSON.stringify({...loginResult}));
+     
         return "success"
     }
 
@@ -26,9 +34,9 @@ export default function useAuth() {
              resetDisplayLogin,
              displayLogin,  
              login,        
-             loginInfo,
-             currentUserName,
-             currentUserToken
+             currentUser,
+             userName,
+             token          
     }
 
 }
