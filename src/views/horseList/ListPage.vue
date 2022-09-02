@@ -17,7 +17,7 @@
  import HorseCard from '@/components/HorseCard.vue'
   
  const {horses, fetchHorses, loading } = useDB();
- 
+
  fetchHorses()
 
 </script>

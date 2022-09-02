@@ -33,9 +33,8 @@
 
     const userInfo = reactive({})
 
-    const attemptLogin = async ()=> {
-        console.log('in attempt login');
-        let loginResult = await login(userCreds)
+    const attemptLogin = async ()=> {     
+        let loginResult = await login(userCreds)       
         emit('loginSuccess')    
     }
 
@@ -143,6 +142,5 @@
             }
         }
     }
-
 
 </style>

@@ -4,7 +4,7 @@
          <a href="#" class="navbar-toggle"  @click="toggle()">
              <span><font-awesome-icon icon="fa-solid fa-bars" /></span> 
          </a>
-         <div class="nav-links" :class="{active: toggleNav}">
+         <div class="nav-links" :class="{ active: toggleNav }">
             <ul>
                 <li class="nav-item">              
                     <router-link class="nav-link" :to="{ name: 'horseList'}">                  
@@ -17,8 +17,8 @@
                     </router-link>
                 </li>    
                 <li class="login-dets">
-                    <div class="greeting">Hello Super Duper Tibbles</div>
-                    <div class="logout-btn">Log out?</div>
+                    <div class="greeting">Hello {{userFirstName}}</div>
+                    <div><button class="logout-btn" @click="logout()">Log out?</button></div>
                 </li>
              
             </ul>    
@@ -26,21 +26,25 @@
     </nav>  
 </template>
 
-<script setup>
-
-    
+<script setup>    
 
     import { ref } from 'vue'
+    import useAuth  from '@/composables/useAuth.js'
+    import { useRouter } from 'vue-router'
 
+    const router = useRouter() 
+
+    const { userFirstName, logout: authLogout } = useAuth()
 
     let toggleNav = ref(false);
 
-    const toggle = () => { 
-        console.log('toggle clicked')
-        toggleNav.value = !toggleNav.value
+    const toggle = () => toggleNav.value = !toggleNav.value
+   
+
+    const logout = () => {
+        authLogout()
+        router.push({name: 'landing'})  
     }
-
-
 
 </script> 
 
@@ -90,13 +94,17 @@
             }
 
             .login-dets {
-                position: fixed;
+                position: absolute;
                 right: 2px;
                 font-size: 14px;            
                 padding: 7px;
 
                 .logout-btn {
+                    position: relative;
                     padding-top: 2px;
+                    color: white;
+                    background-color: $primary;
+                    border: none;
                 }
             }
         } 

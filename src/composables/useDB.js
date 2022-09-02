@@ -18,7 +18,7 @@ export default function useDB() {
    
     
     const login = async (userCreds) => {
-         console.log('userCreds is ' + JSON.stringify(userCreds));
+        
          const response = await fetch(` ${baseURL}auth/login`, 
                                       { method: 'POST',
                                                headers: {
@@ -26,13 +26,8 @@ export default function useDB() {
                                                },
                                                body: JSON.stringify(userCreds) })                      
                          .catch(err => console.log(err))
-         const data = await response.json()
-         console.log(data)
+         const data = await response.json()     
          return data
-        // horses.value = data.horses;       
-        // loading.value=false
-        // return horses.value   
-           
     }  
 
     return { horses, fetchHorses, loading, login}

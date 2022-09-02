@@ -2,8 +2,14 @@
     <div class="content">
         <header>
             <div class="main-content">
-                <h1 >Welcome to the Sunnyside Stables Vue Demo</h1>                  
-                <button class="btn btn-accent"                      
+                <h1 >Welcome to the Sunnyside Stables Vue Demo</h1>  
+                <button v-if="loggedIn" 
+                        class="btn btn-accent"
+                        @click="enterSite()">
+                    Enter Site             
+                </button>  
+                <button v-else 
+                        class="btn btn-accent"
                         @click="startLogin()">
                     Login              
                 </button>  
@@ -22,19 +28,21 @@
     import Login from '../components/Login.vue'    
     import useAuth from "@/composables/useAuth.js"
     import { useRouter } from 'vue-router'
+    import { onUnmounted } from 'vue'
 
-    const router       = useRouter()
+    const router = useRouter()
  
-    const { displayLogin, setDisplayLogin, resetDisplayLogin} = useAuth()
+    const { displayLogin, setDisplayLogin, resetDisplayLogin, loggedIn} = useAuth()
 
-    const startLogin   = () => {
-        console.log('in setDisplayLogin')
-        setDisplayLogin() 
-    } 
+    const startLogin = () => setDisplayLogin()     
 
-    const loginSuccess = () => router.push({name: 'horseList'})   
+    const enterSite = () => router.push({name: 'horseList'})       
+
+    const loginSuccess = () => router.push({name: 'horseList'})     
 
     const closeSlider  = () => resetDisplayLogin()
+
+    onUnmounted(() => resetDisplayLogin())
  
 </script>
 
