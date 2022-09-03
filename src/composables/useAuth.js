@@ -1,16 +1,15 @@
 import { ref, reactive, computed } from 'vue'
 import useDB from './useDB.js'
+import useCurrentUser from './useCurrentUser.js'
 
 const globalDisplayLogin = ref(false)
 
-let currentUser = reactive({
-    token: null,
-    user: null      
-})
 
 export default function useAuth() {   
 
     const { login: loginAuth } = useDB();  
+
+    const { currentUser, setCurrentUser, clearCurrentUser } = useCurrentUser();
    
     const displayLogin = computed(()=> globalDisplayLogin.value)  
    
@@ -21,19 +20,18 @@ export default function useAuth() {
         let userFromLocalStorage = JSON.parse(localStorage.getItem('user'))
         if (userFromLocalStorage) {
             if (tokenValid(userFromLocalStorage.token)) {
-                currentUser.token = userFromLocalStorage.token
-                currentUser.user = {...userFromLocalStorage.user}
+                setCurrentUser(userFromLocalStorage.token,
+                               userFromLocalStorage.user  )
              } else {
-                currentUser.user = null;
-                currentUser.token = null
+                clearCurrentUser()
                 localStorage.clear();               
             }
         }
     }
 
-    const loggedIn = computed( () => currentUser.token != null )
+   // const loggedIn = computed( () => currentUser.token != null )
 
-    const userFirstName = computed(() => currentUser.user.firstName ? currentUser.user.firstName  : '')
+   
    
     const tokenValid = (token) => {
         let base64Url = token.split('.')[1]
@@ -51,13 +49,13 @@ export default function useAuth() {
     
         let loginResult = await loginAuth(userCreds)      
         localStorage.setItem("user", JSON.stringify({...loginResult}));     
-        currentUser = { ...loginResult }     
+        
+        setCurrentUser(loginResult.token, loginResult.user)   
         return "success"
     }
 
     const logout = () => {
-        currentUser.user = null;
-        currentUser.token = null
+        clearCurrentUser()
         localStorage.clear();       
     }
 
@@ -65,11 +63,8 @@ export default function useAuth() {
              resetDisplayLogin,
              displayLogin,  
              login, 
-             logout,       
-             currentUser,   
-             userFirstName,          
-             loggedIn, 
-             setCurrentUserIfPresent  
-      
+             logout,                 
+      //      loggedIn, 
+             setCurrentUserIfPresent        
     }
 }

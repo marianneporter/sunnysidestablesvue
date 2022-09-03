@@ -3,7 +3,7 @@ import LandingPage from '../views/LandingPage.vue';
 import ListPage from '../views/horseList/ListPage.vue';
 import store from "../store/index.js"
 
-import useAuth from '../composables/useAuth.js'
+import useCurrentUser from '../composables/useCurrentUser.js'
 
 const routes = [
     {
@@ -19,7 +19,7 @@ const routes = [
     },  
 ]
 
-const { loggedIn } = useAuth()
+const { loggedIn } = useCurrentUser()
 
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
@@ -32,7 +32,7 @@ router.beforeEach(async (to, from) => {
         return true;
     }    
   
-    if (loggedIn) {   
+    if (loggedIn.value) {   
         return true;
     }
  

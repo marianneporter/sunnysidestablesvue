@@ -16,8 +16,8 @@
                         Landing
                     </router-link>
                 </li>    
-                <li class="login-dets">
-                    <div class="greeting">Hello {{userFirstName}}</div>
+                <li v-if="userFirstName" class="login-dets">
+                    <div  class="greeting">Hello {{userFirstName}}</div>
                     <div><button class="logout-btn" @click="logout()">Log out?</button></div>
                 </li>
              
@@ -30,11 +30,14 @@
 
     import { ref } from 'vue'
     import useAuth  from '@/composables/useAuth.js'
+    import useCurrentUser from '@/composables/useCurrentUser.js'
+
     import { useRouter } from 'vue-router'
 
     const router = useRouter() 
 
-    const { userFirstName, logout: authLogout } = useAuth()
+    const {  logout: authLogout } = useAuth()
+    const { userFirstName } = useCurrentUser()
 
     let toggleNav = ref(false);
 
