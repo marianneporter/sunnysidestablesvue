@@ -4,7 +4,6 @@ import useCurrentUser from './useCurrentUser.js'
 
 const globalDisplayLogin = ref(false)
 
-
 export default function useAuth() {   
 
     const { login: loginAuth } = useDB();  
@@ -29,9 +28,6 @@ export default function useAuth() {
         }
     }
 
-   // const loggedIn = computed( () => currentUser.token != null )
-
-   
    
     const tokenValid = (token) => {
         let base64Url = token.split('.')[1]

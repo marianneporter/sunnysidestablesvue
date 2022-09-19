@@ -31,15 +31,12 @@
 
     const userCreds= reactive({email: null, password: null})
 
-    const userInfo = reactive({})
+   // const userInfo = reactive({})
 
     const attemptLogin = async ()=> {     
         let loginResult = await login(userCreds)       
         emit('loginSuccess')    
     }
-
-    
-
     const closeSlider = () => emit('closeSlider')      
 
 </script>
@@ -105,7 +102,6 @@
                 }
             }
         }
-
     }
 
     @media screen and (min-width: 992px) {
@@ -134,10 +130,8 @@
 
                 .login-btn {
                     margin-top: 40px;
-                    font-size: 18px;
-                
-                    color: white;
-                  
+                    font-size: 18px;                
+                    color: white;                  
                 }
             }
         }

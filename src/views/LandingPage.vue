@@ -25,7 +25,6 @@
 </template>
 
 <script setup>
-    import Login from '../components/Login.vue'    
     import useAuth from "@/composables/useAuth.js"
     import { useRouter } from 'vue-router'
     import { onUnmounted } from 'vue'
