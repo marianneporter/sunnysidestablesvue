@@ -43,11 +43,20 @@ export default function useAuth() {
 
     const login = async (userCreds) => {
     
-        let loginResult = await loginAuth(userCreds)      
-        localStorage.setItem("user", JSON.stringify({...loginResult}));     
+        let loginResult = await loginAuth(userCreds)     
         
-        setCurrentUser(loginResult.token, loginResult.user)   
-        return "success"
+        console.log('in composable loginResult is ' + loginResult)
+
+        if (typeof loginResult === 'object') {
+            localStorage.setItem("user", JSON.stringify({...loginResult}));     
+        
+            setCurrentUser(loginResult.token, loginResult.user)   
+            return "success"
+        }
+
+        //login failed - login result is failure message
+        return loginResult
+
     }
 
     const logout = () => {

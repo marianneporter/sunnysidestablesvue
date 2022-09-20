@@ -15,6 +15,7 @@
     import { computed  } from 'vue'  
     import { useRoute } from 'vue-router'
     import useAuth  from '@/composables/useAuth.js'
+    import Nav from '@/components/Nav.vue'
 
     const { setCurrentUserIfPresent } = useAuth();
 

@@ -7,15 +7,11 @@ export default function useDB() {
    
     const baseURL = 'https://localhost:44398/api/' 
     const horses = ref([])
-    const loading = ref(true);
-
-   
+    const loading = ref(true);   
   
     const getAuthHeaderValue = () => {
         return  `Bearer ${currentUser.token}`
     }   
-
-    const elephant = 'Jumbo'
 
     const fetchHorses = async () => {
         console.log('in fetchHorses')
@@ -45,9 +41,23 @@ export default function useDB() {
                                                   'Content-Type'  : 'application/json'                                                                                              
                                                },
                                                body: JSON.stringify(userCreds) })                      
-                         .catch(err => console.log(err))
+                         .catch(err => {
+                            console.log('in catch')
+                            console.log(err)
+                            return 'Login cannot be completed at this time'
+
+                         })
+
          const data = await response.json()     
-         return data
+         console.log('data from login in useDB ' + JSON.stringify(data))
+         console.log('data.status = ' + data.status)
+
+         if (data.status === 200) {
+             return data
+         } else if (data.status === 401) {
+             return 'Cannot find this email/password combination'
+         }
+         return 'Login cannot be completed at this time'
     }   
 
     return { horses, fetchHorses, loading, login}

@@ -25,17 +25,24 @@
     import { reactive } from 'vue'
     import useAuth from "@/composables/useAuth.js"
 
-    const emit = defineEmits(['loginSuccess', 'closeSlider'])
+    const emit = defineEmits(['loginSuccess', 'loginFailure', 'closeSlider'])
  
     const { displayLogin, resetDisplayLogin, login } = useAuth()
 
     const userCreds= reactive({email: null, password: null})
 
-   // const userInfo = reactive({})
-
     const attemptLogin = async ()=> {     
-        let loginResult = await login(userCreds)       
-        emit('loginSuccess')    
+        console.log('attempting login')
+        let loginResult = await login(userCreds)    
+        console.log('login result = ' + loginResult);   
+
+        if (loginResult === 'success') {
+            emit('loginSuccess')  
+        } else {
+            console.log('just before emit failure message is ' + loginResult)
+            emit('loginFailure', loginResult)
+        }
+        
     }
     const closeSlider = () => emit('closeSlider')      
 

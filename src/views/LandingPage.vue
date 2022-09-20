@@ -16,8 +16,9 @@
             </div>
             <transition name="slide">           
                 <div v-if="displayLogin" class="login-slider">
-                    <Login @loginSuccess="loginSuccess()"
-                           @closeSlider="closeSlider()" />
+                    <Login @loginSuccess="loginSuccess"
+                           @loginFailure="loginFailure" 
+                           @closeSlider="closeSlider" />
                 </div>   
              </transition>
         </header>
@@ -28,6 +29,7 @@
     import useAuth from "@/composables/useAuth.js"
     import { useRouter } from 'vue-router'
     import { onUnmounted } from 'vue'
+    import Login from '@/components/Login.vue'
 
     const router = useRouter()
  
@@ -37,7 +39,12 @@
 
     const enterSite = () => router.push({name: 'horseList'})       
 
-    const loginSuccess = () => router.push({name: 'horseList'})     
+    const loginSuccess = () => router.push({name: 'horseList'})  
+
+    const loginFailure = (failureMessage) => {
+  
+        console.log('failure message is ' + failureMessage)
+    }
 
     const closeSlider  = () => resetDisplayLogin()
 
