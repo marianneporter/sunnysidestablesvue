@@ -14,8 +14,7 @@ export default function useDB() {
     }   
 
     const fetchHorses = async () => {
-        console.log('in fetchHorses')
-        console.log('in fetchHorses token is ' + currentUser.token)
+    
         const response = await fetch(baseURL + `horses?pageIndex=0&pageSize=30`,
                                       { method: 'GET',
                                                headers: {
@@ -41,23 +40,22 @@ export default function useDB() {
                                                   'Content-Type'  : 'application/json'                                                                                              
                                                },
                                                body: JSON.stringify(userCreds) })                      
-                         .catch(err => {
-                            console.log('in catch')
+                         .catch(err => {  
                             console.log(err)
                             return 'Login cannot be completed at this time'
-
                          })
 
-         const data = await response.json()     
-         console.log('data from login in useDB ' + JSON.stringify(data))
-         console.log('data.status = ' + data.status)
+        if (response.status === 200) {
+            let data = await response.json()
+            return data
+        }
 
-         if (data.status === 200) {
-             return data
-         } else if (data.status === 401) {
-             return 'Cannot find this email/password combination'
-         }
-         return 'Login cannot be completed at this time'
+        if (response.status === 401) {
+            return 'Cannot find this email/password combination'
+        }
+
+        return 'Login cannot be completed at this time'       
+      
     }   
 
     return { horses, fetchHorses, loading, login}

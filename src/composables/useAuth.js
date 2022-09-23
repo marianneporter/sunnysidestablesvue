@@ -43,10 +43,8 @@ export default function useAuth() {
 
     const login = async (userCreds) => {
     
-        let loginResult = await loginAuth(userCreds)     
-        
-        console.log('in composable loginResult is ' + loginResult)
-
+        let loginResult = await loginAuth(userCreds)   
+       
         if (typeof loginResult === 'object') {
             localStorage.setItem("user", JSON.stringify({...loginResult}));     
         
@@ -69,7 +67,6 @@ export default function useAuth() {
              displayLogin,  
              login, 
              logout,                 
-      //      loggedIn, 
              setCurrentUserIfPresent        
     }
 }

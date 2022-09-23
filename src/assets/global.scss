@@ -15,6 +15,7 @@ $primaryHighlight: #335cad;
 $accent:  #e600ac;
 $secondary: #505050;
 $success: #28a428;
+$error: #ff1a1a;
 
 .btn {
     display: block;    
@@ -68,5 +69,9 @@ $success: #28a428;
     font-size: 16px;
     color: white;
     padding: 16px 0;
+}
+
+.error-message {
+    color: $error;
 }
 

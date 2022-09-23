@@ -16,8 +16,7 @@
             </div>
             <transition name="slide">           
                 <div v-if="displayLogin" class="login-slider">
-                    <Login @loginSuccess="loginSuccess"
-                           @loginFailure="loginFailure" 
+                    <Login @loginSuccess="loginSuccess"                   
                            @closeSlider="closeSlider" />
                 </div>   
              </transition>
@@ -40,12 +39,7 @@
     const enterSite = () => router.push({name: 'horseList'})       
 
     const loginSuccess = () => router.push({name: 'horseList'})  
-
-    const loginFailure = (failureMessage) => {
-  
-        console.log('failure message is ' + failureMessage)
-    }
-
+ 
     const closeSlider  = () => resetDisplayLogin()
 
     onUnmounted(() => resetDisplayLogin())
@@ -138,13 +132,10 @@
         }  
         .slide-enter-from   { transform: translateX(400px) }
         .slide-enter-to     { transform: translate(0) }
-        .slide-enter-active { transition: transform 2s ease-in }
+        .slide-enter-active { transition: transform 0.5s linear }
         .slide-leave-from   { transform: translate(0)}
         .slide-leave-to     { transform: translate(400px) }
-        .slide-leave-active { transition: transform 2s ease-out }       
-        
-
+        .slide-leave-active { transition: transform 0.5s linear }  
     }
 
- 
 </style>

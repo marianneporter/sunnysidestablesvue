@@ -4,47 +4,65 @@
             <button class="btn-secondary btn-round"
                     @click="closeSlider()">x</button>
         </div>         
-        <form @submit.prevent="attemptLogin()">   
+        <form @submit.prevent="attemptLogin()" novalidate>   
             <h1>Login</h1>
             <div class="form-element">
                 <label>Email:</label>
-                <input type="email"  v-model="userCreds.email">
+                <input type="text" v-model.lazy="v$.email.$model" @focus="resetPWMessage()"> 
+                <ValidationMsg :model="v$.email"/>
             </div>
             <div class="form-element"  >
                 <label>Password:</label>
-                <input type="password" v-model="userCreds.password">       
+                <input type="password" v-model.lazy="v$.password.$model" @focus="resetPWMessage()"> 
+                <ValidationMsg :model="v$.password"/>   
+                <div class="error-message" v-if="incorrectPassword">
+                    Email/Password Combination Invalid
+                </div>
             </div>
-            <div class="form-element">
-                <button type="submit" class="btn-full btn-primary login-btn">Log In</button>
+           <div class="form-element">
+                <button type="submit"
+                        class="btn-full btn-primary login-btn"
+                      >Log In</button>
             </div>
-        </form>        
-    </div>  
+        </form>           
+    </div>
+    
 </template>
 
 <script setup>  
-    import { reactive } from 'vue'
+    import ValidationMsg from '@/components/ValidationMsg'
     import useAuth from "@/composables/useAuth.js"
+    import useLogin from '@/composables/models/forms/useLogin.js'
+    import { ref } from 'vue'
 
-    const emit = defineEmits(['loginSuccess', 'loginFailure', 'closeSlider'])
+    const { v$, getUserCreds } = useLogin()
+
+    const emit = defineEmits(['loginSuccess', 'closeSlider'])
  
-    const { displayLogin, resetDisplayLogin, login } = useAuth()
+    const { displayLogin, resetDisplayLogin, login, state } = useAuth()
 
-    const userCreds= reactive({email: null, password: null})
+    const closeSlider = () => emit('closeSlider')     
+
+    let incorrectPassword = ref(false)
+
+    const resetPWMessage = () => { incorrectPassword.value = false }
 
     const attemptLogin = async ()=> {     
-        console.log('attempting login')
-        let loginResult = await login(userCreds)    
-        console.log('login result = ' + loginResult);   
-
-        if (loginResult === 'success') {
-            emit('loginSuccess')  
-        } else {
-            console.log('just before emit failure message is ' + loginResult)
-            emit('loginFailure', loginResult)
-        }
         
+        if (v$.value.$invalid) {                        
+            v$.value.$touch()
+        } else {        
+            let userCreds = getUserCreds()
+            let loginResult = await login(userCreds)
+          
+            if (loginResult === 'success') {
+                emit('loginSuccess')
+                closeSlider()
+            } else {
+                incorrectPassword.value = true
+            }
+        }       
     }
-    const closeSlider = () => emit('closeSlider')      
 
 </script>
 
@@ -70,6 +88,9 @@
             padding-left: 5px;
         }
 
+        .login-btn:disabled {
+            opacity: 0.5;
+        }
 
     }
 
@@ -122,7 +143,6 @@
                 h1 {
                     padding-top: 50px;
                 }
-
 
                 .form-element {
                     label, button {
