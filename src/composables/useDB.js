@@ -8,14 +8,15 @@ export default function useDB() {
     const baseURL = 'https://localhost:44398/api/' 
     const horses = ref([])
     const loading = ref(true);   
+    const horseCount = ref(0);
   
     const getAuthHeaderValue = () => {
         return  `Bearer ${currentUser.token}`
     }   
 
-    const fetchHorses = async () => {
+    const fetchHorses = async (pageIndex, pageSize) => {
     
-        const response = await fetch(baseURL + `horses?pageIndex=0&pageSize=30`,
+        const response = await fetch(`${baseURL}horses?pageIndex=${pageIndex}&pageSize=${pageSize}`,
                                       { method: 'GET',
                                                headers: {
                                                 'Content-Type': 'application/json',
@@ -24,8 +25,10 @@ export default function useDB() {
                                  console.log(err)                               
                             })
 
-        const data = await response.json()
-        horses.value = data.horses;       
+        const data = await response.json()   
+        horses.value=horses.value.concat(data.horses)
+
+        horseCount.value = data.count;       
         loading.value=false
         return horses.value   
 
@@ -58,7 +61,7 @@ export default function useDB() {
       
     }   
 
-    return { horses, fetchHorses, loading, login}
+    return { horses, horseCount, fetchHorses, loading, login}
 
 }
 

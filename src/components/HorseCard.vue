@@ -6,8 +6,10 @@
                   :key="owner.id"
                   v-text="getFullOwnerName(owner, index)">               
             </span>
-        </h6>         
-        <img :src="horse.imageUrl" :alt="altMessage">
+        </h6>  
+        <div class="img-area">
+             <img :src="horse.imageUrl" :alt="altMessage">
+        </div>         
         <div class="btn-area">
             <button class="btn btn-success">Edit</button>
             <button class="btn btn-primary">Details</button>
@@ -47,12 +49,17 @@
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         padding: 20px 10px;
     }
-    img {
-        display: block;
-        max-width: 320px;
-        height: auto;
-        margin-top: 20px;
+
+    .img-area {
+        height: 250px;
+        img {
+            display: block;
+            max-width: 320px;
+            height: auto;
+            margin-top: 20px;
+        }
     }
+
 
     .btn-area {
         margin-top: 20px;

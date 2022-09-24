@@ -19,6 +19,12 @@
             </div>
         </div>
     </div>
+    <div class="btn-area">
+        <button v-if="horses && (horses.length < horseCount)" 
+                 class="btn btn-primary"
+                @click="loadMore()">Load more</button>
+    </div>
+
 </template>
 
 <script setup>
@@ -26,9 +32,20 @@
  
  import HorseCard from '@/components/HorseCard.vue'
   
- const {horses, fetchHorses, loading } = useDB();
+ const {horses, fetchHorses, loading, horseCount } = useDB();
+ 
 
- fetchHorses()
+ let pageIndex = 0;
+ const pageSize = 12;
+
+ fetchHorses(pageIndex, pageSize)
+ console.log('horseCount is ' + horseCount.value)
+
+ const loadMore = () => {
+     console.log('in loadMore horseCount is ' + horseCount.value)
+     pageIndex++
+     fetchHorses(pageIndex, pageSize)
+ }
 
 </script>
 
@@ -62,9 +79,23 @@
     .horse-cards {
         display: flex;
         flex-wrap: wrap;
+        justify-content: center;
         gap: 40px;
         max-width: 1200px;
         margin: 0 auto;
+    }
+
+    .btn-area {      
+        height: 100px;
+        width: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 100px;
+
+        button {
+            width: 250px;
+        }
     }
 
 
