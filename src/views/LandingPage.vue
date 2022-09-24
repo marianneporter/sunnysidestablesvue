@@ -26,13 +26,16 @@
 
 <script setup>
     import useAuth from "@/composables/useAuth.js"
+    import useCurrentUser from "@/composables/useCurrentUser.js"
     import { useRouter } from 'vue-router'
     import { onUnmounted } from 'vue'
     import Login from '@/components/Login.vue'
 
     const router = useRouter()
  
-    const { displayLogin, setDisplayLogin, resetDisplayLogin, loggedIn} = useAuth()
+    const { displayLogin, setDisplayLogin, resetDisplayLogin } = useAuth()
+
+    const { loggedIn } = useCurrentUser()
 
     const startLogin = () => setDisplayLogin()     
 

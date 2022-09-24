@@ -8,6 +8,8 @@ export default function useAuth() {
 
     const { login: loginAuth } = useDB();  
 
+//    const loggedIn = computed( () => currentUser.token != null )
+
     const { currentUser, setCurrentUser, clearCurrentUser } = useCurrentUser();
    
     const displayLogin = computed(()=> globalDisplayLogin.value)  
@@ -66,7 +68,8 @@ export default function useAuth() {
              resetDisplayLogin,
              displayLogin,  
              login, 
-             logout,                 
+             logout,  
+  //           loggedIn,               
              setCurrentUserIfPresent        
     }
 }

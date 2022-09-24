@@ -7,7 +7,6 @@ let currentUser = reactive({
 
 let loggedIn = ref(false)
 
-
 export default function useCurrentUser() {
 
     const setCurrentUser = (token, user) => {        
