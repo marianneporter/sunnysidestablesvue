@@ -15,7 +15,8 @@
         <div class="horse-cards">
            
             <div v-for="horse in horses" :key="horse.id">
-                <HorseCard :horse="horse" />
+                <HorseCard :horse="horse"
+                           @getDetails="getDetails" />
             </div>
         </div>
     </div>
@@ -29,11 +30,12 @@
 
 <script setup>
  import useDB from "@/composables/useDB.js"
- 
+ import { useRouter } from 'vue-router'
  import HorseCard from '@/components/HorseCard.vue'
   
  const {horses, fetchHorses, loading, horseCount } = useDB();
  
+ const router = useRouter()
 
  let pageIndex = 0;
  const pageSize = 12;
@@ -45,6 +47,12 @@
      console.log('in loadMore horseCount is ' + horseCount.value)
      pageIndex++
      fetchHorses(pageIndex, pageSize)
+ }
+
+ const getDetails = (id) => {
+     console.log(id)
+     
+     router.push({ name: "details", params: { id: id}})
  }
 
 </script>
@@ -96,6 +104,24 @@
         button {
             width: 250px;
         }
+    }
+
+    @media screen and (max-width: 500px){
+       header {
+           display: block;
+
+           .search-input {
+               margin-top: 15px;
+               margin-right: 5px;
+               margin-left: auto;
+               width: 240px;
+
+               input {
+                   width: 200px;
+               }
+              
+           }
+       }
     }
 
 

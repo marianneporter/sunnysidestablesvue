@@ -17,6 +17,8 @@
     import useAuth  from '@/composables/useAuth.js'
     import Nav from '@/components/Nav.vue'
 
+    document.title = "Sunnyside Stables Vue Demo"
+
     const { setCurrentUserIfPresent } = useAuth();
 
     setCurrentUserIfPresent();

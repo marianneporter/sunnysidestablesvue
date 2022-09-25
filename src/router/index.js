@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import LandingPage from '../views/LandingPage.vue';
-import ListPage from '../views/horseList/ListPage.vue';
+import ListPage from '../views/horses/ListPage.vue';
+import Details from '../views/horses/Details.vue'
 import store from "../store/index.js"
 
 import useCurrentUser from '../composables/useCurrentUser.js'
@@ -17,6 +18,13 @@ const routes = [
         component: ListPage,
         props: true
     },  
+    {
+        path: '/horses/:id',     
+        name: 'details',
+        component: Details,
+        props: true
+    },  
+
 ]
 
 const { loggedIn } = useCurrentUser()

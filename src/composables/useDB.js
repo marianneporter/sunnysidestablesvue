@@ -7,6 +7,7 @@ export default function useDB() {
    
     const baseURL = 'https://localhost:44398/api/' 
     const horses = ref([])
+    const horse = ref({})
     const loading = ref(true);   
     const horseCount = ref(0);
   
@@ -33,7 +34,22 @@ export default function useDB() {
         return horses.value   
 
     }  
-   
+
+    const fetchHorse = async (id) => {
+    
+        const response = await fetch(`${baseURL}horses/${id}`,
+                                      { method: 'GET',
+                                               headers: {
+                                                'Content-Type': 'application/json',
+                                                'Authorization': getAuthHeaderValue()}} )                                                              
+                            .catch(err => {
+                                 console.log(err)                               
+                            })
+
+        const data = await response.json()   
+        horse.value=data      
+        return horse.value 
+    }     
     
     const login = async (userCreds) => {
         
@@ -61,7 +77,7 @@ export default function useDB() {
       
     }   
 
-    return { horses, horseCount, fetchHorses, loading, login}
+    return { horses, horseCount, horse, fetchHorses, fetchHorse, loading, login}
 
 }
 

@@ -12,7 +12,8 @@
         </div>         
         <div class="btn-area">
             <button class="btn btn-success">Edit</button>
-            <button class="btn btn-primary">Details</button>
+            <button class="btn btn-primary"
+                   @click="getDetails()">Details</button>
         </div>
       
 
@@ -25,6 +26,8 @@
     const props = defineProps({
         horse: Object,
     }); 
+
+    const emit = defineEmits(['getDetails'])
 
     const horse = { ...props.horse };  
 
@@ -39,6 +42,8 @@
     }
 
     const altMessage = computed(() => `photo of ${horse.name} is not available`)
+
+    const getDetails = () => emit('getDetails', horse.id)    
     
 </script>
 
