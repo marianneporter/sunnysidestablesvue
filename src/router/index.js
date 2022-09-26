@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import LandingPage from '../views/LandingPage.vue';
 import ListPage from '../views/horses/ListPage.vue';
 import Details from '../views/horses/Details.vue'
+import fetchHorseResolver from '@/resolvers/fetchHorseResolver.js'
 import store from "../store/index.js"
 
 import useCurrentUser from '../composables/useCurrentUser.js'
@@ -22,7 +23,8 @@ const routes = [
         path: '/horses/:id',     
         name: 'details',
         component: Details,
-        props: true
+        props: true,
+        beforeEnter: fetchHorseResolver
     },  
 
 ]
