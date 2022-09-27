@@ -1,28 +1,16 @@
 <template>
     <div>
         horse details page
-        horse id: {{ id }}
+        horse id: {{ horse.id }}
         horse name: {{ horse.name }}
     </div>
 </template>
 
 <script setup>
-    import { useRoute } from 'vue-router'
-    import { reactive } from 'vue'
 
-    const route = useRoute()
+    import useDB from '@/composables/useDB.js'
 
-    const horse = route.meta.horse
-
-    console.log(typeof horse)
-
-    console.log(horse)
-
-    console.log(horse.name)
-
-    const props = defineProps(['id'])
-    
-    
+    const { horse } = useDB() 
    
 </script>
 

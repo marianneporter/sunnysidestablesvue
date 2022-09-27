@@ -1,21 +1,22 @@
 import { ref, computed } from 'vue'
 import useCurrentUser from './useCurrentUser.js'
 
+const horses = ref([])
+const horse = ref({})
+const horseCount = ref(0);
+const loading = ref(true);   
+
 export default function useDB() {
 
     const { currentUser } = useCurrentUser();
    
     const baseURL = 'https://localhost:44398/api/' 
-    const horses = ref([])
-    const horse = ref({})
-    const loading = ref(true);   
-    const horseCount = ref(0);
-  
+   
     const getAuthHeaderValue = () => {
         return  `Bearer ${currentUser.token}`
     }   
 
-    const fetchHorses = async (pageIndex, pageSize) => {
+    const fetchHorses = async (pageIndex=0, pageSize=12) => {
     
         const response = await fetch(`${baseURL}horses?pageIndex=${pageIndex}&pageSize=${pageSize}`,
                                       { method: 'GET',
@@ -31,7 +32,7 @@ export default function useDB() {
 
         horseCount.value = data.count;       
         loading.value=false
-        return horses.value   
+        // return horses.value   
 
     }  
 
@@ -48,7 +49,7 @@ export default function useDB() {
 
         const data = await response.json()   
         horse.value=data      
-        return horse.value 
+    //    return horse.value 
     }     
     
     const login = async (userCreds) => {

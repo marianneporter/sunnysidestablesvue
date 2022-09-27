@@ -9,8 +9,14 @@
          </div>        
     </header>
    
- 
-    <div v-if="loading">Loading.......</div>
+    <div class="horse-cards">
+           
+        <div v-for="horse in horses" :key="horse.id">
+            <HorseCard :horse="horse"
+                        @getDetails="getDetails" />
+        </div>
+    </div>
+    <!-- <div v-if="loading">Loading.......</div>
     <div v-else>  
         <div class="horse-cards">
            
@@ -19,7 +25,7 @@
                            @getDetails="getDetails" />
             </div>
         </div>
-    </div>
+    </div> -->
     <div class="btn-area">
         <button v-if="horses && (horses.length < horseCount)" 
                  class="btn btn-primary"
@@ -30,29 +36,32 @@
 
 <script setup>
  import useDB from "@/composables/useDB.js"
+ import useAppState from "@/composables/useListState.js"
  import { useRouter } from 'vue-router'
  import HorseCard from '@/components/HorseCard.vue'
+ import { onMounted } from 'vue'
   
- const {horses, fetchHorses, loading, horseCount } = useDB();
+ const {fetchHorses, horses, loading, horseCount } = useDB();
+
+ const { setScrollPos, scrollToPos } = useAppState();
+
+ onMounted(() => {
+     scrollToPos()
+ }) 
  
  const router = useRouter()
 
  let pageIndex = 0;
  const pageSize = 12;
-
- fetchHorses(pageIndex, pageSize)
- console.log('horseCount is ' + horseCount.value)
-
+ 
  const loadMore = () => {
-     console.log('in loadMore horseCount is ' + horseCount.value)
      pageIndex++
      fetchHorses(pageIndex, pageSize)
  }
 
  const getDetails = (id) => {
-     console.log(id)
-     
-     router.push({ name: "details", params: { id: id}})
+     setScrollPos()
+     router.push({ name: "details", params: { id: id }} )
  }
 
 </script>

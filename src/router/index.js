@@ -3,6 +3,8 @@ import LandingPage from '../views/LandingPage.vue';
 import ListPage from '../views/horses/ListPage.vue';
 import Details from '../views/horses/Details.vue'
 import fetchHorseResolver from '@/resolvers/fetchHorseResolver.js'
+import fetchHorsesResolver from '@/resolvers/fetchHorsesResolver.js'
+
 import store from "../store/index.js"
 
 import useCurrentUser from '../composables/useCurrentUser.js'
@@ -17,7 +19,12 @@ const routes = [
         path: '/list',
         name: 'horseList',
         component: ListPage,
-        props: true
+        props: true,
+        meta: {
+            scrollTop: 0
+        },
+        beforeEnter: fetchHorsesResolver,
+                    
     },  
     {
         path: '/horses/:id',     
@@ -33,7 +40,7 @@ const { loggedIn } = useCurrentUser()
 
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
-    routes
+    routes  
 })
 
 router.beforeEach(async (to, from) => {
