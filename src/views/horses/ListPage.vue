@@ -16,16 +16,7 @@
                         @getDetails="getDetails" />
         </div>
     </div>
-    <!-- <div v-if="loading">Loading.......</div>
-    <div v-else>  
-        <div class="horse-cards">
-           
-            <div v-for="horse in horses" :key="horse.id">
-                <HorseCard :horse="horse"
-                           @getDetails="getDetails" />
-            </div>
-        </div>
-    </div> -->
+
     <div class="btn-area">
         <button v-if="horses && (horses.length < horseCount)" 
                  class="btn btn-primary"

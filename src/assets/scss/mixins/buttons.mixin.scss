@@ -1,0 +1,12 @@
+@mixin full-width-btn {
+    display: block;    
+    width: 90%;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 1px 1px 1px #fff;
+    font-weight: 700;
+    font-size: 16px;
+    color: white;
+    padding: 16px 0;
+    margin: 8px auto;   
+}

@@ -51,20 +51,13 @@
 
 <style lang="scss" scoped>
 
-     @import "@/assets/global.scss";
+    @import "@/assets/scss/global.scss"; 
 
     /*****************************   small screens *************************************** */
     @media screen and (max-width: 991px) {
-       .content {         
-            background: url(../assets/images/mobilebackground.jpg) no-repeat center center fixed; 
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            -o-background-size: cover;
-            background-size: cover;
-            height: 100vh;
-            width: 100%;
-            overflow: hidden;             
-            padding: 100px 0 0 16px;
+       .content {     
+
+            @include mobile-background;
 
             header {
                 .main-content {
@@ -85,13 +78,14 @@
                     width: 200px;
                     font-size: 20px;
                 }
-            }    
-        .slide-enter-from   { transform: translateX(100vw) }
-        .slide-enter-to     { transform: translateX(0) }
-        .slide-enter-active { transition: transform 2s ease-in }
-        .slide-leave-from   { transform: translateX(0)}
-        .slide-leave-to     { transform: translateX(100vw) }
-        .slide-leave-active { transition: transform 2s ease-out }   
+            }  
+
+            .slide-enter-from   { transform: translateX(100vw) }
+            .slide-enter-to     { transform: translateX(0) }
+            .slide-enter-active { transition: transform 2s ease-in }
+            .slide-leave-from   { transform: translateX(0)}
+            .slide-leave-to     { transform: translateX(100vw) }
+            .slide-leave-active { transition: transform 2s ease-out }   
         }
     }
 
@@ -99,15 +93,9 @@
     @media screen and (min-width: 992px) {
         
         .content { 
-        
-            background: url(../assets/images/manyHorses.jpg) no-repeat center center fixed; 
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            -o-background-size: cover;
-            background-size: cover;
-            height: 100vh;
-            width: 100%;
-            overflow: hidden;    
+
+            @include desktop-background($desktopLandingImage, false, 1)        
+ 
         }
 
         header {

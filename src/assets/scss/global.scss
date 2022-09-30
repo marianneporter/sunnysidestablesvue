@@ -1,3 +1,6 @@
+@import "@/assets/scss/mixins/background.mixin.scss";
+@import "@/assets/scss/mixins/buttons.mixin.scss";
+
 #app {     
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -17,6 +20,12 @@ $secondary: #505050;
 $success: #28a428;
 $error: #ff1a1a;
 
+$navbarHeight: 70px;
+$contentHeight: calc(100vh - $navbarHeight);
+
+$formBackgroundImage: "@/assets/images/formBackground.jpg"; 
+$desktopLandingImage: "@/assets/images/manyHorses.jpg"; 
+
 .btn {
     display: block;    
     padding: 16px 24px;
@@ -27,10 +36,10 @@ $error: #ff1a1a;
     font-weight: 700;
     font-size: 16px;
     color: white;
+}
 
-    a {
-        text-decoration: none;       
-    }
+a {
+    text-decoration: none;       
 }
 
 .btn-primary {
@@ -60,15 +69,13 @@ $error: #ff1a1a;
 }
 
 .btn-full {
-    display: block;    
-    width: 90%;
-    border: none;
-    border-radius: 10px;
-    box-shadow: 1px 1px 1px #fff;
-    font-weight: 700;
-    font-size: 16px;
-    color: white;
-    padding: 16px 0;
+    @include full-width-btn 
+}
+
+.btn-full-mob {
+    @media screen and (max-width: 992px) {
+        @include full-width-btn
+    }
 }
 
 .error-message {

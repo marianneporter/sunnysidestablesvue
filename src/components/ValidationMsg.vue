@@ -9,5 +9,5 @@
 </script>
 
 <style lang="scss" scoped>
-   @import "@/assets/global.scss"; 
+   @import "@/assets/scss/global.scss"; 
 </style>

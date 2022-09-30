@@ -2,10 +2,7 @@
     <div class="horse-card" >
         <h3 ref="horseCard">{{ horse.name }}</h3>
         <h6>Owned by:
-            <span v-for="(owner, index) in horse.owners"
-                  :key="owner.id"
-                  v-text="getFullOwnerName(owner, index)">               
-            </span>
+            <OwnersList :owners="horse.owners" />           
         </h6>  
         <div class="img-area">
              <img :src="horse.imageUrl" :alt="altMessage">
@@ -15,13 +12,12 @@
             <button class="btn btn-primary"
                    @click="getDetails()">Details</button>
         </div>
-      
-
     </div>
 </template>
 
 <script setup>  
     import { computed, ref } from 'vue'
+    import OwnersList from '@/components/OwnersList.vue'    
 
     const props = defineProps({
         horse: Object,
@@ -32,16 +28,6 @@
     const emit = defineEmits(['getDetails'])
 
     const horse = { ...props.horse };  
-
-    const getFullOwnerName = (owner, index) => {
-        let name = `${owner.firstName} ${owner.lastName}`
-        if ((index + 2) < horse.owners.length) {
-            name += ", "
-        } else if (index + 2 === horse.owners.length) {
-            name += ' and '
-        }        
-        return name;  
-    }
 
     const altMessage = computed(() => `photo of ${horse.name} is not available`)
 

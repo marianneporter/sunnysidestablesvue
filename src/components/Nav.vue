@@ -54,7 +54,7 @@
 
 
 <style lang="scss" scoped>
-    @import "@/assets/global.scss";
+    @import "@/assets/scss/global.scss";
 
     .navbar {
         display: flex;
@@ -62,7 +62,8 @@
         align-items: center;
         background-color: $primary;
         color: white;
-     
+        height: $navbarHeight;   //possibility
+
         .site-name {
             font-size: 20px;
             padding: 16px;
@@ -89,7 +90,8 @@
                     text-decoration: none;
                     color: white;                    
                 }
-                padding: 16px;
+
+               padding: 16px;
 
                 &:hover:not(:last-child) {
                     background-color: $primaryHighlight;
@@ -119,9 +121,11 @@
         .navbar {
             flex-direction: column;
             align-items: flex-start;
+            height: auto;
 
             .navbar-toggle {
                 display: flex;
+                margin-top: 6px;
             }
 
             .nav-links {
@@ -151,12 +155,7 @@
                     }
                 }
             } 
-
-
-        }
-
-
-       
+        }       
     }
 
 
