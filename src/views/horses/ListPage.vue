@@ -4,24 +4,33 @@
          <div class="search-input">
              <input type="text" placeholder="search by horse's name">
              <div class="input-icon">
-                 <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+                 <font-awesome-icon icon="fa-solid fa-plus" />
              </div>
-         </div>        
+         </div>   
     </header>
    
-    <div class="horse-cards">
-           
-        <div v-for="horse in horses" :key="horse.id">
-            <HorseCard :horse="horse"
-                        @getDetails="getDetails" />
-        </div>
-    </div>
+    <main>      
+        <router-link :to="{ name: 'add-update', params: { id: 0} }" 
+            class="btn btn-success add-btn">
+                <font-awesome-icon icon="fa-solid fa-plus" />
+            &nbsp;Add Horse
+        </router-link>
+        <div class="horse-cards">            
+            <div v-for="horse in horses" :key="horse.id">
+                <HorseCard :horse="horse"
+                            @getDetails="getDetails" /> 
+            </div>
+        </div> 
+    </main>
 
-    <div class="btn-area">
-        <button v-if="horses && (horses.length < horseCount)" 
-                 class="btn btn-primary"
-                @click="loadMore()">Load more</button>
-    </div>
+    <footer>
+       <div class="btn-area">
+            <button v-if="horses && (horses.length < horseCount)" 
+                    class="btn btn-primary"
+                    @click="loadMore()">Load more</button>
+        </div>
+    </footer>
+
 
 </template>
 
@@ -84,27 +93,38 @@
         }
     }
 
-    .horse-cards {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 40px;
+
+    main {
+        .add-btn {
+            margin-bottom: 20px;
+            max-width: 165px;
+        }
         max-width: 1200px;
         margin: 0 auto;
-    }
 
-    .btn-area {      
-        height: 100px;
-        width: auto;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 100px;
-
-        button {
-            width: 250px;
+        .horse-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
         }
     }
+ 
+    footer {
+        .btn-area {      
+            height: 100px;
+            width: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 100px;
+
+            button {
+                width: 250px;
+            }        
+        }
+    }
+
 
     @media screen and (max-width: 500px){
        header {

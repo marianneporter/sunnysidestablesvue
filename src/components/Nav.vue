@@ -62,7 +62,7 @@
         align-items: center;
         background-color: $primary;
         color: white;
-        height: $navbarHeight;   //possibility
+        height: $navbarHeight;  
 
         .site-name {
             font-size: 20px;

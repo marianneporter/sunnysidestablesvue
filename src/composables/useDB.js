@@ -24,16 +24,34 @@ export default function useDB() {
                                                 'Content-Type': 'application/json',
                                                 'Authorization': getAuthHeaderValue()}} )                                                              
                             .catch(err => {
+                            
                                  console.log(err)                               
                             })
 
-        const data = await response.json()   
+
+        const data = await response.json()      
+
         horses.value=horses.value.concat(data.horses)
 
         horseCount.value = data.count;       
         loading.value=false
-        // return horses.value   
+ 
+    }  
 
+    const fetchOwners = async () => {
+    
+        const response = await fetch(`${baseURL}owners`,
+                                      { method: 'GET',
+                                               headers: {
+                                                'Content-Type': 'application/json',
+                                                'Authorization': getAuthHeaderValue()}} )                                                              
+                            .catch(err => {                            
+                                 console.log(err)                               
+                            })
+
+
+        return await response.json()      
+ 
     }  
 
     const fetchHorse = async (id) => {
@@ -49,7 +67,7 @@ export default function useDB() {
 
         const data = await response.json()   
         horse.value=data      
-    //    return horse.value 
+   
     }     
     
     const login = async (userCreds) => {
@@ -78,7 +96,7 @@ export default function useDB() {
       
     }   
 
-    return { horses, horseCount, horse, fetchHorses, fetchHorse, loading, login}
+    return { horses, horseCount, horse, fetchHorses, fetchHorse, fetchOwners,  loading, login}
 
 }
 

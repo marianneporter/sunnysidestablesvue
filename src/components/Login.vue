@@ -74,6 +74,8 @@
 
         position: relative;    
 
+
+
         .close-btn {            
             position: absolute;
             top: 8px;
@@ -86,6 +88,10 @@
 
         input {
             padding-left: 5px;
+        }
+
+        .login-btn {
+            margin-left: 0;
         }
 
         .login-btn:disabled {
@@ -122,11 +128,9 @@
 
                 .login-btn {
                     margin-top: 30px;
-                    font-size: 24px;
-                 
+                    font-size: 24px;                 
                     color: white;
-                    padding-bottom: 40px;
-                   
+                    padding-bottom: 40px;                   
                 }
             }
         }

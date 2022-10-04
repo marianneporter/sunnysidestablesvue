@@ -2,8 +2,11 @@ import { createRouter, createWebHistory } from 'vue-router';
 import LandingPage from '../views/LandingPage.vue';
 import ListPage from '../views/horses/ListPage.vue';
 import Details from '../views/horses/Details.vue'
+import AddUpdate from '@/views/horses/AddUpdate.vue'
+
 import fetchHorseResolver from '@/resolvers/fetchHorseResolver.js'
 import fetchHorsesResolver from '@/resolvers/fetchHorsesResolver.js'
+import fetchOwnersResolver from '@/resolvers/fetchOwnersResolver.js'
 
 import store from "../store/index.js"
 
@@ -32,7 +35,14 @@ const routes = [
         component: Details,
         props: true,
         beforeEnter: fetchHorseResolver
-    },  
+    }, 
+    {
+        path: '/horses/add-update/:id',     
+        name: 'add-update',
+        component: AddUpdate,
+        props: true,
+        beforeEnter: fetchOwnersResolver
+    },     
 
 ]
 

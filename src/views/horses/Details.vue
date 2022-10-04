@@ -44,7 +44,7 @@
 
 <script setup>
 
-    import { computed, onMounted } from 'vue'
+    import { computed } from 'vue'
 
     import OwnersList from '@/components/OwnersList.vue'
 
@@ -56,11 +56,7 @@
 
     const altMessage = computed(() => `photo of ${horse.value.name} is not available`)
 
-    onMounted(() => {
-      console.log(horse.value.dob);
-      console.log(typeof horse.value.dob)
-      console.log(horse)
-     })
+   
    
 </script>
 
