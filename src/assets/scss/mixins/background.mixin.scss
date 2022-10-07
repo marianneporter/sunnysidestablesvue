@@ -26,12 +26,13 @@
 }
 
 @mixin mobile-background {
-    background: url(@/assets/images/mobilebackground.jpg) no-repeat center center fixed; 
+    background: url(@/assets/images/mobilebackground.jpg) no-repeat; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover; 
     width: 100%;
-    height: calc(100vh - 55px);
+    min-height: 100vh;
 }
+
 

@@ -6,6 +6,8 @@
 
 <script setup>
     const props = defineProps(['model'])  
+    console.log('in valiodationmsg')
+    console.log(props.model.$error)
 </script>
 
 <style lang="scss" scoped>

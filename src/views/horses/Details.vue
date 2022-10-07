@@ -5,7 +5,7 @@
 
             <div class="card-body">
                 <div class="img-area">
-                <img :src="horse.imageUrl" :alt="altMessage">
+                    <img :src="horse.imageUrl" :alt="altMessage">
                 </div>         
             
                 <div class="detail-lines">
@@ -132,8 +132,7 @@
 
                 .owner-line {
                     order: 5;
-                    width: auto;
-                   
+                    width: auto;                   
                 }
             }
 
