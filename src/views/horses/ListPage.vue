@@ -3,9 +3,9 @@
          <h1>Horses...</h1>
          <div class="search-input">
              <input type="text" placeholder="search by horse's name">
-             <div class="input-icon">
-                 <font-awesome-icon icon="fa-solid fa-plus" />
-             </div>
+             <span class="input-icon">
+                 <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+             </span>
          </div>   
     </header>
    
@@ -69,25 +69,24 @@
 <style lang="scss" scoped>
     header {
         display: flex;
-        justify-content: space-between;
-        margin: 3vh 5vw 4vh 5vw;
+        justify-content: space-between;    
+        margin: 30px 5%;
         
     }
 
     .search-input {
+        display: flex;
         width: 200px;
         height: 40px;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
      
         input {
-            display: inline-block;
             height: inherit;
             border: none;
-            padding-left: 3px;
+            padding-left: 3px;            
         }
 
         .input-icon {
-            display: inline-block;
             padding: 7.5px;
             opacity: 0.5;
         }
@@ -97,6 +96,7 @@
     main {
         .add-btn {
             margin-bottom: 20px;
+            margin-left: 15px;
             max-width: 165px;
         }
         max-width: 1200px;
@@ -129,7 +129,7 @@
     @media screen and (max-width: 500px){
        header {
            display: block;
-
+            margin-left: 5px;
            .search-input {
                margin-top: 15px;
                margin-right: 5px;

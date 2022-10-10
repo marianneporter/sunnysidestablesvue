@@ -32,7 +32,7 @@
 <script setup>  
     import ValidationMsg from '@/components/ValidationMsg'
     import useAuth from "@/composables/useAuth.js"
-    import useLogin from '@/composables/models/forms/useLogin.js'
+    import useLogin from '@/composables/forms/login/useLogin.js'
     import { ref } from 'vue'
 
     const { v$, getUserCreds } = useLogin()

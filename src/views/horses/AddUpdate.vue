@@ -12,7 +12,9 @@
               <div class="form-element p40-width">
                     <label>Date of Birth:</label>
                     <Datepicker v-model="v$.dob.$model"
-                                format="dd MMM yyyy" />            
+                                format="dd MMM yyyy"
+                                :maxDate="new Date()"
+                                :minDate="minValidDOB()" />            
                     <ValidationMsg :model="v$.dob"/> 
                   </div>  
                  <div class="form-element p40-width">
@@ -43,10 +45,15 @@
                     <Multiselect
                         v-model="v$.owners.$model"
                         mode="tags"
+                        max="5"
                         :close-on-select="false"
                         class="multiselect-owners"
-                        :options=owners />
+                        :options="ownersForSelect"
+                         />
+                     <ValidationMsg :model="v$.owners"/>     
                 </div>            
+
+ 
             </div>
 
             <div class="photo-area">
@@ -58,12 +65,8 @@
 
            
                     <img class="preview-photo"
-                        :src="previewPhoto"
-                   
-                        alt="no preview photo"/>       
-             
-
-                         
+                        :src="previewPhoto" >       
+                          
                 
                 <button
                     class="btn btn-primary"
@@ -80,57 +83,68 @@
                                 -->
             </div>
 
-            
+            {{ state.owners }}
 
             <div class="btn-area">
                 <button>Cancel</button>
-                <button>Add Horse</button>
-            </div>  
-
- 
+                <button @click="addUpdateHorse()">Add Horse</button>
+            </div>   
         </form>        
     </div>
 </template>
 
 <script setup>
+    import { computed } from 'vue'
     import { useRoute } from 'vue-router'   
     import Multiselect from '@vueform/multiselect'
     import Datepicker from '@vuepic/vue-datepicker';
+    import { createToaster } from "@meforma/vue-toaster";
     import '@vuepic/vue-datepicker/dist/main.css';
 
     import ValidationMsg from '@/components/ValidationMsg.vue'
 
-    import useSelectOptions from '@/composables/useSelectOptions.js'
-    import useAddUpdate from '@/composables/models/forms/useAddUpdate'
-    import useAddUpdateHelpers from '@/composables/useAddUpdateHelpers'
+    import useSelectOptions from '@/composables/forms/add-update/useSelectOptions.js'
+    import useAddUpdate from '@/composables/forms/add-update/useAddUpdate'
+    import useAddUpdateHelpers from '@/composables/forms/add-update/useAddUpdateHelpers'
+    import useDates from '@/composables/useDates'
 
     const route = useRoute()
- //   const owners = route.meta['owners']
-   
- //   console.log(owners)    
 
-    const { sexes, colours, heights, owners } = useSelectOptions()
+    const toaster = createToaster({ position: 'bottom' });
 
-    const { state, v$ } = useAddUpdate()
+    const owners = route.meta['owners']
+     
+    const ownersForSelect =
+            owners.map((o)=> {           
+                return {value: o.id.toString(), label: `${o.firstName} ${o.lastName}` }            
+            }) 
 
-    console.log(v$.value)
+
+    const { sexes, colours, heights } = useSelectOptions()
+
+    const { state, v$, photoValid } = useAddUpdate()
+
+    const { minValidDOB } = useDates()
 
     const { generatePreviewPhoto, previewPhoto } = useAddUpdateHelpers()
 
     const photoAdded = (event) => {
-        console.log('in photo added')
-        
+      
+        previewPhoto.value =  generatePreviewPhoto(event.target.files[0])
+
+        if (!previewPhoto.value) {       
+            toaster.show(`Photo must be a jpeg or png file in landscape format`,
+                          {type: 'error'}) 
+            return
+        }
+
         state.uploadedPhoto = event.target.files[0]
+        photoValid = true
 
-        previewPhoto.value =  generatePreviewPhoto(state.uploadedPhoto)
-
-        console.log('after previewPhoto.value assigned')
     }
 
-
-
     const addUpdateHorse = () => {
-
+        console.log('photo valid: ' + photoValid)
     }
 
  

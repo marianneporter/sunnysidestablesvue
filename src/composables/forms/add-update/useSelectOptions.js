@@ -20,16 +20,8 @@ export default function useSelectOptions() {
         '17.0', '17.1', '17.2', '17.3',
         '18.0', '18.1', '18.2', '18.3'
     ]
-
-    const owners = [
-        { value: '1', label: 'Batman Smith' },
-        { value: '2', label: 'Robin Jones' },
-        { value: '3', label: 'Joker Green' },
-        { value: '4', label: 'Tom Black'},
-        { value: '5', label: 'Dick Whittington'}
-    ]
   
     return {
-       sexes, colours, heights, owners
+       sexes, colours, heights
     }
 }

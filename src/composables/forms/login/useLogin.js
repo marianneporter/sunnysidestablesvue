@@ -6,8 +6,6 @@ export default function useLogin() {
  
     const state= reactive({email: null, password: null})
 
-    const minLength8 = (value) => value.length >= 8  
-
     const rules = computed(() => {
         return {
             email: {
@@ -16,7 +14,7 @@ export default function useLogin() {
             },
             password: { 
                 required: helpers.withMessage('Please enter password', required), 
-                minLength8: helpers.withMessage('Password must have minimum length of 8 characters', minLength8)
+                minLength: helpers.withMessage('Password must have minimum length of 8 characters', minLength(8))
             }
         }
     })
