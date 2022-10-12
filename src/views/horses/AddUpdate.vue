@@ -1,6 +1,6 @@
 <template>
     <div class="content">           
-        <form @submit.prevent="addUpdateHorse()" novalidate>
+        <form novalidate @submit.prevent="addUpdateHorse()">
             <h3>Add Horse</h3>
             <div class="form-body">
                 <div class="form-element p75-width">
@@ -51,45 +51,43 @@
                         :options="ownersForSelect"
                          />
                      <ValidationMsg :model="v$.owners"/>     
-                </div>            
-
- 
+                </div>   
             </div>
 
             <div class="photo-area">
-                 <input 
+                <input 
                     type="file"                                     
                     @change="photoAdded"                           
-                    ref="fileInput">   
-            
-
-           
+                    ref="fileInput"> 
                     <img class="preview-photo"
-                        :src="previewPhoto" >       
-                          
-                
-                <button
-                    class="btn btn-primary"
-                    @click="$refs.fileInput.click()"  >Add Photo
-                    <!-- {{ (!addMode && horse.imageUrl) || uploadedPhoto ? 'Change Photo' : 'Add Photo' }}  -->
-                </button>                   
+                        :src="previewPhoto" >                              
+            
+            <button class="btn btn-primary" type="button"
+                   @click="$refs.fileInput.click()"  >Add Photo
+                <!-- {{ (!addMode && horse.imageUrl) || uploadedPhoto ? 'Change Photo' : 'Add Photo' }}  -->
+            </button>                   
 
-                <!-- <button mat-raised-button 
-                        class="reset-photo-btn photo-btn"
-                        *ngIf="previewPhoto"
-                    (click)="clearUploadPhoto()">
-                    Reset Photo                          
-                </button>          
-                                -->
-            </div>
+            <!-- <button mat-raised-button 
+                    class="reset-photo-btn photo-btn"
+                    *ngIf="previewPhoto"
+                (click)="clearUploadPhoto()">
+                Reset Photo                          
+            </button>          
+                            -->
 
-            {{ state.owners }}
+            </div>     
+
+
 
             <div class="btn-area">
-                <button>Cancel</button>
-                <button @click="addUpdateHorse()">Add Horse</button>
+                <a href="#">cancel back to list</a>
+                <button type="submit">Add Horse</button>
             </div>   
-        </form>        
+
+        </form>  
+
+
+ 
     </div>
 </template>
 
@@ -105,7 +103,7 @@
 
     import useSelectOptions from '@/composables/forms/add-update/useSelectOptions.js'
     import useAddUpdate from '@/composables/forms/add-update/useAddUpdate'
-    import useAddUpdateHelpers from '@/composables/forms/add-update/useAddUpdateHelpers'
+    import usePhotoHelpers from '@/composables/forms/add-update/usePhotoHelpers'
     import useDates from '@/composables/useDates'
 
     const route = useRoute()
@@ -122,29 +120,31 @@
 
     const { sexes, colours, heights } = useSelectOptions()
 
-    const { state, v$, photoValid } = useAddUpdate()
+    const { state, v$ } = useAddUpdate()
 
     const { minValidDOB } = useDates()
 
-    const { generatePreviewPhoto, previewPhoto } = useAddUpdateHelpers()
+    const {previewPhoto, fileValidAndLoaded } = usePhotoHelpers()
 
-    const photoAdded = (event) => {
-      
-        previewPhoto.value =  generatePreviewPhoto(event.target.files[0])
+    const test = async () => {
 
-        if (!previewPhoto.value) {       
-            toaster.show(`Photo must be a jpeg or png file in landscape format`,
-                          {type: 'error'}) 
-            return
-        }
-
-        state.uploadedPhoto = event.target.files[0]
-        photoValid = true
-
+    }
+     
+    const photoAdded = async (event) => {   
+  
+        fileValidAndLoaded(event.target.files[0]) 
+            .then((res) => {
+                if (res) {
+                     state.uploadedPhoto=event.target.files[0]
+                 } else {
+                    toaster.show(`Photo must be a jpeg or png file in landscape format`,
+                                 {type: 'error'}) 
+                }                 
+            })
     }
 
     const addUpdateHorse = () => {
-        console.log('photo valid: ' + photoValid)
+        console.log('in add update horse')
     }
 
  
@@ -173,9 +173,7 @@
         .name-input {
             border: 1px solid #D3D3D3;
             border-radius: 3px;
-        }
-
- 
+        } 
 
         .p40-width {
             min-width: 40%;            
@@ -185,6 +183,12 @@
             min-width: 75%;
         }
     }
+
+        .photo-area input {
+            display: none;
+        }
+
+
 
     @media screen and (max-width: 992px) {
         .content {
@@ -206,7 +210,7 @@
             margin: 0 auto;
             width: 600px;
         //    height: 650px;   
-            height: 100vh; 
+        //    height: 100vh; 
 
             .form-body {
                 display: flex;
@@ -250,7 +254,7 @@
     .photo-area {
 
         input {
-            display: none;
+           background-color: pink;
         }
 
         .preview-photo {

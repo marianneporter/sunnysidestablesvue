@@ -1,10 +1,11 @@
 import { ref } from 'vue'
-export default function useAddUpdateHelpers() { 
+export default function usePhotoUpload() { 
     
     let previewPhoto = ref(null)
 
     const generatePreviewPhoto =  (uploadedPhoto) => {
-
+        console.log('in generatePreviewPhoto')
+        console.log(uploadedPhoto)
         const acceptedImageExtensions = ['image/jpeg', 'image/png'];   
         if (!acceptedImageExtensions.includes(uploadedPhoto.type)) {
             return
