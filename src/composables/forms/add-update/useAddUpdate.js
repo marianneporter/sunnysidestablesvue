@@ -1,21 +1,20 @@
 import useValidate from '@vuelidate/core'
 import { required, helpers, minLength, maxLength } from '@vuelidate/validators'
-
-
 import { reactive, computed, toRaw } from 'vue'
+
+const state = reactive({
+    name: null,
+    colour: null, 
+    sex: null,
+    height: null,
+    dob: null,
+    owners: [],
+    uploadedPhoto: null}) 
 
 export default function useAddUpdate() {  
 
     const mustBeAtLeast1Owner = (value) => value.length !== 0 
     const noOfOwners = (value) => value.length > 0 && value.length <= 4
-    const state = reactive({
-        name: null,
-        colour: null, 
-        sex: null,
-        height: null,
-        dob: null,
-        owners: [],
-        uploadedPhoto: null}) 
 
     const rules = computed(() => {
         return {

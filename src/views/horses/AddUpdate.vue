@@ -92,21 +92,29 @@
 </template>
 
 <script setup>
+    //imports from vue
     import { computed } from 'vue'
     import { useRoute } from 'vue-router'   
+    import { useRouter } from 'vue-router'
+
+    //imported plug-ins
     import Multiselect from '@vueform/multiselect'
     import Datepicker from '@vuepic/vue-datepicker';
     import { createToaster } from "@meforma/vue-toaster";
     import '@vuepic/vue-datepicker/dist/main.css';
-
     import ValidationMsg from '@/components/ValidationMsg.vue'
 
+    //imported composables
     import useSelectOptions from '@/composables/forms/add-update/useSelectOptions.js'
     import useAddUpdate from '@/composables/forms/add-update/useAddUpdate'
     import usePhotoHelpers from '@/composables/forms/add-update/usePhotoHelpers'
+    import usePrepareApiRequest from '@/composables/forms/add-update/usePrepareApiRequest'
     import useDates from '@/composables/useDates'
+    import useDB from '@/composables/useDB'
+
 
     const route = useRoute()
+    const router = useRouter()
 
     const toaster = createToaster({ position: 'bottom' });
 
@@ -124,11 +132,12 @@
 
     const { minValidDOB } = useDates()
 
-    const {previewPhoto, fileValidAndLoaded } = usePhotoHelpers()
+    const { previewPhoto, fileValidAndLoaded } = usePhotoHelpers()
 
-    const test = async () => {
+    const { formatFormData } = usePrepareApiRequest()
 
-    }
+    const { addHorse } = useDB()
+
      
     const photoAdded = async (event) => {   
   
@@ -145,6 +154,25 @@
 
     const addUpdateHorse = () => {
         console.log('in add update horse')
+
+        v$.value.$touch()
+ 
+        if (v$.value.invalid) {            
+            return
+        }
+       
+        let formData = formatFormData()  
+
+        let addedHorseInfo = await addHorse(formData)
+
+        if (typeof addedHorseInfo === 'object') {
+             router.push({ name: "details", params: { id: addedHorseInfo.id }} )
+        } else {
+            // go to list with error message cannot update at this time
+        }
+           
+        
+        
     }
 
  
@@ -173,6 +201,7 @@
         .name-input {
             border: 1px solid #D3D3D3;
             border-radius: 3px;
+            padding: 5px;
         } 
 
         .p40-width {
@@ -184,9 +213,9 @@
         }
     }
 
-        .photo-area input {
-            display: none;
-        }
+    .photo-area input {
+        display: none;
+    }
 
 
 
@@ -209,8 +238,8 @@
         form {
             margin: 0 auto;
             width: 600px;
-        //    height: 650px;   
-        //    height: 100vh; 
+          
+            height: 100vh; 
 
             .form-body {
                 display: flex;
@@ -247,9 +276,7 @@
             --ms-ring-width: 0;
             --ms-tag-font-weight: 550;
         }  
-    }
-
- 
+    } 
 
     .photo-area {
 
@@ -261,7 +288,6 @@
            max-width: 150px;
            max-height: auto;
         }
-
     }
 
 </style>

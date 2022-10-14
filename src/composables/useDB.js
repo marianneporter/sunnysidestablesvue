@@ -66,9 +66,32 @@ export default function useDB() {
                             })
 
         const data = await response.json()   
-        horse.value=data      
-   
-    }     
+        horse.value=data 
+    }    
+
+    const addHorse = async (horseFormData) => {
+
+        const response = await fetch(` ${baseURL}horses`, 
+        { method: 'POST', 
+                headers: { 'Authorization': getAuthHeaderValue() },     
+                body: horseFormData })                      
+            .catch(err => {  
+                console.log(err)
+                return
+            })
+
+        if (response.status === 201) {
+            let data = await response.json()     
+            return data
+        }  
+
+        console.log('response status is ' + response.status)
+        
+        return `${state.name} cannot be added at this time`
+    }
+    
+
+
     
     const login = async (userCreds) => {
         
@@ -96,7 +119,10 @@ export default function useDB() {
       
     }   
 
-    return { horses, horseCount, horse, fetchHorses, fetchHorse, fetchOwners,  loading, login}
+    return { horses, horseCount, horse,
+             fetchHorses, fetchHorse, addHorse,
+             fetchOwners,
+             loading, login}
 
 }
 
