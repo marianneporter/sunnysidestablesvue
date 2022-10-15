@@ -33,9 +33,17 @@ export default function useAddUpdate() {
         }
     })
 
-   
+    const clearState = () => {
+        state.name   = null
+        state.colour = null
+        state.sex    = null
+        state.height = null
+        state.dob    = null
+        state.owners = []
+        state.uploadedPhoto = null
+    }  
 
-    const v$ = useValidate(rules, state) 
+    const v$ = useValidate(rules, state, clearState) 
 
-    return { v$, state }
+    return { v$, state, clearState }
 }

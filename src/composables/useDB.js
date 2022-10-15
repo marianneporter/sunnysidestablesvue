@@ -1,5 +1,6 @@
 import { ref, computed } from 'vue'
-import useCurrentUser from './useCurrentUser.js'
+import useCurrentUser from '@/composables/useCurrentUser.js'
+import useListState from '@/composables/ui-state/useListState.js'
 
 const horses = ref([])
 const horse = ref({})
@@ -8,7 +9,9 @@ const loading = ref(true);
 
 export default function useDB() {
 
-    const { currentUser } = useCurrentUser();
+    const { currentUser } = useCurrentUser()
+
+    const { clearListState } = useListState()
    
     const baseURL = 'https://localhost:44398/api/' 
    
@@ -17,6 +20,7 @@ export default function useDB() {
     }   
 
     const fetchHorses = async (pageIndex=0, pageSize=12) => {
+        console.log(`in fetchHorses pageIndex ${pageIndex}`)
     
         const response = await fetch(`${baseURL}horses?pageIndex=${pageIndex}&pageSize=${pageSize}`,
                                       { method: 'GET',
@@ -81,7 +85,9 @@ export default function useDB() {
             })
 
         if (response.status === 201) {
-            let data = await response.json()     
+            let data = await response.json()    
+            horses.value=[] 
+            clearListState()
             return data
         }  
 

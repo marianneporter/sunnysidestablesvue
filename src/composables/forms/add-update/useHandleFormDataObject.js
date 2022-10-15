@@ -1,18 +1,15 @@
 import useDates from '@/composables/useDates'
 import useAddUpdate from './useAddUpdate'
 
-export default function useFormatDataForApi() {  
+export default function useHandleFormDataObject() {  
 
     const { jsDateToYYYYMMDDFormat } = useDates()
-
     const { state } = useAddUpdate()
-    const horseFormData = new FormData()   
 
-    console.log('state is')
-    console.log(state)
+    let horseFormData = new FormData()   
 
-    const formatFormData = async () => {
-    
+    const convertStateToFormDataFormat = () => {
+        console.log('in convertStateToFormDataFormat')
         horseFormData.append('name', state.name)
         horseFormData.append('colour', state.colour)
         horseFormData.append('sex', state.sex)      
@@ -24,17 +21,15 @@ export default function useFormatDataForApi() {
         horseFormData.append('imageFile', state.uploadedPhoto)
 
         let heightHands= horseFormData.get('heightHands')
-        console.log('in formatFormData heightHands in form is '  )
-        console.log(heightHands)
-
-      
-
-    //    const addResult = addHorse(horseFormData)
         
-    }   
+    }  
     
-    
+    const resetHorseForm = () => {
+        console.log('in reset horse form')
+        horseFormData = new FormData()
+    }
 
-    return { formatFormData, horseFormData }
+
+    return { convertStateToFormDataFormat, horseFormData, resetHorseForm }
 
 }

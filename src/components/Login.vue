@@ -56,8 +56,8 @@
             let loginResult = await login(userCreds)
           
             if (loginResult === 'success') {
-                emit('loginSuccess')
                 closeSlider()
+                emit('loginSuccess')                
             } else {
                 incorrectPassword.value = true
             }

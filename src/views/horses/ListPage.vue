@@ -39,13 +39,13 @@
     import { createToaster } from '@meforma/vue-toaster';
 
     import useDB from "@/composables/useDB.js"
-    import useAppState from "@/composables/ui-state/useListState.js"
+    import useListState from "@/composables/ui-state/useListState.js"
     import useMessageForNextPage from '@/composables/ui-state/useMessageForNextPage'    
   
     import HorseCard from '@/components/HorseCard.vue'  
     
     const { fetchHorses, horses, loading, horseCount } = useDB();
-    const { setScrollPos, scrollToPos } = useAppState();
+    const { pageSize, pageIndex, setScrollPos, scrollToPos } = useListState();
     const { getMessage } = useMessageForNextPage()
 
     const toaster = createToaster({ position: 'top' });
@@ -60,13 +60,12 @@
     }) 
     
     const router = useRouter()
-
-    let pageIndex = 0;
-    const pageSize = 12;
     
     const loadMore = () => {
-        pageIndex++
-        fetchHorses(pageIndex, pageSize)
+        console.log('in load more')
+        pageIndex.value++
+        console.log('in loadMore pageIndex is ' + pageIndex.value)
+        fetchHorses(pageIndex.value, pageSize)
     }
 
     const getDetails = (id) => {
@@ -153,7 +152,5 @@
            }
        }
     }
-
-
 
 </style>

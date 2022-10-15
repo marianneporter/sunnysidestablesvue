@@ -45,12 +45,11 @@
                     <Multiselect
                         v-model="v$.owners.$model"
                         mode="tags"
-                        max="5"
+                        max=5
                         :close-on-select="false"
                         class="multiselect-owners"
-                        :options="ownersForSelect"
-                         />
-                     <ValidationMsg :model="v$.owners"/>     
+                        :options="ownersForSelect" />
+                    <ValidationMsg :model="v$.owners"/>     
                 </div>   
             </div>
 
@@ -108,7 +107,7 @@
     import useSelectOptions from '@/composables/forms/add-update/useSelectOptions.js'
     import useAddUpdate from '@/composables/forms/add-update/useAddUpdate'
     import usePhotoHelpers from '@/composables/forms/add-update/usePhotoHelpers'
-    import useFormatDataForApi from '@/composables/forms/add-update/useFormatDataForApi'
+    import useHandleFormDataObject from '@/composables/forms/add-update/useHandleFormDataObject'
     import useMessageForNextPage from '@/composables/ui-state/useMessageForNextPage'
     import useDates from '@/composables/useDates'
     import useDB from '@/composables/useDB'
@@ -129,14 +128,15 @@
 
     const { sexes, colours, heights } = useSelectOptions()
 
-    const { state, v$ } = useAddUpdate()
+    const { state, v$, clearState } = useAddUpdate()
 
     const { minValidDOB } = useDates()
 
     const { previewPhoto, fileValidAndLoaded } = usePhotoHelpers()
 
-    const { formatFormData, horseFormData } = useFormatDataForApi()
-
+    const { horseFormData, 
+            resetHorseForm,
+            convertStateToFormDataFormat } = useHandleFormDataObject()
     const { setMessage } = useMessageForNextPage()
 
     const { addHorse } = useDB()
@@ -163,18 +163,25 @@
             return
         }        
        
-        formatFormData()  
+        convertStateToFormDataFormat()  
 
-        let addedHorseInfo = await addHorse(horseFormData)
+        let addedHorseInfo = await addHorse(horseFormData)  
 
+        let newRoute
         if (typeof addedHorseInfo === 'object') {
             setMessage(`${addedHorseInfo.name} has been added successfully`, `success`)
-            router.push({ name: `details`, params: { id: addedHorseInfo.id }} )
+            newRoute = { name: `details`, params: { id: addedHorseInfo.id }} 
         } else {
             console.log('in else condition')
             setMessage(`${state.name} ${addedHorseInfo}`, `error`)
-            router.push({ name: `horseList`} )
-        }       
+            newRoute = { name: `horseList`} 
+        }   
+
+        resetHorseForm()
+        clearState()
+
+        router.push(newRoute)
+
     }
 
  
