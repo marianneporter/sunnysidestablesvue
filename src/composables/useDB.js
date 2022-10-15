@@ -85,9 +85,7 @@ export default function useDB() {
             return data
         }  
 
-        console.log('response status is ' + response.status)
-        
-        return `${state.name} cannot be added at this time`
+        return `cannot be added at this time`
     }
     
 

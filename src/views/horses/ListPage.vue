@@ -30,39 +30,49 @@
                     @click="loadMore()">Load more</button>
         </div>
     </footer>
-
-
 </template>
 
 <script setup>
- import useDB from "@/composables/useDB.js"
- import useAppState from "@/composables/useListState.js"
- import { useRouter } from 'vue-router'
- import HorseCard from '@/components/HorseCard.vue'
- import { onMounted } from 'vue'
+    import { onMounted } from 'vue'
+    import { useRouter } from 'vue-router'
+
+    import { createToaster } from '@meforma/vue-toaster';
+
+    import useDB from "@/composables/useDB.js"
+    import useAppState from "@/composables/ui-state/useListState.js"
+    import useMessageForNextPage from '@/composables/ui-state/useMessageForNextPage'    
   
- const {fetchHorses, horses, loading, horseCount } = useDB();
+    import HorseCard from '@/components/HorseCard.vue'  
+    
+    const { fetchHorses, horses, loading, horseCount } = useDB();
+    const { setScrollPos, scrollToPos } = useAppState();
+    const { getMessage } = useMessageForNextPage()
 
- const { setScrollPos, scrollToPos } = useAppState();
+    const toaster = createToaster({ position: 'top' });
 
- onMounted(() => {
-     scrollToPos()
- }) 
- 
- const router = useRouter()
+    onMounted(() => {
+        scrollToPos()
+        let statusMessage = getMessage() 
+        if (statusMessage) {
+            toaster.show(statusMessage.content,
+                        {type: statusMessage.type})             
+        }
+    }) 
+    
+    const router = useRouter()
 
- let pageIndex = 0;
- const pageSize = 12;
- 
- const loadMore = () => {
-     pageIndex++
-     fetchHorses(pageIndex, pageSize)
- }
+    let pageIndex = 0;
+    const pageSize = 12;
+    
+    const loadMore = () => {
+        pageIndex++
+        fetchHorses(pageIndex, pageSize)
+    }
 
- const getDetails = (id) => {
-     setScrollPos()
-     router.push({ name: "details", params: { id: id }} )
- }
+    const getDetails = (id) => {
+        setScrollPos()
+        router.push({ name: "details", params: { id: id }} )
+    }
 
 </script>
 

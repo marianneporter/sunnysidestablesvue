@@ -108,7 +108,8 @@
     import useSelectOptions from '@/composables/forms/add-update/useSelectOptions.js'
     import useAddUpdate from '@/composables/forms/add-update/useAddUpdate'
     import usePhotoHelpers from '@/composables/forms/add-update/usePhotoHelpers'
-    import usePrepareApiRequest from '@/composables/forms/add-update/usePrepareApiRequest'
+    import useFormatDataForApi from '@/composables/forms/add-update/useFormatDataForApi'
+    import useMessageForNextPage from '@/composables/ui-state/useMessageForNextPage'
     import useDates from '@/composables/useDates'
     import useDB from '@/composables/useDB'
 
@@ -134,7 +135,9 @@
 
     const { previewPhoto, fileValidAndLoaded } = usePhotoHelpers()
 
-    const { formatFormData } = usePrepareApiRequest()
+    const { formatFormData, horseFormData } = useFormatDataForApi()
+
+    const { setMessage } = useMessageForNextPage()
 
     const { addHorse } = useDB()
 
@@ -152,27 +155,26 @@
             })
     }
 
-    const addUpdateHorse = () => {
-        console.log('in add update horse')
-
+    const addUpdateHorse = async () => {
+     
         v$.value.$touch()
  
         if (v$.value.invalid) {            
             return
-        }
+        }        
        
-        let formData = formatFormData()  
+        formatFormData()  
 
-        let addedHorseInfo = await addHorse(formData)
+        let addedHorseInfo = await addHorse(horseFormData)
 
         if (typeof addedHorseInfo === 'object') {
-             router.push({ name: "details", params: { id: addedHorseInfo.id }} )
+            setMessage(`${addedHorseInfo.name} has been added successfully`, `success`)
+            router.push({ name: `details`, params: { id: addedHorseInfo.id }} )
         } else {
-            // go to list with error message cannot update at this time
-        }
-           
-        
-        
+            console.log('in else condition')
+            setMessage(`${state.name} ${addedHorseInfo}`, `error`)
+            router.push({ name: `horseList`} )
+        }       
     }
 
  

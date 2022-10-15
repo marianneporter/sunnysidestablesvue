@@ -44,19 +44,32 @@
 
 <script setup>
 
-    import { computed } from 'vue'
+    import { computed, onMounted } from 'vue'
 
     import OwnersList from '@/components/OwnersList.vue'
 
     import useDB from '@/composables/useDB.js'
     import useDates from '@/composables/useDates.js'
+    import useMessageForNextPage from '@/composables/ui-state/useMessageForNextPage'
+    import { createToaster } from '@meforma/vue-toaster';
+
+    const toaster = createToaster({ position: 'top' });
 
     const { horse } = useDB()    
     const { inputDateToDisplayFormat } = useDates()
+    const { getMessage } = useMessageForNextPage()
 
     const altMessage = computed(() => `photo of ${horse.value.name} is not available`)
 
    
+
+    onMounted(() => {     
+        let statusMessage = getMessage() 
+        if (statusMessage) {
+            toaster.show(statusMessage.content,
+                        {type: statusMessage.type})             
+        }
+    })
    
 </script>
 
