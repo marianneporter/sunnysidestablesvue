@@ -1,7 +1,7 @@
 <template>
     <div class="content">           
-        <form novalidate @submit.prevent="addUpdateHorse()">
-            <h3>Add Horse</h3>
+        <form novalidate @submit.prevent="addUpdateHorse()" enctype="multipart/form-data">
+            <h3>{{addMode ? 'Add' : 'Update'}} Horse</h3>
             <div class="form-body">
                 <div class="form-element p75-width">
                     <label>Name of horse:</label>
@@ -13,14 +13,19 @@
                     <label>Date of Birth:</label>
                     <Datepicker v-model="v$.dob.$model"
                                 format="dd MMM yyyy"
+                                :value="v$.dob.$model"
+                                :startDate="v$.dob.$model"
                                 :maxDate="new Date()"
                                 :minDate="minValidDOB()" />            
                     <ValidationMsg :model="v$.dob"/> 
+                    {{ v$.dob.$model }}
                   </div>  
                  <div class="form-element p40-width">
                     <label>Colour:</label>
                     <Multiselect
                         v-model="v$.colour.$model"
+                        :label="v$.colour.$model"
+                        :value="v$.colour.$model"
                         :options="colours"/>  
                     <ValidationMsg :model="v$.colour"/>                     
                 </div>    
@@ -28,6 +33,8 @@
                     <label>Sex:</label>   
                     <Multiselect
                         v-model="v$.sex.$model"
+                        :label="v$.sex.$model"
+                        :value="v$.sex.$model"
                         :options="sexes"/>  
                     <ValidationMsg :model="v$.sex"/>     
                 </div>  
@@ -36,6 +43,8 @@
                     <label>Height(hands):</label>
                     <Multiselect
                         v-model="v$.height.$model"
+                        :label="v$.height.$model"
+                        :value="v$.height.$model"
                         :options="heights"/>   
                     <ValidationMsg :model="v$.height"/>         
                 </div>  
@@ -45,7 +54,6 @@
                     <Multiselect
                         v-model="v$.owners.$model"
                         mode="tags"
-                        max=5
                         :close-on-select="false"
                         class="multiselect-owners"
                         :options="ownersForSelect" />
@@ -58,11 +66,18 @@
                     type="file"                                     
                     @change="photoAdded"                           
                     ref="fileInput"> 
-                    <img class="preview-photo"
-                        :src="previewPhoto" >                              
-            
+
+ 
+
+            <img v-if="!addMode && !photoState.uploadedPhoto"
+                 class="preview-photo"                        
+                 :src="photoState.currentPhotoUrl" >                 
+
+            <img v-else class="preview-photo"                        
+                :src="previewPhoto" >                                   
+           
             <button class="btn btn-primary" type="button"
-                   @click="$refs.fileInput.click()"  >Add Photo
+                   @click="$refs.fileInput.click()"  > {{addMode ? 'Add' : photoState.uploadedPhoto ? 'Update' : 'Add'}} Photo
                 <!-- {{ (!addMode && horse.imageUrl) || uploadedPhoto ? 'Change Photo' : 'Add Photo' }}  -->
             </button>                   
 
@@ -79,20 +94,20 @@
 
 
             <div class="btn-area">
-                <a href="#">cancel back to list</a>
-                <button type="submit">Add Horse</button>
+                <router-link :to="{ name: 'horseList'}" class="btn btn-secondary btn-full-mob">
+                             <font-awesome-icon icon="fa-solid fa-arrow-left" />&nbsp;Back to List
+                </router-link>
+                <button type="submit"
+                        class="btn btn-success btn-full-mob submit-btn"> {{addMode ? 'Add' : 'Update'}} Horse
+                </button>                  
             </div>   
-
-        </form>  
-
-
- 
+        </form>   
     </div>
 </template>
 
 <script setup>
     //imports from vue
-    import { computed } from 'vue'
+    import { onUnmounted, ref } from 'vue'
     import { useRoute } from 'vue-router'   
     import { useRouter } from 'vue-router'
 
@@ -112,6 +127,7 @@
     import useDates from '@/composables/useDates'
     import useDB from '@/composables/useDB'
 
+    const addMode = ref(false)
 
     const route = useRoute()
     const router = useRouter()
@@ -119,35 +135,44 @@
     const toaster = createToaster({ position: 'bottom' });
 
     const owners = route.meta['owners']
-     
-    const ownersForSelect =
-            owners.map((o)=> {           
-                return {value: o.id.toString(), label: `${o.firstName} ${o.lastName}` }            
-            }) 
 
-
+    // destructure composables 
+    const { horse, addHorse, updateHorse } = useDB()
     const { sexes, colours, heights } = useSelectOptions()
-
-    const { state, v$, clearState } = useAddUpdate()
-
+    const { state, photoState, v$, clearState, setStateFields } = useAddUpdate()
     const { minValidDOB } = useDates()
-
     const { previewPhoto, fileValidAndLoaded } = usePhotoHelpers()
-
     const { horseFormData, 
             resetHorseForm,
             convertStateToFormDataFormat } = useHandleFormDataObject()
     const { setMessage } = useMessageForNextPage()
 
-    const { addHorse } = useDB()
+    onUnmounted(() => {  
+        resetHorseForm()
+        clearState()
+    })
 
-     
-    const photoAdded = async (event) => {   
+    // ui setup for owners select
+    const ownersForSelect =
+            owners.map((o)=> {           
+                return {value: o.id.toString(), label: `${o.firstName} ${o.lastName}` }            
+            }) 
   
+    // set add mode to tre if id=0 otherwise move details of current horse into state
+    if (+route.params['id'] === 0) {
+        addMode.value=true      
+    } else {     
+        setStateFields()
+    }
+     
+    // methods photo upload and form submits 
+    const photoAdded = async (event) => {   
+   
         fileValidAndLoaded(event.target.files[0]) 
             .then((res) => {
-                if (res) {
-                     state.uploadedPhoto=event.target.files[0]
+                if (res) {   
+                     photoState.uploadedPhoto=event.target.files[0]  
+
                  } else {
                     toaster.show(`Photo must be a jpeg or png file in landscape format`,
                                  {type: 'error'}) 
@@ -155,33 +180,62 @@
             })
     }
 
+    // main form submit and redirect
     const addUpdateHorse = async () => {
      
+      
         v$.value.$touch()
  
         if (v$.value.invalid) {            
             return
         }        
        
-        convertStateToFormDataFormat()  
-
-        let addedHorseInfo = await addHorse(horseFormData)  
-
-        let newRoute
-        if (typeof addedHorseInfo === 'object') {
-            setMessage(`${addedHorseInfo.name} has been added successfully`, `success`)
-            newRoute = { name: `details`, params: { id: addedHorseInfo.id }} 
+        if (addMode.value) {
+            convertStateToFormDataFormat()  
         } else {
-            console.log('in else condition')
-            setMessage(`${state.name} ${addedHorseInfo}`, `error`)
-            newRoute = { name: `horseList`} 
+            convertStateToFormDataFormat(horse.value.id)  
+        }       
+
+        let responseFromApi=null, newRoute=null, msg=null, msgType=null, idForRoute=null, actioned=null
+
+        if (addMode.value) {
+            responseFromApi = await addHorse(horseFormData)  
+            actioned='added'
+        } else {
+            responseFromApi = await updateHorse(horseFormData)
+            actioned='updated'
+        }
+
+        if (responseFromApi) {
+
+            if (typeof responseFromApi === 'object') {               
+
+                idForRoute = addMode.value ? responseFromApi.id : horse.value.id
+
+                if (responseFromApi.photoUploaded) {
+                    msg= `${state.name} has been ${actioned} successfully`
+                    msgType=`success`
+                } else {
+                    msg= `${state.name} has been ${actioned} but the photo upload was not successful`
+                    msgType=`warning`
+                }
+                setMessage(msg, msgType)      
+            } else {               
+                setMessage(`${state.name} could not be ${actioned} at this time`)
+                msgType=`error`
+            } 
+        } else {
+            setMessage(`${state.name} could not be ${actioned} at this time`)
+            msgType=`error`
         }   
 
-        resetHorseForm()
-        clearState()
-
+        console.log('msgType = ' + msgType)
+        if (msgType === `error`) {
+            newRoute = { name: `horseList`} 
+        } else {
+            newRoute = { name: `details`, params: { id: idForRoute }} 
+        }
         router.push(newRoute)
-
     }
 
  
@@ -272,6 +326,16 @@
             margin-top: 30px;
             margin-bottom: 30px;
         }
+
+        .btn-area {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 50px;
+
+            .submit-btn {
+                width: 160px;
+            }
+        }
     }
 
 
@@ -288,10 +352,6 @@
     } 
 
     .photo-area {
-
-        input {
-           background-color: pink;
-        }
 
         .preview-photo {
            max-width: 150px;

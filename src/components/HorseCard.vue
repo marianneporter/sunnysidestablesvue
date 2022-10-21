@@ -8,7 +8,8 @@
              <img :src="horse.imageUrl" :alt="altMessage">
         </div>         
         <div class="btn-area">
-            <button class="btn btn-success">Edit</button>
+            <button class="btn btn-success"
+                     @click="editHorse()">Edit</button>
             <button class="btn btn-primary"
                    @click="getDetails()">Details</button>
         </div>
@@ -25,7 +26,7 @@
 
     const horseCard = ref(null)
    
-    const emit = defineEmits(['getDetails'])
+    const emit = defineEmits(['getDetails', 'editHorse'])
 
     const horse = { ...props.horse };  
 
@@ -34,6 +35,11 @@
     const getDetails = () => {
         emit('getDetails', horse.id)   
     }  
+
+    const editHorse = () => {
+        emit('editHorse', horse.id)   
+    }  
+
     
 </script>
 

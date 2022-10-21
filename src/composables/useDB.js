@@ -20,8 +20,7 @@ export default function useDB() {
     }   
 
     const fetchHorses = async (pageIndex=0, pageSize=12) => {
-        console.log(`in fetchHorses pageIndex ${pageIndex}`)
-    
+            
         const response = await fetch(`${baseURL}horses?pageIndex=${pageIndex}&pageSize=${pageSize}`,
                                       { method: 'GET',
                                                headers: {
@@ -91,10 +90,33 @@ export default function useDB() {
             return data
         }  
 
-        return `cannot be added at this time`
+        return null
     }
-    
+ 
+    const updateHorse = async (horseFormData) => {
+  
+        let id = horseFormData.get('id')
+        let name = horseFormData.get('name')
 
+
+        const response = await fetch(`${baseURL}horses`, 
+        { method: 'PATCH', 
+                headers: { 'Authorization': getAuthHeaderValue() },     
+                body: horseFormData })                      
+            .catch(err => {  
+                console.log(err)       
+                return
+            })
+        
+        if (response.status === 200) {
+            let data = await response.json()             
+            horses.value=[] 
+            clearListState()
+            return data
+        }  
+
+        return null
+    }
 
     
     const login = async (userCreds) => {
@@ -125,7 +147,7 @@ export default function useDB() {
 
     return { horses, horseCount, horse,
              fetchHorses, fetchHorse, addHorse,
-             fetchOwners,
+             updateHorse, fetchOwners,
              loading, login}
 
 }

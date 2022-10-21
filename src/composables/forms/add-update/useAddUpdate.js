@@ -1,6 +1,7 @@
 import useValidate from '@vuelidate/core'
 import { required, helpers, minLength, maxLength } from '@vuelidate/validators'
-import { reactive, computed, toRaw } from 'vue'
+import { reactive, computed, ref} from 'vue'
+import useDB from '@/composables/useDB'
 
 const state = reactive({
     name: null,
@@ -8,10 +9,18 @@ const state = reactive({
     sex: null,
     height: null,
     dob: null,
-    owners: [],
-    uploadedPhoto: null}) 
+    owners: []}) 
+
+const photoState = reactive ( {
+    uploadedPhoto: null,
+    currentPhotoUrl: null
+} )
 
 export default function useAddUpdate() {  
+
+    const { horse } = useDB()
+
+    const horseIdForUpdate = ref(null)
 
     const mustBeAtLeast1Owner = (value) => value.length !== 0 
     const noOfOwners = (value) => value.length > 0 && value.length <= 4
@@ -28,8 +37,7 @@ export default function useAddUpdate() {
             sex:    { required: helpers.withMessage(`Please enter sex of horse`, required) },
             height: { required: helpers.withMessage(`Please enter horse's height in hands`, required)  },
             dob:    { required: helpers.withMessage(`Please enter horse's date of birth`, required) },
-            owners: { noOfOwners: helpers.withMessage(`Please select between 1 and 4 owners`, noOfOwners)},
-            uploadedPhoto: {}
+            owners: { noOfOwners: helpers.withMessage(`Please select between 1 and 4 owners`, noOfOwners)}          
         }
     })
 
@@ -40,10 +48,27 @@ export default function useAddUpdate() {
         state.height = null
         state.dob    = null
         state.owners = []
-        state.uploadedPhoto = null
+        photoState.currentPhotoUrl = null
+        photoState.uploadedPhoto = null        
+    }
+
+    const setStateFields = () => {
+ 
+        horseIdForUpdate.value = horse.value.id
+        state.name             = horse.value.name
+        state.colour           = horse.value.colour
+        state.sex              = horse.value.sex
+        state.dob              = new Date(horse.value.dob) 
+        state.height           = horse.value.heightHands
+        state.owners           = horse.value.owners.map(o => o.id)
+        if (horse.value.imageUrl) {
+            photoState.currentPhotoUrl = horse.value.imageUrl
+        }  
+     
     }  
 
-    const v$ = useValidate(rules, state, clearState) 
+    const v$ = useValidate(rules, state) 
 
-    return { v$, state, clearState }
+    return { v$, state, photoState, clearState, setStateFields }
+
 }

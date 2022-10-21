@@ -15,10 +15,11 @@
                 <font-awesome-icon icon="fa-solid fa-plus" />
             &nbsp;Add Horse
         </router-link>
-        <div class="horse-cards">            
+        <div class="horse-cards">                       
             <div v-for="horse in horses" :key="horse.id">
                 <HorseCard :horse="horse"
-                            @getDetails="getDetails" /> 
+                            @getDetails="getDetails"
+                            @editHorse="editHorse" /> 
             </div>
         </div> 
     </main>
@@ -62,15 +63,19 @@
     const router = useRouter()
     
     const loadMore = () => {
-        console.log('in load more')
+        
         pageIndex.value++
-        console.log('in loadMore pageIndex is ' + pageIndex.value)
-        fetchHorses(pageIndex.value, pageSize)
+        fetchHorses(pageIndex.value, pageSize.value)
     }
 
     const getDetails = (id) => {
         setScrollPos()
         router.push({ name: "details", params: { id: id }} )
+    }
+
+    const editHorse = (id) => {
+        setScrollPos()
+        router.push({ name: "add-update", params: { id: id }} )       
     }
 
 </script>

@@ -9,6 +9,7 @@ export default function usePhotoHelpers() {
 
     const fileValidAndLoaded =  (uploadedFormFile) => {         
         return new Promise( (resolve) => { 
+           
             let validExtension = checkFileExtension(uploadedFormFile.name)
 
             if (!validExtension) {
