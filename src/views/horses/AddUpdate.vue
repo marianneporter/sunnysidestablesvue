@@ -60,40 +60,8 @@
                     <ValidationMsg :model="v$.owners"/>     
                 </div>   
             </div>
-
-            <div class="photo-area">
-                <input 
-                    type="file"                                     
-                    @change="photoAdded"                           
-                    ref="fileInput"> 
-
- 
-
-            <img v-if="!addMode && !photoState.uploadedPhoto"
-                 class="preview-photo"                        
-                 :src="photoState.currentPhotoUrl" >                 
-
-            <img v-else class="preview-photo"                        
-                :src="previewPhoto" >                                   
-           
-            <button class="btn btn-primary" type="button"
-                   @click="$refs.fileInput.click()"  >
-                {{addMode ? 'Add' : photoForUpdate ? 'Update' : 'Add'}} Photo
-                <!-- {{ (!addMode && horse.imageUrl) || uploadedPhoto ? 'Change Photo' : 'Add Photo' }}  -->
-            </button>    
-      
-           
-            <!-- <button mat-raised-button 
-                    class="reset-photo-btn photo-btn"
-                    *ngIf="previewPhoto"
-                (click)="clearUploadPhoto()">
-                Reset Photo                          
-            </button>          
-                            -->
-
-            </div>     
-
-
+   
+            <photo-upload :addMode="addMode" />
 
             <div class="btn-area">
                 <router-link :to="{ name: 'horseList'}" class="btn btn-secondary btn-full-mob">
@@ -118,14 +86,16 @@
     import Datepicker from '@vuepic/vue-datepicker';
     import { createToaster } from "@meforma/vue-toaster";
     import '@vuepic/vue-datepicker/dist/main.css';
+    import PhotoUpload from '@/components/PhotoUpload.vue'
     import ValidationMsg from '@/components/ValidationMsg.vue'
 
     //imported composables
     import useSelectOptions from '@/composables/forms/add-update/useSelectOptions.js'
     import useAddUpdate from '@/composables/forms/add-update/useAddUpdate'
-    import usePhotoHelpers from '@/composables/forms/add-update/usePhotoHelpers'
+    
     import useHandleFormDataObject from '@/composables/forms/add-update/useHandleFormDataObject'
     import useMessageForNextPage from '@/composables/ui-state/useMessageForNextPage'
+    import useSubmitForm from '@/composables/forms/add-update/useSubmitForm'
     import useDates from '@/composables/useDates'
     import useDB from '@/composables/useDB'
 
@@ -142,14 +112,16 @@
     const { horse, addHorse, updateHorse } = useDB()
     const { sexes, colours, heights } = useSelectOptions()
     const { state, photoState, v$, clearState, setStateFields } = useAddUpdate()
+    const { handleFormSubmit } = useSubmitForm()
+
     const { minValidDOB } = useDates()
-    const { previewPhoto, fileValidAndLoaded } = usePhotoHelpers()
+  
     const { horseFormData, 
             resetHorseForm,
             convertStateToFormDataFormat } = useHandleFormDataObject()
     const { setMessage } = useMessageForNextPage()
 
-    const photoForUpdate = computed(() =>  photoState.uploadedPhoto || photoState.currentPhotoUrl)  
+     
 
     onUnmounted(() => {  
         resetHorseForm()
@@ -169,20 +141,8 @@
         setStateFields()
     }
      
-    // methods photo upload and form submits 
-    const photoAdded = (event) => {   
-          
-        fileValidAndLoaded(event.target.files[0]) 
-            .then((res) => {
-                if (res) {
-                     photoState.uploadedPhoto=event.target.files[0]      
-                 } else {
-                    toaster.show(`Photo must be a jpeg or png file in landscape format`,
-                                 {type: 'error'}) 
-                }                 
-            })
-    }
-
+    //  form submit 
+ 
     // main form submit and redirect
     const addUpdateHorse = async () => {
      
@@ -192,6 +152,9 @@
         if (v$.value.invalid) {            
             return
         }   
+
+        handleFormSubmit()
+
        
         if (addMode.value) {
             convertStateToFormDataFormat()  
@@ -278,9 +241,7 @@
         }
     }
 
-    .photo-area input {
-        display: none;
-    }
+
 
 
 
@@ -324,10 +285,6 @@
             height: 40px;
         }
 
-        .photo-area {
-            margin-top: 30px;
-            margin-bottom: 30px;
-        }
 
         .btn-area {
             display: flex;
@@ -352,13 +309,5 @@
             --ms-tag-font-weight: 550;
         }  
     } 
-
-    .photo-area {
-
-        .preview-photo {
-           max-width: 150px;
-           max-height: auto;
-        }
-    }
 
 </style>
