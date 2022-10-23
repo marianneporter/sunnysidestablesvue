@@ -91,13 +91,10 @@
 
     //imported composables
     import useSelectOptions from '@/composables/forms/add-update/useSelectOptions.js'
-    import useAddUpdate from '@/composables/forms/add-update/useAddUpdate'
-    
-    import useHandleFormDataObject from '@/composables/forms/add-update/useHandleFormDataObject'
-    import useMessageForNextPage from '@/composables/ui-state/useMessageForNextPage'
+    import useFormState from '@/composables/forms/add-update/useFormState' 
     import useSubmitForm from '@/composables/forms/add-update/useSubmitForm'
+    import useHandleFormDataObject from '@/composables/forms/add-update/useHandleFormDataObject'
     import useDates from '@/composables/useDates'
-    import useDB from '@/composables/useDB'
 
     const addMode = ref(false)
 
@@ -108,20 +105,15 @@
 
     const owners = route.meta['owners']
 
-    // destructure composables 
-    const { horse, addHorse, updateHorse } = useDB()
+    // destructure composables   
     const { sexes, colours, heights } = useSelectOptions()
-    const { state, photoState, v$, clearState, setStateFields } = useAddUpdate()
+    const { state, photoState,
+            v$, clearState,
+            setStateFields }   = useFormState()
     const { handleFormSubmit } = useSubmitForm()
-
-    const { minValidDOB } = useDates()
-  
-    const { horseFormData, 
-            resetHorseForm,
-            convertStateToFormDataFormat } = useHandleFormDataObject()
-    const { setMessage } = useMessageForNextPage()
-
-     
+    const { minValidDOB }      = useDates()  
+    const { resetHorseForm }   = useHandleFormDataObject()
+       
 
     onUnmounted(() => {  
         resetHorseForm()
@@ -139,70 +131,28 @@
         addMode.value=true      
     } else {     
         setStateFields()
-    }
-     
-    //  form submit 
+    } 
  
-    // main form submit and redirect
-    const addUpdateHorse = async () => {
-     
+    //  form submit and redirect
+    const addUpdateHorse = async () => {     
       
         v$.value.$touch()
  
         if (v$.value.invalid) {            
             return
-        }   
+        }  
 
-        handleFormSubmit()
+        let { submitSuccess, idForRoute } = await handleFormSubmit(addMode.value)   
 
-       
-        if (addMode.value) {
-            convertStateToFormDataFormat()  
+        let newRoute
+        if (submitSuccess) {
+            newRoute = { name: `details`, params: { id: idForRoute }}            
         } else {
-            convertStateToFormDataFormat(horse.value.id)  
-        }       
-
-        let responseFromApi=null, newRoute=null, msg=null, msgType=null, idForRoute=null, actioned=null
-
-        if (addMode.value) {
-            responseFromApi = await addHorse(horseFormData)  
-            actioned='added'
-        } else {
-            responseFromApi = await updateHorse(horseFormData)
-            actioned='updated'
-        }
-
-        if (responseFromApi) {
-
-            if (typeof responseFromApi === 'object') {               
-
-                idForRoute = addMode.value ? responseFromApi.id : horse.value.id
-
-                if (photoState.uploadedPhoto && !responseFromApi.photoUploaded) {
-                    msg= `${state.name} has been ${actioned} but the photo upload was not successful`
-                    msgType=`warning`
-                } else {
-                    msg= `${state.name} has been ${actioned} successfully`
-                    msgType=`success`
-                }
-                setMessage(msg, msgType)      
-            } else {               
-                setMessage(`${state.name} could not be ${actioned} at this time`)
-                msgType=`error`
-            } 
-        } else {
-            setMessage(`${state.name} could not be ${actioned} at this time`)
-            msgType=`error`
-        }   
-      
-        if (msgType === `error`) {
             newRoute = { name: `horseList`} 
-        } else {
-            newRoute = { name: `details`, params: { id: idForRoute }} 
         }
+
         router.push(newRoute)
     }
-
  
 </script>
 
@@ -212,7 +162,6 @@
 <style lang="scss" scoped>
 
     @import "@/assets/scss/global.scss";  
-
 
     form {
         background-color: white;
@@ -240,10 +189,6 @@
             min-width: 75%;
         }
     }
-
-
-
-
 
     @media screen and (max-width: 992px) {
         .content {
@@ -296,7 +241,6 @@
             }
         }
     }
-
 
     .owners-select {
         #multiselect {

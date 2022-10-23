@@ -36,9 +36,9 @@
     import { computed } from 'vue'
 
     import usePhotoHelpers from '@/composables/forms/add-update/usePhotoHelpers' 
-    import useAddUpdate from '@/composables/forms/add-update/useAddUpdate' 
+    import useFormState from '@/composables/forms/add-update/useFormState' 
 
-    const { photoState } = useAddUpdate()
+    const { photoState } = useFormState()
     const { previewPhoto, fileValidAndLoaded } = usePhotoHelpers()
     const props = defineProps(['addMode'])   
 

@@ -1,9 +1,9 @@
 import { ref } from 'vue'
-import useAddUpdate from '@/composables/forms/add-update/useAddUpdate'
+import useFormState from '@/composables/forms/add-update/useFormState'
 
 export default function usePhotoHelpers() { 
 
-    const { state } = useAddUpdate()
+    const { state } = useFormState()
     
     let previewPhoto = ref(null)
 

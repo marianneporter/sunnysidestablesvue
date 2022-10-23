@@ -16,7 +16,7 @@ const photoState = reactive ( {
     currentPhotoUrl: null
 } )
 
-export default function useAddUpdate() {  
+export default function useFormState() {  
 
     const { horse } = useDB()
 

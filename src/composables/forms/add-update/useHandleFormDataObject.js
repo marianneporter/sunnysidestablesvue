@@ -1,10 +1,10 @@
 import useDates from '@/composables/useDates'
-import useAddUpdate from './useAddUpdate'
+import useFormState from '@/composables/forms/add-update/useFormState'
 
 export default function useHandleFormDataObject() {  
 
     const { jsDateToYYYYMMDDFormat } = useDates()
-    const { state, photoState } = useAddUpdate()
+    const { state, photoState } = useFormState()
 
     let horseFormData = new FormData()   
 
