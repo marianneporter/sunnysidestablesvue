@@ -67,7 +67,8 @@
         let statusMessage = getMessage() 
         if (statusMessage) {
             toaster.show(statusMessage.content,
-                        {type: statusMessage.type})             
+                        {type: statusMessage.type,
+                         duration: 5000})             
         }
     })
    

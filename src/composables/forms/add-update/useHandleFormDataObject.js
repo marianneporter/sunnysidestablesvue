@@ -23,7 +23,7 @@ export default function useHandleFormDataObject() {
         state.owners.forEach(ownerId => horseFormData.append('ownerIds', ownerId))
 
        
-        if (photoState.uploadedPhoto) {
+        if (photoState.uploadedPhoto) {          
             horseFormData.append('imageFile', photoState.uploadedPhoto)
         }
 

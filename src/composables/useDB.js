@@ -31,7 +31,7 @@ export default function useDB() {
                                  console.log(err)                               
                             })
 
-
+        
         const data = await response.json()      
 
         horses.value=horses.value.concat(data.horses)

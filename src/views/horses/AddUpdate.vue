@@ -77,10 +77,12 @@
                 :src="previewPhoto" >                                   
            
             <button class="btn btn-primary" type="button"
-                   @click="$refs.fileInput.click()"  > {{addMode ? 'Add' : photoState.uploadedPhoto ? 'Update' : 'Add'}} Photo
+                   @click="$refs.fileInput.click()"  >
+                {{addMode ? 'Add' : photoForUpdate ? 'Update' : 'Add'}} Photo
                 <!-- {{ (!addMode && horse.imageUrl) || uploadedPhoto ? 'Change Photo' : 'Add Photo' }}  -->
-            </button>                   
-
+            </button>    
+      
+           
             <!-- <button mat-raised-button 
                     class="reset-photo-btn photo-btn"
                     *ngIf="previewPhoto"
@@ -107,7 +109,7 @@
 
 <script setup>
     //imports from vue
-    import { onUnmounted, ref } from 'vue'
+    import { onUnmounted, ref, computed } from 'vue'
     import { useRoute } from 'vue-router'   
     import { useRouter } from 'vue-router'
 
@@ -147,6 +149,8 @@
             convertStateToFormDataFormat } = useHandleFormDataObject()
     const { setMessage } = useMessageForNextPage()
 
+    const photoForUpdate = computed(() =>  photoState.uploadedPhoto || photoState.currentPhotoUrl)  
+
     onUnmounted(() => {  
         resetHorseForm()
         clearState()
@@ -166,13 +170,12 @@
     }
      
     // methods photo upload and form submits 
-    const photoAdded = async (event) => {   
-   
+    const photoAdded = (event) => {   
+          
         fileValidAndLoaded(event.target.files[0]) 
             .then((res) => {
-                if (res) {   
-                     photoState.uploadedPhoto=event.target.files[0]  
-
+                if (res) {
+                     photoState.uploadedPhoto=event.target.files[0]      
                  } else {
                     toaster.show(`Photo must be a jpeg or png file in landscape format`,
                                  {type: 'error'}) 
@@ -188,7 +191,7 @@
  
         if (v$.value.invalid) {            
             return
-        }        
+        }   
        
         if (addMode.value) {
             convertStateToFormDataFormat()  
@@ -212,12 +215,12 @@
 
                 idForRoute = addMode.value ? responseFromApi.id : horse.value.id
 
-                if (responseFromApi.photoUploaded) {
-                    msg= `${state.name} has been ${actioned} successfully`
-                    msgType=`success`
-                } else {
+                if (photoState.uploadedPhoto && !responseFromApi.photoUploaded) {
                     msg= `${state.name} has been ${actioned} but the photo upload was not successful`
                     msgType=`warning`
+                } else {
+                    msg= `${state.name} has been ${actioned} successfully`
+                    msgType=`success`
                 }
                 setMessage(msg, msgType)      
             } else {               
@@ -228,8 +231,7 @@
             setMessage(`${state.name} could not be ${actioned} at this time`)
             msgType=`error`
         }   
-
-        console.log('msgType = ' + msgType)
+      
         if (msgType === `error`) {
             newRoute = { name: `horseList`} 
         } else {
