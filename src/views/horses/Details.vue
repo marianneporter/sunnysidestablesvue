@@ -36,7 +36,9 @@
            
             <div class="btn-area"> 
                 <router-link :to="{ name: 'horseList'}" class="btn btn-secondary btn-full-mob"><font-awesome-icon icon="fa-solid fa-arrow-left" />&nbsp;Back to List</router-link>
-                <button class="btn btn-success btn-full-mob">Edit</button>
+                <router-link :to="{ name: 'add-update',  params: { id: horse.id } }"
+                              class="btn btn-success btn-full-mob">Edit
+                </router-link>
             </div>   
         </div>
     </div>

@@ -83,6 +83,8 @@ export default function useDB() {
                 return
             })
 
+
+
         if (response.status === 201) {
             let data = await response.json()    
             horses.value=[] 
@@ -97,7 +99,6 @@ export default function useDB() {
   
         let id = horseFormData.get('id')
         let name = horseFormData.get('name')
-
 
         const response = await fetch(`${baseURL}horses`, 
         { method: 'PATCH', 
@@ -151,4 +152,3 @@ export default function useDB() {
              loading, login}
 
 }
-

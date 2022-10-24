@@ -17,8 +17,7 @@
                                 :startDate="v$.dob.$model"
                                 :maxDate="new Date()"
                                 :minDate="minValidDOB()" />            
-                    <ValidationMsg :model="v$.dob"/> 
-                    {{ v$.dob.$model }}
+                    <ValidationMsg :model="v$.dob"/>                
                   </div>  
                  <div class="form-element p40-width">
                     <label>Colour:</label>
@@ -26,7 +25,9 @@
                         v-model="v$.colour.$model"
                         :label="v$.colour.$model"
                         :value="v$.colour.$model"
-                        :options="colours"/>  
+                        :options="colours"
+                        :classes="{clear: 'multiselect-clear',
+                                   clearIcon: 'multiselect-clear-icon' }" />  
                     <ValidationMsg :model="v$.colour"/>                     
                 </div>    
                 <div class="form-element p40-width">
@@ -45,11 +46,12 @@
                         v-model="v$.height.$model"
                         :label="v$.height.$model"
                         :value="v$.height.$model"
-                        :options="heights"/>   
+                        :options="heights"
+                       />   
                     <ValidationMsg :model="v$.height"/>         
                 </div>  
 
-                <div class="form-element owners-select">
+                <div class="form-element owners-select" id="test">
                     <label>Owners:</label>
                     <Multiselect
                         v-model="v$.owners.$model"
@@ -159,6 +161,11 @@
 
 <style src="@vueform/multiselect/themes/default.css"></style>
 
+<style lang="scss">
+
+
+</style>
+
 <style lang="scss" scoped>
 
     @import "@/assets/scss/global.scss";  
@@ -189,6 +196,8 @@
             min-width: 75%;
         }
     }
+
+ 
 
     @media screen and (max-width: 992px) {
         .content {
@@ -244,14 +253,43 @@
 
     .owners-select {
         #multiselect {
-            width: 100px;
+            width: 100px;            
         }
         .multiselect-owners {
             --ms-tag-bg: #f5f5f5;
             --ms-tag-color: #383838;
             --ms-ring-width: 0;
-            --ms-tag-font-weight: 550;
+            --ms-tag-font-weight: 550;          
         }  
     } 
+
+
+
+</style>
+
+<style lang="scss">
+    .multiselect-clear {
+
+        background-color: green;
+        position: relative;
+
+        .multiselect-clear-icon {
+            // position: relative;
+            // right: 5px;
+            position: absolute;
+ 
+            top: 10px;
+            right: 10px;
+         //   margin-left:230px;
+            
+        }
+    }
+
+    .owners-select {        
+        .multiselect-clear {
+            position: static; 
+        }
+    }
+
 
 </style>
