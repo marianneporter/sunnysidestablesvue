@@ -1,24 +1,31 @@
 <template>
     <div class="photo-area">
-        <input 
-            type="file"                                     
-            @change="photoAdded"                           
-            ref="fileInput"> 
+        <div>
+            <input 
+                type="file"                                     
+                @change="photoAdded"                           
+                ref="fileInput"> 
 
 
+            <img v-if="!addMode && !photoState.uploadedPhoto"
+                class="preview-photo"                        
+                :src="photoState.currentPhotoUrl" >                 
 
-        <img v-if="!addMode && !photoState.uploadedPhoto"
-            class="preview-photo"                        
-            :src="photoState.currentPhotoUrl" >                 
+            <img v-else class="preview-photo"                        
+                :src="previewPhoto" >       
+        </div>
+                            
+        <div class="btn-area">
+            <button class="add-btn" type="button"
+                @click="$refs.fileInput.click()"  >
+                {{addMode ? 'Add' : photoForUpdate ? 'Update' : 'Add'}} Photo            
+            </button>   
+            <button class="reset-btn"
+                    type="button"
+                    @click="resetPhoto()"
+                    v-if="photoForUpdate">Reset Photo</button> 
+        </div>
 
-        <img v-else class="preview-photo"                        
-            :src="previewPhoto" >                                   
-    
-        <button class="btn btn-primary" type="button"
-            @click="$refs.fileInput.click()"  >
-            {{addMode ? 'Add' : photoForUpdate ? 'Update' : 'Add'}} Photo
-            <!-- {{ (!addMode && horse.imageUrl) || uploadedPhoto ? 'Change Photo' : 'Add Photo' }}  -->
-        </button>    
 
     
         <!-- <button mat-raised-button 
@@ -57,26 +64,66 @@
             })
     }
 
+    const resetPhoto = () => {
+        console.log('in reset photo')
+        photoState.uploadedPhoto = null
+        previewPhoto.value = null
+    } 
+
 </script>
 
 <style lang="scss" scoped>
+
+    @import "@/assets/scss/global.scss";  
 
     .photo-area input {
         display: none;
     }
 
-    @media screen and (min-width: 992px) {    
+
+
+  //  @media screen and (min-width: 992px) {    
+    .photo-area {
+        margin-top: 30px;
+        display: flex; 
+        column-gap: 10px; 
+        justify-content: space-evenly; 
+        
+        button {
+            display: block;
+            height: 30px;
+            width: 110px;
+            border: none;
+            border-radius: 10px;    
+        }
+
+        .preview-photo {
+            max-width: 150px;
+            max-height: auto;
+        }
+
+        .add-btn {   
+            background-color: $primary;
+            color: white;           
+        }
+
+        .reset-btn {
+            margin-top: 10px;
+            background-color: $secondary;
+            color: white;    
+        }
+    }  
+
+    @media screen and (max-width: 992px) {
         .photo-area {
-            margin-top: 30px;
+            margin-top: 15px;
             margin-bottom: 30px;
+            column-gap: 0;       
+        }
 
-            .preview-photo {
-                max-width: 150px;
-                max-height: auto;
-            }
-        }    
     }
-
-
+    
+    
+ //   }
 
 </style>

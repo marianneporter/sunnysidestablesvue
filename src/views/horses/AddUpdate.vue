@@ -9,7 +9,7 @@
                          v-model="v$.name.$model">  
                      <ValidationMsg :model="v$.name"/>             
                 </div>               
-              <div class="form-element p40-width">
+                <div class="form-element p40-width">
                     <label>Date of Birth:</label>
                     <Datepicker v-model="v$.dob.$model"
                                 format="dd MMM yyyy"
@@ -17,8 +17,8 @@
                                 :startDate="v$.dob.$model"
                                 :maxDate="new Date()"
                                 :minDate="minValidDOB()" />            
-                    <ValidationMsg :model="v$.dob"/>                
-                  </div>  
+                    <ValidationMsg :model="v$.dob"/>            
+                 </div>  
                  <div class="form-element p40-width">
                     <label>Colour:</label>
                     <Multiselect
@@ -61,9 +61,11 @@
                         :options="ownersForSelect" />
                     <ValidationMsg :model="v$.owners"/>     
                 </div>   
+
+                <photo-upload :addMode="addMode" />         
+
             </div>
-   
-            <photo-upload :addMode="addMode" />
+             
 
             <div class="btn-area">
                 <router-link :to="{ name: 'horseList'}" class="btn btn-secondary btn-full-mob">
@@ -161,18 +163,21 @@
 
 <style src="@vueform/multiselect/themes/default.css"></style>
 
-<style lang="scss">
-
-
-</style>
 
 <style lang="scss" scoped>
-
+  
     @import "@/assets/scss/global.scss";  
 
+    .content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     form {
-        background-color: white;
-        padding: 15px;
+        background-color: white;       
+        padding: 40px 30px;
+        color: #404040;
 
         .form-element {
             margin-top: 20px;          
@@ -186,7 +191,9 @@
             border: 1px solid #D3D3D3;
             border-radius: 3px;
             padding: 5px;
+            font-size: 18px; 
         } 
+
 
         .p40-width {
             min-width: 40%;            
@@ -196,8 +203,23 @@
             min-width: 75%;
         }
     }
+    
+    .multiselect {
+        min-width: 225px;
+    }
 
+    .owners-select {
+
+        min-width: 230px;
  
+        .multiselect-owners {
+            --ms-tag-bg: #f5f5f5;
+            --ms-tag-color: #383838;
+            --ms-ring-width: 0;
+            --ms-tag-font-weight: 400;          
+        }  
+    } 
+
 
     @media screen and (max-width: 992px) {
         .content {
@@ -208,6 +230,12 @@
             width: 95%;
             margin: 0 auto;
         }
+
+        .name-input {
+            width: 100%;
+            height: 35px;
+        }
+
     }
 
     @media screen and (min-width: 992px) {
@@ -219,22 +247,20 @@
             margin: 0 auto;
             width: 600px;
           
-            height: 100vh; 
+            height:650px; 
 
             .form-body {
                 display: flex;
-                flex-wrap: wrap;
-                gap: 10px;
+                flex-wrap: wrap;                
+                column-gap: 40px;
             }  
         }
 
         .owners-select {
-            width: 200px;
-            
+            width: 200px;            
         }
 
-        .form-element input {
- 
+        .name-input { 
             width: 200px;
             height: 40px;
         }
@@ -251,37 +277,18 @@
         }
     }
 
-    .owners-select {
-        #multiselect {
-            width: 100px;            
-        }
-        .multiselect-owners {
-            --ms-tag-bg: #f5f5f5;
-            --ms-tag-color: #383838;
-            --ms-ring-width: 0;
-            --ms-tag-font-weight: 550;          
-        }  
-    } 
-
-
 
 </style>
 
 <style lang="scss">
-    .multiselect-clear {
 
-        background-color: green;
+    .multiselect-clear {
         position: relative;
 
         .multiselect-clear-icon {
-            // position: relative;
-            // right: 5px;
-            position: absolute;
- 
+            position: absolute; 
             top: 10px;
-            right: 10px;
-         //   margin-left:230px;
-            
+            right: 10px;            
         }
     }
 
@@ -291,5 +298,4 @@
         }
     }
 
-
-</style>
+ </style>

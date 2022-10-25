@@ -1,6 +1,13 @@
 @mixin desktop-background($image, $hasNav, $opacity) {
     position: relative;       
-    height: 100vh; 
+  
+    @if ($hasNav) {
+        height: $contentHeight;      
+        
+    } @else {
+       height: 100vh;           
+    }
+
     width: 100%;
     overflow: hidden;   
     
@@ -15,9 +22,10 @@
         background-size: cover;  
 
         @if ($hasNav) {
-            height: $contentHeight;
+            height: $contentHeight;      
+            
         } @else {
-            height: 100vh;
+           height: 100vh;           
         }
 
         opacity: $opacity;
