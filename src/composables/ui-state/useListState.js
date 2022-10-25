@@ -1,7 +1,10 @@
 import { ref } from 'vue'
+
+const horses = ref([])
 const pageSize = ref(12)
 const pageIndex = ref(0)
 const listScrollPos = ref(0);
+const searchTerm = ref('')
 
 export default function useListState() { 
 
@@ -16,14 +19,17 @@ export default function useListState() {
 
     const clearListState = () => {
         pageIndex.value = 0
-        listScrollPos.value=0
+        listScrollPos.value = 0
+        horses.value = []
     }
-
+    
     return {
         setScrollPos,
         scrollToPos,
         pageSize,
         pageIndex, 
-        clearListState
+        searchTerm,
+        clearListState,
+        horses
     }
 }

@@ -2,9 +2,9 @@
     <header>
          <h1>Horses...</h1>
          <div class="search-input">
-             <input type="text" placeholder="search by horse's name">
-             <span class="input-icon">
-                 <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+             <input type="text" placeholder="search by horse's name" v-model="searchTerm">
+             <span class="search-icon">
+                 <button @click="search()"><font-awesome-icon icon="fa-solid fa-magnifying-glass" /></button>                
              </span>
          </div>   
     </header>
@@ -45,8 +45,14 @@
   
     import HorseCard from '@/components/HorseCard.vue'  
     
-    const { fetchHorses, horses, loading, horseCount } = useDB();
-    const { pageSize, pageIndex, setScrollPos, scrollToPos } = useListState();
+    const { fetchHorses, loading, horseCount } = useDB();
+    const { pageSize, 
+            pageIndex,
+            setScrollPos, 
+            scrollToPos, 
+            searchTerm, 
+            clearListState,
+            horses   } = useListState();
     const { getMessage } = useMessageForNextPage()
 
     const toaster = createToaster({ position: 'top' });
@@ -61,6 +67,14 @@
     }) 
     
     const router = useRouter()
+
+    const search = () =>  {
+        console.log('search clicked')
+        console.log('search term is ' + searchTerm.value)
+        clearListState()
+        console.log('in search handler of listpage just before fetchHorses searchTerm=' + searchTerm.value)
+        fetchHorses(pageIndex.value, pageSize.value, searchTerm.value)
+    }
     
     const loadMore = () => {
         
@@ -97,12 +111,21 @@
         input {
             height: inherit;
             border: none;
-            padding-left: 3px;            
+            padding-left: 3px;    
+            
+            &:focus {
+                border: none;
+                outline: none
+            }
         }
 
-        .input-icon {
+        .search-icon {
             padding: 7.5px;
             opacity: 0.5;
+
+            button {
+                 border: none;
+            } 
         }
     }
 

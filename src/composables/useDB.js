@@ -2,16 +2,17 @@ import { ref, computed } from 'vue'
 import useCurrentUser from '@/composables/useCurrentUser.js'
 import useListState from '@/composables/ui-state/useListState.js'
 
-const horses = ref([])
 const horse = ref({})
 const horseCount = ref(0);
 const loading = ref(true);   
 
 export default function useDB() {
 
+
+
     const { currentUser } = useCurrentUser()
 
-    const { clearListState } = useListState()
+    const { clearListState, horses, searchTerm } = useListState()    
    
     const baseURL = 'https://localhost:44398/api/' 
    
@@ -19,9 +20,18 @@ export default function useDB() {
         return  `Bearer ${currentUser.token}`
     }   
 
-    const fetchHorses = async (pageIndex=0, pageSize=12) => {
-            
-        const response = await fetch(`${baseURL}horses?pageIndex=${pageIndex}&pageSize=${pageSize}`,
+    const fetchHorses = async (pageIndex=0, pageSize=12 ) => {
+
+        console.log('start of fetch horses searchTerm is ' + searchTerm.value)
+
+        let url = `${baseURL}horses?pageIndex=${pageIndex}&pageSize=${pageSize}`
+
+        if (searchTerm.value !== '') {
+            url = url += `&search=${searchTerm.value}`
+        }
+
+        console.log(url)    
+        const response = await fetch(url,
                                       { method: 'GET',
                                                headers: {
                                                 'Content-Type': 'application/json',
@@ -146,7 +156,7 @@ export default function useDB() {
       
     }   
 
-    return { horses, horseCount, horse,
+    return { horseCount, horse,
              fetchHorses, fetchHorse, addHorse,
              updateHorse, fetchOwners,
              loading, login}
