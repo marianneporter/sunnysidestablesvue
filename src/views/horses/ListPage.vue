@@ -1,13 +1,7 @@
 <template>    
     <header>
-         <h1>Horses...</h1>
-         <div class="search-input">
-             <input type="text" placeholder="search by horse's name" v-model="searchTerm"> 
-             <span class="icon">
-                <button @click="resetSearch()"><font-awesome-icon icon="fa-solid fa-xmark" /></button>            
-                <button @click="search()"><font-awesome-icon icon="fa-solid fa-magnifying-glass" /></button>                               
-             </span>
-         </div>   
+        <h1>Horses...</h1>
+        <search-horses @searchChanged="searchChanged"/>
     </header>
    
     <main>      
@@ -44,15 +38,15 @@
     import useListState from "@/composables/ui-state/useListState.js"
     import useMessageForNextPage from '@/composables/ui-state/useMessageForNextPage'    
   
-    import HorseCard from '@/components/HorseCard.vue'  
+    import HorseCard from '@/components/HorseCard.vue' 
+    import SearchHorses from '@/components/SearchHorses.vue'     
     
     const { fetchHorses, loading, horseCount } = useDB();
     const { pageSize, 
             pageIndex,
             setScrollPos, 
             scrollToPos, 
-            searchTerm, 
-            clearListState,
+            searchTerm,       
             horses   } = useListState();
     const { getMessage } = useMessageForNextPage()
 
@@ -68,30 +62,8 @@
     }) 
     
     const router = useRouter()
-
-    const search = () =>  {
-        console.log('search clicked')
-        console.log('search term is ' + searchTerm.value)
-        if (!searchTerm.value) {
-            return
-        }
-        clearListState()
-        console.log('in search handler of listpage just before fetchHorses searchTerm=' + searchTerm.value)
-        fetchHorses(pageIndex.value, pageSize.value, searchTerm.value)
-    }
-
-    const resetSearch = () => {
-        console.log('in reset search')
-        if (!searchTerm.value) {
-            return
-        }
-        searchTerm.value=''
-        clearListState()
-        fetchHorses(pageIndex.value, pageSize.value)
-    }
     
-    const loadMore = () => {
-        
+    const loadMore = () => {        
         pageIndex.value++
         fetchHorses(pageIndex.value, pageSize.value)
     }
@@ -106,46 +78,22 @@
         router.push({ name: "add-update", params: { id: id }} )       
     }
 
+    const searchChanged = (search) => {
+        if (search) {
+            fetchHorses(pageIndex.value, pageSize.value, searchTerm.value)
+        } else {
+            fetchHorses(pageIndex.value, pageSize.value)
+        }
+    }    
+
 </script>
 
 <style lang="scss" scoped>
     header {
         display: flex;
         justify-content: space-between;    
-        margin: 30px 5%;
-        
-    }
-
-    .search-input {
-        display: flex;
-        width: 225px;
-        height: 40px;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-     
-        input {
-            height: inherit;
-            border: none;
-            padding-left: 3px;    
-            
-            &:focus {
-                border: none;
-                outline: none;
-            }
-        }
-
-        .icon {           
-            opacity: 0.5;
-
-            button {
-                display: inline-block;
-                border: none;   
-                padding: 12px 5px;
-                margin-left: 7px;
-                background-color: white;         
-            } 
-        }
-    }
-
+        margin: 30px 5%;        
+    }    
 
     main {
         .add-btn {
