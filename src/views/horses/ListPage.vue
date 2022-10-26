@@ -2,9 +2,10 @@
     <header>
          <h1>Horses...</h1>
          <div class="search-input">
-             <input type="text" placeholder="search by horse's name" v-model="searchTerm">
-             <span class="search-icon">
-                 <button @click="search()"><font-awesome-icon icon="fa-solid fa-magnifying-glass" /></button>                
+             <input type="text" placeholder="search by horse's name" v-model="searchTerm"> 
+             <span class="icon">
+                <button @click="resetSearch()"><font-awesome-icon icon="fa-solid fa-xmark" /></button>            
+                <button @click="search()"><font-awesome-icon icon="fa-solid fa-magnifying-glass" /></button>                               
              </span>
          </div>   
     </header>
@@ -71,9 +72,22 @@
     const search = () =>  {
         console.log('search clicked')
         console.log('search term is ' + searchTerm.value)
+        if (!searchTerm.value) {
+            return
+        }
         clearListState()
         console.log('in search handler of listpage just before fetchHorses searchTerm=' + searchTerm.value)
         fetchHorses(pageIndex.value, pageSize.value, searchTerm.value)
+    }
+
+    const resetSearch = () => {
+        console.log('in reset search')
+        if (!searchTerm.value) {
+            return
+        }
+        searchTerm.value=''
+        clearListState()
+        fetchHorses(pageIndex.value, pageSize.value)
     }
     
     const loadMore = () => {
@@ -104,7 +118,7 @@
 
     .search-input {
         display: flex;
-        width: 200px;
+        width: 225px;
         height: 40px;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
      
@@ -115,16 +129,19 @@
             
             &:focus {
                 border: none;
-                outline: none
+                outline: none;
             }
         }
 
-        .search-icon {
-            padding: 7.5px;
+        .icon {           
             opacity: 0.5;
 
             button {
-                 border: none;
+                display: inline-block;
+                border: none;   
+                padding: 12px 5px;
+                margin-left: 7px;
+                background-color: white;         
             } 
         }
     }
