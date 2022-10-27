@@ -11,7 +11,7 @@
 
 <script setup>
     import useListState from "@/composables/ui-state/useListState.js"
-    import { watchEffect } from 'vue'
+    import { watch } from 'vue'
 
     const { searchTerm, clearListState } = useListState()
 
@@ -22,6 +22,7 @@
             return
         }
         clearListState()
+        console.log('clearListState in search fired')
         emit('searchChanged', true)      
     }
 
@@ -31,14 +32,12 @@
         }
         searchTerm.value=''
         clearListState()
+        console.log('clearListState in resetSearch fired')
         emit('searchChanged', false)      
     }   
 
-    watchEffect(() => {
-        console.log('watcheffect triggered')
-        console.log('searchTerm is ' + searchTerm.value)
-        if (searchTerm.value === '') {
-            console.log('searchterm is space')
+    watch(searchTerm, (newVal, oldVal) => {
+        if (newVal === '') {
             resetSearch(true)
         }
     })

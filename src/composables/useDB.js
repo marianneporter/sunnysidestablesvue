@@ -22,15 +22,13 @@ export default function useDB() {
 
     const fetchHorses = async (pageIndex=0, pageSize=12 ) => {
 
-        console.log('start of fetch horses searchTerm is ' + searchTerm.value)
-
         let url = `${baseURL}horses?pageIndex=${pageIndex}&pageSize=${pageSize}`
 
         if (searchTerm.value !== '') {
             url = url += `&search=${searchTerm.value}`
         }
-
-        console.log(url)    
+ 
+        console.log(url)
         const response = await fetch(url,
                                       { method: 'GET',
                                                headers: {
@@ -68,7 +66,7 @@ export default function useDB() {
     }  
 
     const fetchHorse = async (id) => {
-    
+        
         const response = await fetch(`${baseURL}horses/${id}`,
                                       { method: 'GET',
                                                headers: {
@@ -98,6 +96,7 @@ export default function useDB() {
         if (response.status === 201) {
             let data = await response.json()    
             horses.value=[] 
+            console.log('clear list state in add horse fired')
             clearListState()
             return data
         }  
@@ -121,8 +120,7 @@ export default function useDB() {
         
         if (response.status === 200) {
             let data = await response.json()             
-            horses.value=[] 
-            clearListState()
+            horses.value=[]             
             return data
         }  
 

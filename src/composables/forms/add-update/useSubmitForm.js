@@ -5,11 +5,13 @@ import useDB from '@/composables/useDB'
 
 export default function useSubmitForm() { 
     const { convertStateToFormDataFormat, horseFormData } = useHandleFormDataObject()
-    const { state, photoState } = useFormState()
+    const { state, photoState, formSubmitted } = useFormState()
     const { horse, addHorse, updateHorse } = useDB()
     const { setMessage } = useMessageForNextPage()
 
     const handleFormSubmit = async (addMode) => {
+         
+      
 
         if (addMode.value) {
             convertStateToFormDataFormat()  
@@ -51,6 +53,8 @@ export default function useSubmitForm() {
         }   
 
         let success = msgType !== `error`
+
+        
         return { success, idForRoute }
     } 
 

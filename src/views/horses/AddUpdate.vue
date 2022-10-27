@@ -64,8 +64,7 @@
 
                 <photo-upload :addMode="addMode" />         
 
-            </div>
-             
+            </div>             
 
             <div class="btn-area">
                 <router-link :to="{ name: 'horseList'}" class="btn btn-secondary btn-full-mob">
@@ -74,16 +73,22 @@
                 <button type="submit"
                         class="btn btn-success btn-full-mob submit-btn"> {{addMode ? 'Add' : 'Update'}} Horse
                 </button>                  
-            </div>   
+            </div>  
+        
+            <div><pre>invalid: {{ v$.$invalid }}</pre></div>
+            <div><pre>dirty: {{ v$.$dirty }}</pre></div>
+            <div><pre>anyDirty: {{ v$.$anyDirty }}</pre></div>
         </form>   
+
     </div>
+
+
 </template>
 
 <script setup>
     //imports from vue
-    import { onUnmounted, ref, computed } from 'vue'
-    import { useRoute } from 'vue-router'   
-    import { useRouter } from 'vue-router'
+    import { onUnmounted, ref, onBeforeMount } from 'vue'
+    import { useRoute, useRouter, onBeforeRouteLeave } from 'vue-router'      
 
     //imported plug-ins
     import Multiselect from '@vueform/multiselect'
@@ -113,15 +118,42 @@
     const { sexes, colours, heights } = useSelectOptions()
     const { state, photoState,
             v$, clearState,
-            setStateFields }   = useFormState()
+            setStateFields, formSubmitted }   = useFormState()
     const { handleFormSubmit } = useSubmitForm()
     const { minValidDOB }      = useDates()  
     const { resetHorseForm }   = useHandleFormDataObject()
-       
+
+
+    onBeforeMount(() => {
+
+        window.addEventListener('beforeunload', (event) => {     
+ 
+            if (!v$.value.$anyDirty && !photoState.uploadedPhoto) 
+                return ''   
+
+            event.preventDefault()                
+            event.returnValue = ''
+            return ''
+        })
+
+    })       
 
     onUnmounted(() => {  
         resetHorseForm()
         clearState()
+    })
+
+    onBeforeRouteLeave((to, from) => {
+
+        if ( formSubmitted.value || (!v$.value.$anyDirty && !photoState.uploadedPhoto)) {
+            return
+        }
+
+        const answer = window.confirm(
+            'You have unsaved changes - Are you sure you would like to cancel'
+        )
+        // cancel the navigation and stay on the same page
+        if (!answer) return false
     })
 
     // ui setup for owners select
@@ -135,25 +167,38 @@
         addMode.value=true      
     } else {     
         setStateFields()
-    } 
+    }     
  
     //  form submit and redirect
     const addUpdateHorse = async () => {     
-      
+
+        if ((!v$.value.$anyDirty && !photoState.uploadedPhoto)) {
+            console.log('in toaster condition')
+            toaster.show(`Please amend form or click on back to return to list`,
+                    {type: 'info',
+                     position: 'top'}) 
+            return
+        }  
+
         v$.value.$touch()
  
         if (v$.value.invalid) {            
             return
-        }  
+        } 
 
+        console.log('nydirty ' + v$.value.$anyDirty);
+        console.log('photoState.uploadedPhoto' + photoState.uploadedPhoto)
+
+        formSubmitted.value = true
+   
         let { submitSuccess, idForRoute } = await handleFormSubmit(addMode.value)   
-
+ 
         let newRoute
         if (submitSuccess) {
             newRoute = { name: `details`, params: { id: idForRoute }}            
         } else {
             newRoute = { name: `horseList`} 
-        }
+        }       
 
         router.push(newRoute)
     }
@@ -276,7 +321,6 @@
             }
         }
     }
-
 
 </style>
 

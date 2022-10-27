@@ -18,6 +18,7 @@ export default function useListState() {
     } 
 
     const clearListState = () => {
+        console.log('in clear list state')
         pageIndex.value = 0
         listScrollPos.value = 0
         horses.value = []

@@ -40,7 +40,7 @@ const routes = [
         name: 'add-update',
         component: AddUpdate,
         props: true,
-        beforeEnter: addUpdateResolver
+        beforeEnter: addUpdateResolver,    
     },     
 
 ]

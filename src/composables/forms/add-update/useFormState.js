@@ -20,7 +20,9 @@ export default function useFormState() {
 
     const { horse } = useDB()
 
-    const horseIdForUpdate = ref(null)
+    const horseIdForUpdate = ref(null)   
+
+    const formSubmitted = ref(false)
 
     const mustBeAtLeast1Owner = (value) => value.length !== 0 
     const noOfOwners = (value) => value.length > 0 && value.length <= 4
@@ -69,6 +71,6 @@ export default function useFormState() {
 
     const v$ = useValidate(rules, state) 
 
-    return { v$, state, photoState, clearState, setStateFields }
+    return { v$, state, photoState, clearState, setStateFields, formSubmitted }
 
 }
