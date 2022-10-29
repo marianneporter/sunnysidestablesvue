@@ -2,69 +2,9 @@
     <div class="content">           
         <form novalidate @submit.prevent="addUpdateHorse()" enctype="multipart/form-data">
             <h3>{{addMode ? 'Add' : 'Update'}} Horse</h3>
-            <div class="form-body">
-                <div class="form-element p75-width">
-                    <label>Name of horse:</label>
-                    <input type="text" class="name-input p75-width "
-                         v-model="v$.name.$model">  
-                     <ValidationMsg :model="v$.name"/>             
-                </div>               
-                <div class="form-element p40-width">
-                    <label>Date of Birth:</label>
-                    <Datepicker v-model="v$.dob.$model"
-                                format="dd MMM yyyy"
-                                :value="v$.dob.$model"
-                                :startDate="v$.dob.$model"
-                                :maxDate="new Date()"
-                                :minDate="minValidDOB()" />            
-                    <ValidationMsg :model="v$.dob"/>            
-                 </div>  
-                 <div class="form-element p40-width">
-                    <label>Colour:</label>
-                    <Multiselect
-                        v-model="v$.colour.$model"
-                        :label="v$.colour.$model"
-                        :value="v$.colour.$model"
-                        :options="colours"
-                        :classes="{clear: 'multiselect-clear',
-                                   clearIcon: 'multiselect-clear-icon' }" />  
-                    <ValidationMsg :model="v$.colour"/>                     
-                </div>    
-                <div class="form-element p40-width">
-                    <label>Sex:</label>   
-                    <Multiselect
-                        v-model="v$.sex.$model"
-                        :label="v$.sex.$model"
-                        :value="v$.sex.$model"
-                        :options="sexes"/>  
-                    <ValidationMsg :model="v$.sex"/>     
-                </div>  
 
-                <div class="form-element p40-width">
-                    <label>Height(hands):</label>
-                    <Multiselect
-                        v-model="v$.height.$model"
-                        :label="v$.height.$model"
-                        :value="v$.height.$model"
-                        :options="heights"
-                       />   
-                    <ValidationMsg :model="v$.height"/>         
-                </div>  
-
-                <div class="form-element owners-select" id="test">
-                    <label>Owners:</label>
-                    <Multiselect
-                        v-model="v$.owners.$model"
-                        mode="tags"
-                        :close-on-select="false"
-                        class="multiselect-owners"
-                        :options="ownersForSelect" />
-                    <ValidationMsg :model="v$.owners"/>     
-                </div>   
-
-                <photo-upload :addMode="addMode" />         
-
-            </div>             
+            <add-update-form-fields  :addMode="addMode"
+                                     :owners="owners" />
 
             <div class="btn-area">
                 <router-link :to="{ name: 'horseList'}" class="btn btn-secondary btn-full-mob">
@@ -74,14 +14,9 @@
                         class="btn btn-success btn-full-mob submit-btn"> {{addMode ? 'Add' : 'Update'}} Horse
                 </button>                  
             </div>  
-        
-            <div><pre>invalid: {{ v$.$invalid }}</pre></div>
-            <div><pre>dirty: {{ v$.$dirty }}</pre></div>
-            <div><pre>anyDirty: {{ v$.$anyDirty }}</pre></div>
+ 
         </form>   
-
     </div>
-
 
 </template>
 
@@ -91,23 +26,19 @@
     import { onUnmounted, ref, onBeforeMount } from 'vue'
     import { useRoute, useRouter, onBeforeRouteLeave } from 'vue-router'      
     //imported plug-ins
-    import Multiselect from '@vueform/multiselect'
-    import Datepicker from '@vuepic/vue-datepicker';
     import { createToaster } from "@meforma/vue-toaster";
-    import '@vuepic/vue-datepicker/dist/main.css';
-    import PhotoUpload from '@/components/PhotoUpload.vue'
-    import ValidationMsg from '@/components/ValidationMsg.vue'
-    //imported composables
-    import useSelectOptions from '@/composables/forms/add-update/useSelectOptions.js'
+    //imported composables   
     import useFormState from '@/composables/forms/add-update/useFormState' 
     import useSubmitForm from '@/composables/forms/add-update/useSubmitForm'
     import useHandleFormDataObject from '@/composables/forms/add-update/useHandleFormDataObject'
-    import useDates from '@/composables/useDates'
+    //nested components
+    import AddUpdateFormFields  from '@/components/AddUpdateFormFields.vue'
+   
 
     export default {    
         name: 'AddUpdate',
         components: {
-            ValidationMsg, Datepicker, Multiselect, PhotoUpload
+            AddUpdateFormFields
         },
         created() {  
              window.addEventListener('beforeunload', this.confirmLeave );
@@ -117,11 +48,6 @@
            window.removeEventListener('beforeunload',  this.confirmLeave  )
         },
 
-        data() {
-            return {
-             test: 1,
-            };
-        },
 
         methods: {
 
@@ -134,8 +60,7 @@
 
                 e.preventDefault()      // leaves anyway if on its own   if altogethere with return value you still get the message        
                
-            }, 
-  
+            },   
        
         },  
 
@@ -145,17 +70,16 @@
             const route = useRoute()
             const router = useRouter()
 
-            const toaster = createToaster({ position: 'bottom' });
-
-            const owners = route.meta['owners']
+            const toaster = createToaster({ position: 'bottom' });           
 
             // destructure composables   
-            const { sexes, colours, heights } = useSelectOptions()
+          
             const { state, photoState,
                     v$, clearState,
                     setStateFields, formSubmitted }   = useFormState()
+
             const { handleFormSubmit } = useSubmitForm()
-            const { minValidDOB }      = useDates()  
+          
             const { resetHorseForm }   = useHandleFormDataObject()
 
             onUnmounted(() => {  
@@ -176,18 +100,16 @@
                 if (!answer) return false
             })
 
-            //    ui setup for owners select
-            const ownersForSelect =
-                    owners.map((o)=> {           
-                        return {value: o.id.toString(), label: `${o.firstName} ${o.lastName}` }            
-                    }) 
+
         
            //set add mode to tre if id=0 otherwise move details of current horse into state
             if (+route.params['id'] === 0) {
                 addMode.value=true      
             } else {     
                 setStateFields()
-            }     
+            }  
+            
+            const owners = route.meta['owners']
         
            //  form submit and redirect
             const addUpdateHorse = async () => {     
@@ -220,25 +142,23 @@
                 }       
 
                 router.push(newRoute)
-
             }
 
             return {
-                addMode, v$, minValidDOB, colours, sexes, heights,
-                ownersForSelect, addUpdateHorse, photoState
+                addMode, v$, owners, 
+                addUpdateHorse, photoState
             }
        }
     }
 
 </script>
 
-<style src="@vueform/multiselect/themes/default.css"></style>
 
 
 <style lang="scss" scoped>
   
-    @import "@/assets/scss/global.scss";  
-
+    @import "@/assets/scss/global.scss"; 
+   
     .content {
         display: flex;
         justify-content: center;
@@ -249,48 +169,7 @@
         background-color: white;       
         padding: 40px 30px;
         color: #404040;
-
-        .form-element {
-            margin-top: 20px;          
-
-            & * {
-                 display: block;    
-            }
-        }
-
-        .name-input {
-            border: 1px solid #D3D3D3;
-            border-radius: 3px;
-            padding: 5px;
-            font-size: 18px; 
-        } 
-
-
-        .p40-width {
-            min-width: 40%;            
-        }
-
-        .p75-width {
-            min-width: 75%;
-        }
     }
-    
-    .multiselect {
-        min-width: 225px;
-    }
-
-    .owners-select {
-
-        min-width: 230px;
- 
-        .multiselect-owners {
-            --ms-tag-bg: #f5f5f5;
-            --ms-tag-color: #383838;
-            --ms-ring-width: 0;
-            --ms-tag-font-weight: 400;          
-        }  
-    } 
-
 
     @media screen and (max-width: 992px) {
         .content {
@@ -301,12 +180,6 @@
             width: 95%;
             margin: 0 auto;
         }
-
-        .name-input {
-            width: 100%;
-            height: 35px;
-        }
-
     }
 
     @media screen and (min-width: 992px) {
@@ -319,23 +192,7 @@
             width: 600px;
           
             height:650px; 
-
-            .form-body {
-                display: flex;
-                flex-wrap: wrap;                
-                column-gap: 40px;
-            }  
         }
-
-        .owners-select {
-            width: 200px;            
-        }
-
-        .name-input { 
-            width: 200px;
-            height: 40px;
-        }
-
 
         .btn-area {
             display: flex;
@@ -349,28 +206,3 @@
     }
 
 </style>
-
-<style lang="scss">
-
-    .multiselect-clear {
-        position: relative;
-       
-
-        .multiselect-clear-icon {
-            position: absolute; 
-            top: 10px;
-            right: 10px;  
-              
-        }
-
-    }
-
-    .owners-select {        
-        .multiselect-clear {
-            position: static; 
-            background-color: pink;
- 
-        }
-    } 
-
- </style>
