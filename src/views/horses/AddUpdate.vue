@@ -37,15 +37,39 @@
 
     export default {    
         name: 'AddUpdate',
+
         components: {
             AddUpdateFormFields
         },
+
         created() {  
-             window.addEventListener('beforeunload', this.confirmLeave );
+            window.addEventListener('beforeunload', this.confirmLeave );
         },
 
         beforeDestroy() {          
-           window.removeEventListener('beforeunload',  this.confirmLeave  )
+            window.removeEventListener('beforeunload',  this.confirmLeave  )
+        },
+
+        unmounted() {
+            this.resetHorseForm()
+            this.clearState()
+        },
+
+        beforeRouteLeave() {
+ 
+            if ( this.formSubmitted || (!this.v$.$anyDirty && !this.photoState.uploadedPhoto)) {
+                return
+            }
+
+            const answer = window.confirm(
+                'You have unsaved changes - Are you sure you would like to leave this page?'
+            )
+            // cancel the navigation and stay on the same page
+            if (answer) {            
+                window.removeEventListener('beforeunload',  this.confirmLeave )              
+            } else {              
+                return false
+            }
         },
 
 
@@ -54,7 +78,7 @@
             confirmLeave(e) {
 
                 if (this.v$.$anyDirty || this.photoState.uploadedPhoto) {
-                    e.returnValue = null     // displaysn message  on its own displays message if togethere with above you get the message
+                    e.returnValue = null     // displaysn message  on its own displays message if together with above you get the message
                     return null
                 }
 
@@ -82,27 +106,8 @@
           
             const { resetHorseForm }   = useHandleFormDataObject()
 
-            onUnmounted(() => {  
-                resetHorseForm()
-                clearState()
-            })
-
-            onBeforeRouteLeave((to, from) => {
-
-                if ( formSubmitted.value || (!v$.value.$anyDirty && !photoState.uploadedPhoto)) {
-                    return
-                }
-
-                const answer = window.confirm(
-                    'You have unsaved changes - Are you sure you would like to cancel'
-                )
-                // cancel the navigation and stay on the same page
-                if (!answer) return false
-            })
-
-
         
-           //set add mode to tre if id=0 otherwise move details of current horse into state
+           //set add mode to true if id=0 otherwise move details of current horse into state
             if (+route.params['id'] === 0) {
                 addMode.value=true      
             } else {     
@@ -146,7 +151,9 @@
 
             return {
                 addMode, v$, owners, 
-                addUpdateHorse, photoState
+                addUpdateHorse, photoState,
+                clearState, resetHorseForm,
+                formSubmitted
             }
        }
     }
