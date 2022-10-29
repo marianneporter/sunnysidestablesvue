@@ -26,9 +26,8 @@ export default function useDB() {
 
         if (searchTerm.value !== '') {
             url = url += `&search=${searchTerm.value}`
-        }
+        } 
  
-        console.log(url)
         const response = await fetch(url,
                                       { method: 'GET',
                                                headers: {
@@ -96,7 +95,6 @@ export default function useDB() {
         if (response.status === 201) {
             let data = await response.json()    
             horses.value=[] 
-            console.log('clear list state in add horse fired')
             clearListState()
             return data
         }  

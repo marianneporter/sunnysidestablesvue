@@ -65,7 +65,6 @@
     }
 
     const resetPhoto = () => {
-        console.log('in reset photo')
         photoState.uploadedPhoto = null
         previewPhoto.value = null
     } 

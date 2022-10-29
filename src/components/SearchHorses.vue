@@ -22,7 +22,6 @@
             return
         }
         clearListState()
-        console.log('clearListState in search fired')
         emit('searchChanged', true)      
     }
 
@@ -32,7 +31,6 @@
         }
         searchTerm.value=''
         clearListState()
-        console.log('clearListState in resetSearch fired')
         emit('searchChanged', false)      
     }   
 

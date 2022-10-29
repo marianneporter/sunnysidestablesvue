@@ -85,11 +85,11 @@
 
 </template>
 
-<script setup>
+<script>
+
     //imports from vue
     import { onUnmounted, ref, onBeforeMount } from 'vue'
     import { useRoute, useRouter, onBeforeRouteLeave } from 'vue-router'      
-
     //imported plug-ins
     import Multiselect from '@vueform/multiselect'
     import Datepicker from '@vuepic/vue-datepicker';
@@ -97,7 +97,6 @@
     import '@vuepic/vue-datepicker/dist/main.css';
     import PhotoUpload from '@/components/PhotoUpload.vue'
     import ValidationMsg from '@/components/ValidationMsg.vue'
-
     //imported composables
     import useSelectOptions from '@/composables/forms/add-update/useSelectOptions.js'
     import useFormState from '@/composables/forms/add-update/useFormState' 
@@ -105,106 +104,133 @@
     import useHandleFormDataObject from '@/composables/forms/add-update/useHandleFormDataObject'
     import useDates from '@/composables/useDates'
 
-    const addMode = ref(false)
+    export default {    
+        name: 'AddUpdate',
+        components: {
+            ValidationMsg, Datepicker, Multiselect, PhotoUpload
+        },
+        created() {  
+             window.addEventListener('beforeunload', this.confirmLeave );
+        },
 
-    const route = useRoute()
-    const router = useRouter()
+        beforeDestroy() {          
+           window.removeEventListener('beforeunload',  this.confirmLeave  )
+        },
 
-    const toaster = createToaster({ position: 'bottom' });
+        data() {
+            return {
+             test: 1,
+            };
+        },
 
-    const owners = route.meta['owners']
+        methods: {
 
-    // destructure composables   
-    const { sexes, colours, heights } = useSelectOptions()
-    const { state, photoState,
-            v$, clearState,
-            setStateFields, formSubmitted }   = useFormState()
-    const { handleFormSubmit } = useSubmitForm()
-    const { minValidDOB }      = useDates()  
-    const { resetHorseForm }   = useHandleFormDataObject()
+            confirmLeave(e) {
 
+                if (this.v$.$anyDirty || this.photoState.uploadedPhoto) {
+                    e.returnValue = null     // displaysn message  on its own displays message if togethere with above you get the message
+                    return null
+                }
 
-    onBeforeMount(() => {
-
-        window.addEventListener('beforeunload', (event) => {     
- 
-            if (!v$.value.$anyDirty && !photoState.uploadedPhoto) 
-                return ''   
-
-            event.preventDefault()                
-            event.returnValue = ''
-            return ''
-        })
-
-    })       
-
-    onUnmounted(() => {  
-        resetHorseForm()
-        clearState()
-    })
-
-    onBeforeRouteLeave((to, from) => {
-
-        if ( formSubmitted.value || (!v$.value.$anyDirty && !photoState.uploadedPhoto)) {
-            return
-        }
-
-        const answer = window.confirm(
-            'You have unsaved changes - Are you sure you would like to cancel'
-        )
-        // cancel the navigation and stay on the same page
-        if (!answer) return false
-    })
-
-    // ui setup for owners select
-    const ownersForSelect =
-            owners.map((o)=> {           
-                return {value: o.id.toString(), label: `${o.firstName} ${o.lastName}` }            
-            }) 
+                e.preventDefault()      // leaves anyway if on its own   if altogethere with return value you still get the message        
+               
+            }, 
   
-    // set add mode to tre if id=0 otherwise move details of current horse into state
-    if (+route.params['id'] === 0) {
-        addMode.value=true      
-    } else {     
-        setStateFields()
-    }     
- 
-    //  form submit and redirect
-    const addUpdateHorse = async () => {     
+       
+        },  
 
-        if ((!v$.value.$anyDirty && !photoState.uploadedPhoto)) {
-            console.log('in toaster condition')
-            toaster.show(`Please amend form or click on back to return to list`,
-                    {type: 'info',
-                     position: 'top'}) 
-            return
-        }  
+        setup() {
+            const addMode = ref(false)
 
-        v$.value.$touch()
- 
-        if (v$.value.invalid) {            
-            return
-        } 
+            const route = useRoute()
+            const router = useRouter()
 
-        console.log('nydirty ' + v$.value.$anyDirty);
-        console.log('photoState.uploadedPhoto' + photoState.uploadedPhoto)
+            const toaster = createToaster({ position: 'bottom' });
 
-        formSubmitted.value = true
-   
-        let { submitSuccess, idForRoute } = await handleFormSubmit(addMode.value)   
- 
-        let newRoute
-        if (submitSuccess) {
-            newRoute = { name: `details`, params: { id: idForRoute }}            
-        } else {
-            newRoute = { name: `horseList`} 
-        }       
+            const owners = route.meta['owners']
 
-        router.push(newRoute)
+            // destructure composables   
+            const { sexes, colours, heights } = useSelectOptions()
+            const { state, photoState,
+                    v$, clearState,
+                    setStateFields, formSubmitted }   = useFormState()
+            const { handleFormSubmit } = useSubmitForm()
+            const { minValidDOB }      = useDates()  
+            const { resetHorseForm }   = useHandleFormDataObject()
+
+            onUnmounted(() => {  
+                resetHorseForm()
+                clearState()
+            })
+
+            onBeforeRouteLeave((to, from) => {
+
+                if ( formSubmitted.value || (!v$.value.$anyDirty && !photoState.uploadedPhoto)) {
+                    return
+                }
+
+                const answer = window.confirm(
+                    'You have unsaved changes - Are you sure you would like to cancel'
+                )
+                // cancel the navigation and stay on the same page
+                if (!answer) return false
+            })
+
+            //    ui setup for owners select
+            const ownersForSelect =
+                    owners.map((o)=> {           
+                        return {value: o.id.toString(), label: `${o.firstName} ${o.lastName}` }            
+                    }) 
+        
+           //set add mode to tre if id=0 otherwise move details of current horse into state
+            if (+route.params['id'] === 0) {
+                addMode.value=true      
+            } else {     
+                setStateFields()
+            }     
+        
+           //  form submit and redirect
+            const addUpdateHorse = async () => {     
+
+                if ((!v$.value.$anyDirty && !photoState.uploadedPhoto)) {
+                    toaster.show(`Please amend form or click on back to return to list`,
+                            {type: 'info',
+                            position: 'top'}) 
+                    return
+                }  
+
+                v$.value.$touch()
+
+                if (v$.value.$invalid) {     
+                    toaster.show(`One or more invalid fields.  Please correct and try again`,
+                            {type: 'error',
+                            position: 'top'})    
+                    return
+                } 
+
+                formSubmitted.value = true
+        
+                let { submitSuccess, idForRoute } = await handleFormSubmit(addMode.value)   
+        
+                let newRoute
+                if (submitSuccess) {
+                    newRoute = { name: `details`, params: { id: idForRoute }}            
+                } else {
+                    newRoute = { name: `horseList`} 
+                }       
+
+                router.push(newRoute)
+
+            }
+
+            return {
+                addMode, v$, minValidDOB, colours, sexes, heights,
+                ownersForSelect, addUpdateHorse, photoState
+            }
+       }
     }
- 
-</script>
 
+</script>
 
 <style src="@vueform/multiselect/themes/default.css"></style>
 
@@ -328,18 +354,23 @@
 
     .multiselect-clear {
         position: relative;
+       
 
         .multiselect-clear-icon {
             position: absolute; 
             top: 10px;
-            right: 10px;            
+            right: 10px;  
+              
         }
+
     }
 
     .owners-select {        
         .multiselect-clear {
             position: static; 
+            background-color: pink;
+ 
         }
-    }
+    } 
 
  </style>
