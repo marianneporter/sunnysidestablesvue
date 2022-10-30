@@ -88,11 +88,13 @@
 
         setup() {
             const addMode = ref(false)
+            const horse = ref({})
 
             const route = useRoute()
             const router = useRouter()
 
-            const toaster = createToaster({ position: 'bottom' });           
+            const toaster = createToaster({ position: 'bottom' });              
+            
 
             // destructure composables   
           
@@ -105,11 +107,13 @@
             const { resetHorseForm }   = useHandleFormDataObject()
 
         
+   
            //set add mode to true if id=0 otherwise move details of current horse into state
             if (+route.params['id'] === 0) {
                 addMode.value=true      
-            } else {     
-                setStateFields()
+            } else {    
+                horse.value = route.meta['horse']
+                setStateFields(horse.value)
             }  
             
             const owners = route.meta['owners']
@@ -118,7 +122,7 @@
             const addUpdateHorse = async () => {     
 
                 if ((!v$.value.$anyDirty && !photoState.uploadedPhoto)) {
-                    toaster.show(`Please amend form or click on back to return to list`,
+                    toaster.show(`Please amend form or click back button to return to list`,
                             {type: 'info',
                             position: 'top'}) 
                     return
@@ -129,13 +133,14 @@
                 if (v$.value.$invalid) {     
                     toaster.show(`One or more invalid fields.  Please correct and try again`,
                             {type: 'error',
-                            position: 'top'})    
+                            position: 'top',
+                            duration: 10000})    
                     return
                 } 
 
                 formSubmitted.value = true
         
-                let { submitSuccess, idForRoute } = await handleFormSubmit(addMode.value)   
+                let { submitSuccess, idForRoute } = await handleFormSubmit(horse.value, addMode.value)   
         
                 let newRoute
                 if (submitSuccess) {

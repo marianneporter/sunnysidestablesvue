@@ -2,13 +2,9 @@ import { ref, computed } from 'vue'
 import useCurrentUser from '@/composables/useCurrentUser.js'
 import useListState from '@/composables/ui-state/useListState.js'
 
-const horse = ref({})
 const horseCount = ref(0);
-const loading = ref(true);   
 
 export default function useDB() {
-
-
 
     const { currentUser } = useCurrentUser()
 
@@ -39,13 +35,12 @@ export default function useDB() {
                             })
 
         
-        const data = await response.json()      
+        const data = await response.json()     
 
+        horseCount.value = data.count;    
+        
         horses.value=horses.value.concat(data.horses)
-
-        horseCount.value = data.count;       
-        loading.value=false
- 
+   
     }  
 
     const fetchOwners = async () => {
@@ -74,9 +69,8 @@ export default function useDB() {
                             .catch(err => {
                                  console.log(err)                               
                             })
-
-        const data = await response.json()   
-        horse.value=data 
+      
+        return await response.json()        
     }    
 
     const addHorse = async (horseFormData) => {
@@ -152,9 +146,9 @@ export default function useDB() {
       
     }   
 
-    return { horseCount, horse,
+    return { horseCount,
              fetchHorses, fetchHorse, addHorse,
              updateHorse, fetchOwners,
-             loading, login}
+             login}
 
 }

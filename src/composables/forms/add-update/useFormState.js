@@ -1,7 +1,7 @@
 import useValidate from '@vuelidate/core'
 import { required, helpers, minLength, maxLength } from '@vuelidate/validators'
 import { reactive, computed, ref} from 'vue'
-import useDB from '@/composables/useDB'
+//import useDB from '@/composables/useDB'
 
 const state = reactive({
     name: null,
@@ -18,7 +18,7 @@ const photoState = reactive ( {
 
 export default function useFormState() {  
 
-    const { horse } = useDB()
+   // const { horse } = useDB()
 
     const horseIdForUpdate = ref(null)   
 
@@ -54,17 +54,17 @@ export default function useFormState() {
         photoState.uploadedPhoto = null        
     }
 
-    const setStateFields = () => {
+    const setStateFields = (horse) => {
  
-        horseIdForUpdate.value = horse.value.id
-        state.name             = horse.value.name
-        state.colour           = horse.value.colour
-        state.sex              = horse.value.sex
-        state.dob              = new Date(horse.value.dob) 
-        state.height           = horse.value.heightHands
-        state.owners           = horse.value.owners.map(o => o.id)
-        if (horse.value.imageUrl) {
-            photoState.currentPhotoUrl = horse.value.imageUrl
+        horseIdForUpdate.value = horse.id
+        state.name             = horse.name
+        state.colour           = horse.colour
+        state.sex              = horse.sex
+        state.dob              = new Date(horse.dob) 
+        state.height           = horse.heightHands
+        state.owners           = horse.owners.map(o => o.id)
+        if (horse.imageUrl) {
+            photoState.currentPhotoUrl = horse.imageUrl
         }  
      
     }  

@@ -44,35 +44,49 @@
     </div>
 </template>
 
-<script setup>
+<script>
 
-    import { computed, onMounted } from 'vue'
+    import { computed, onMounted, ref } from 'vue'
+    import { useRoute } from 'vue-router'
 
-    import OwnersList from '@/components/OwnersList.vue'
-
-    import useDB from '@/composables/useDB.js'
+    import OwnersList from '@/components/OwnersList.vue'  
     import useDates from '@/composables/useDates.js'
     import useMessageForNextPage from '@/composables/ui-state/useMessageForNextPage'
     import { createToaster } from '@meforma/vue-toaster';
 
-    const toaster = createToaster({ position: 'top' });
 
-    const { horse } = useDB()    
-    const { inputDateToDisplayFormat } = useDates()
-    const { getMessage } = useMessageForNextPage()
+    export default {
+        name: 'Details',
+        components: { OwnersList },
 
-    const altMessage = computed(() => `photo of ${horse.value.name} is not available`)
+        mounted() {
+            let statusMessage = this.getMessage() 
+            if (statusMessage) {
+                this.toaster.show(statusMessage.content,
+                                    {type: statusMessage.type,
+                                     duration: 5000})             
+            }
+        },
 
-   
+        setup() {
+            const route = useRoute()
 
-    onMounted(() => {     
-        let statusMessage = getMessage() 
-        if (statusMessage) {
-            toaster.show(statusMessage.content,
-                        {type: statusMessage.type,
-                         duration: 5000})             
+            const horse = ref({})
+
+            horse.value = route.meta['horse']  
+
+            const toaster = createToaster({ position: 'top' });
+        
+            const { inputDateToDisplayFormat } = useDates()
+            const { getMessage } = useMessageForNextPage()
+
+            const altMessage = computed(() => `photo of ${horse.value.name} is not available`)    
+
+            return {
+                horse, inputDateToDisplayFormat, getMessage, toaster
+            }
         }
-    })
+    }   
    
 </script>
 

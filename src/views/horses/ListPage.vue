@@ -41,7 +41,7 @@
     import HorseCard from '@/components/HorseCard.vue' 
     import SearchHorses from '@/components/SearchHorses.vue'     
     
-    const { fetchHorses, loading, horseCount } = useDB();
+    const { fetchHorses, horseCount } = useDB();
     const { pageSize, 
             pageIndex,
             setScrollPos, 

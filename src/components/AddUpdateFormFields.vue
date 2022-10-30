@@ -87,13 +87,11 @@
 
     const props = defineProps(['addMode', 'owners'])
 
-    console.log(props)
-
     //ui setup for owners select
     const ownersForSelect =
-            props.owners.map((o)=> {           
-                return {value: o.id.toString(), label: `${o.firstName} ${o.lastName}` }            
-            }) 
+        props.owners.map((o)=> {           
+            return {value: o.id.toString(), label: `${o.firstName} ${o.lastName}` }            
+        }) 
 
 </script>
 
@@ -102,8 +100,6 @@
 <style lang="scss" scoped>
 
     @import "@/assets/scss/global.scss";  
-   
-
 
     .form-element {
         margin-top: 20px;          
