@@ -19,8 +19,7 @@
                 <li v-if="userFirstName" class="login-dets">
                     <div  class="greeting">Hello {{userFirstName}}</div>
                     <div><button class="logout-btn" @click="logout()">Log out?</button></div>
-                </li>
-             
+                </li>             
             </ul>    
         </div>    
     </nav>  

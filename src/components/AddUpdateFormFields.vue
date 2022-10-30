@@ -4,7 +4,8 @@
             <label>Name of horse:</label>
             <input type="text" class="name-input p75-width "
                     v-model="v$.name.$model">  
-                <ValidationMsg :model="v$.name"/>             
+                <ValidationMsg :model="v$.name"/>    
+                     
         </div>               
         <div class="form-element p40-width">
             <label>Date of Birth:</label>
@@ -59,9 +60,11 @@
             <ValidationMsg :model="v$.owners"/>     
         </div>   
 
-        <photo-upload :addMode="addMode" />         
+        <photo-upload :addMode="addMode" />   
+           
 
-    </div>             
+    </div>   
+        
 
 </template>
 

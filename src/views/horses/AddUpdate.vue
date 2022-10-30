@@ -14,8 +14,10 @@
                         class="btn btn-success btn-full-mob submit-btn"> {{addMode ? 'Add' : 'Update'}} Horse
                 </button>                  
             </div>  
- 
-        </form>   
+            <div>sex invalid: {{v$.sex.$invalid}}</div>
+            <div>dob invalid: {{v$.dob.$invalid}}</div>
+        </form> 
+  
     </div>
 </template>
 
@@ -106,6 +108,8 @@
           
             const { resetHorseForm }   = useHandleFormDataObject()
 
+            console.log(state)
+
         
    
            //set add mode to true if id=0 otherwise move details of current horse into state
@@ -154,7 +158,7 @@
 
             return {
                 addMode, v$, owners, 
-                addUpdateHorse, photoState,
+                addUpdateHorse, state, photoState,
                 clearState, resetHorseForm,
                 formSubmitted
             }

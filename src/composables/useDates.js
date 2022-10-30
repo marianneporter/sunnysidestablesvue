@@ -1,6 +1,14 @@
 import { reactive, ref, computed, watch } from 'vue'
 
 export default function useDates() {
+
+    const msToYears = (ms) => Math.floor(ms / 31536000000) 
+
+    const getAge = (dob) => {
+        let today = new Date();
+        let msDiff = today.getTime() - dob.getTime();
+        return msToYears(msDiff);
+    }
     
     const inputDateToDisplayFormat = (inDate) => {    
         const options = {  year: 'numeric', month: 'long', day: 'numeric' };
@@ -17,6 +25,7 @@ export default function useDates() {
     const jsDateToYYYYMMDDFormat = (inDate) => inDate.toISOString().split('T')[0] 
  
     return {
-        inputDateToDisplayFormat, minValidDOB, jsDateToYYYYMMDDFormat
+        inputDateToDisplayFormat, minValidDOB,
+         jsDateToYYYYMMDDFormat, getAge
     }
 }
