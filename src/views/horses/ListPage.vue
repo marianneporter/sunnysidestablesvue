@@ -41,18 +41,20 @@
     import HorseCard from '@/components/HorseCard.vue' 
     import SearchHorses from '@/components/SearchHorses.vue'     
     
-    const { fetchHorses, horseCount } = useDB();
+    const { fetchHorses } = useDB();
     const { pageSize, 
             pageIndex,
             setScrollPos, 
             scrollToPos, 
-            searchTerm,       
+            searchTerm,  
+            horseCount,    
             horses   } = useListState();
     const { getMessage } = useMessageForNextPage()
 
     const toaster = createToaster({ position: 'top' });
 
     onMounted(() => {
+      
         scrollToPos()
         let statusMessage = getMessage() 
         if (statusMessage) {
@@ -65,7 +67,7 @@
     
     const loadMore = () => {        
         pageIndex.value++
-        fetchHorses(pageIndex.value, pageSize.value)
+        fetchHorses(pageIndex.value, pageSize.value)        
     }
 
     const getDetails = (id) => {
@@ -140,8 +142,7 @@
 
                input {
                    width: 200px;
-               }
-              
+               }              
            }
        }
     }

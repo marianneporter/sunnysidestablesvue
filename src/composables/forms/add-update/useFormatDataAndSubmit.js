@@ -1,17 +1,47 @@
-import useHandleFormDataObject from '@/composables/forms/add-update/useHandleFormDataObject'
 import useFormState from '@/composables/forms/add-update/useFormState'
 import useMessageForNextPage from  '@/composables/ui-state/useMessageForNextPage'
 import useDB from '@/composables/useDB'
+import useDates from '@/composables/useDates'
 
 export default function useSubmitForm() { 
-    const { convertStateToFormDataFormat, horseFormData } = useHandleFormDataObject()
+  
     const { state, photoState, formSubmitted } = useFormState()
+    const { jsDateToYYYYMMDDFormat } = useDates()
     const { addHorse, updateHorse } = useDB()
     const { setMessage } = useMessageForNextPage()
 
+    let horseFormData = new FormData()   
+
+    const convertStateToFormDataFormat = (id) => {
+    
+        if (id) {            
+            horseFormData.append('id', id)
+        }
+        horseFormData.append('name', state.name)
+        horseFormData.append('colour', state.colour)
+        horseFormData.append('sex', state.sex)      
+        horseFormData.append('heightHands', state.height)
+       
+        horseFormData.append('dob', jsDateToYYYYMMDDFormat(state.dob))
+
+        state.owners.forEach(ownerId => horseFormData.append('ownerIds', ownerId))
+
+       
+        if (photoState.uploadedPhoto) {          
+            horseFormData.append('imageFile', photoState.uploadedPhoto)
+        }
+
+        let heightHands= horseFormData.get('heightHands')
+        
+    }  
+    
+    const resetHorseForm = () => { 
+        horseFormData = new FormData()
+    }
+
     const handleFormSubmit = async (horse, addMode) => {      
 
-        if (addMode.value) {
+        if (addMode) {
             convertStateToFormDataFormat()  
         } else {
             convertStateToFormDataFormat(horse.id)  
@@ -31,7 +61,7 @@ export default function useSubmitForm() {
 
             if (typeof responseFromApi === 'object') {               
 
-                idForRoute = addMode.value ? responseFromApi.id : horse.id
+                idForRoute = addMode ? responseFromApi.id : horse.id
 
                 if (photoState.uploadedPhoto && !responseFromApi.photoUploaded) {
                     msg= `${state.name} has been ${actioned} but the photo upload was not successful`
@@ -51,13 +81,12 @@ export default function useSubmitForm() {
         }   
 
         let submitSuccess = msgType !== `error`
-
-        
+                
         return { submitSuccess, idForRoute }
     } 
 
   
     return {
-        handleFormSubmit
+          resetHorseForm, handleFormSubmit 
     }
 }

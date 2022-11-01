@@ -5,7 +5,7 @@
             <OwnersList :owners="horse.owners" />           
         </h6>  
         <div class="img-area">
-             <img :src="horse.imageUrl" :alt="altMessage">
+             <img :src="horse.imageUrl" alt="No photo uploaded yet">
         </div>         
         <div class="btn-area">
             <button class="btn btn-success"
@@ -29,6 +29,8 @@
     const emit = defineEmits(['getDetails', 'editHorse'])
 
     const horse = { ...props.horse };  
+
+
 
     const altMessage = computed(() => `photo of ${horse.name} is not available`)
 

@@ -14,14 +14,13 @@
                         class="btn btn-success btn-full-mob submit-btn"> {{addMode ? 'Add' : 'Update'}} Horse
                 </button>                  
             </div>  
-            <div>sex invalid: {{v$.sex.$invalid}}</div>
-            <div>dob invalid: {{v$.dob.$invalid}}</div>
         </form> 
   
     </div>
 </template>
 
 <script>
+
     //imports from vue
     import { onUnmounted, ref, onBeforeMount } from 'vue'
     import { useRoute, useRouter, onBeforeRouteLeave } from 'vue-router'      
@@ -29,28 +28,25 @@
     import { createToaster } from "@meforma/vue-toaster";
     //imported composables   
     import useFormState from '@/composables/forms/add-update/useFormState' 
-    import useSubmitForm from '@/composables/forms/add-update/useSubmitForm'
-    import useHandleFormDataObject from '@/composables/forms/add-update/useHandleFormDataObject'
+    import useFormatDataAndSubmit from '@/composables/forms/add-update/useFormatDataAndSubmit'   
     //nested components
-    import AddUpdateFormFields  from '@/components/AddUpdateFormFields.vue'
-   
+    import AddUpdateFormFields  from '@/components/AddUpdateFormFields.vue'   
 
     export default {    
         name: 'AddUpdate',
 
         components: {
             AddUpdateFormFields
-        },
+        },        
 
         created() {  
+            
             window.addEventListener('beforeunload', this.confirmLeave );
         },
 
-        beforeDestroy() {          
-            window.removeEventListener('beforeunload',  this.confirmLeave  )
-        },
-
         unmounted() {
+           
+            window.removeEventListener('beforeunload',  this.confirmLeave  )
             this.resetHorseForm()
             this.clearState()
         },
@@ -76,6 +72,7 @@
         methods: {
 
             confirmLeave(e) {
+              
 
                 if (this.v$.$anyDirty || this.photoState.uploadedPhoto) {
                     e.returnValue = null     // displaysn message  on its own displays message if together with above you get the message
@@ -104,14 +101,8 @@
                     v$, clearState,
                     setStateFields, formSubmitted }   = useFormState()
 
-            const { handleFormSubmit } = useSubmitForm()
-          
-            const { resetHorseForm }   = useHandleFormDataObject()
-
-            console.log(state)
-
-        
-   
+            const { handleFormSubmit, resetHorseForm } = useFormatDataAndSubmit()
+    
            //set add mode to true if id=0 otherwise move details of current horse into state
             if (+route.params['id'] === 0) {
                 addMode.value=true      
@@ -144,8 +135,8 @@
 
                 formSubmitted.value = true
         
-                let { submitSuccess, idForRoute } = await handleFormSubmit(horse.value, addMode.value)   
-        
+                let { submitSuccess, idForRoute } = await handleFormSubmit(horse.value, addMode.value)  
+                                      
                 let newRoute
                 if (submitSuccess) {
                     newRoute = { name: `details`, params: { id: idForRoute }}            

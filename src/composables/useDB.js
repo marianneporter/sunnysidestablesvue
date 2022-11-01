@@ -1,14 +1,13 @@
-import { ref, computed } from 'vue'
 import useCurrentUser from '@/composables/useCurrentUser.js'
 import useListState from '@/composables/ui-state/useListState.js'
 
-const horseCount = ref(0);
+//const horseCount = ref(0);
 
 export default function useDB() {
 
     const { currentUser } = useCurrentUser()
 
-    const { clearListState, horses, searchTerm } = useListState()    
+    const { clearListState, addDbHorsesToList, searchTerm, updateListState } = useListState()    
    
     const baseURL = 'https://localhost:44398/api/' 
    
@@ -35,11 +34,15 @@ export default function useDB() {
                             })
 
         
-        const data = await response.json()     
+        const data = await response.json()    
 
-        horseCount.value = data.count;    
+       
         
-        horses.value=horses.value.concat(data.horses)
+        addDbHorsesToList(data)
+
+        // horseCount.value = data.count;    
+        
+        // horses.value=horses.value.concat(data.horses)
    
     }  
 
@@ -85,10 +88,8 @@ export default function useDB() {
             })
 
 
-
         if (response.status === 201) {
-            let data = await response.json()    
-            horses.value=[] 
+            let data = await response.json()               
             clearListState()
             return data
         }  
@@ -106,13 +107,14 @@ export default function useDB() {
                 headers: { 'Authorization': getAuthHeaderValue() },     
                 body: horseFormData })                      
             .catch(err => {  
-                console.log(err)       
+                console.log(err)               
                 return
             })
         
         if (response.status === 200) {
-            let data = await response.json()             
-            horses.value=[]             
+            let data = await response.json()    
+            let updatedHorse =  await fetchHorse(id)  
+            updateListState(updatedHorse)     
             return data
         }  
 
@@ -146,7 +148,7 @@ export default function useDB() {
       
     }   
 
-    return { horseCount,
+    return { 
              fetchHorses, fetchHorse, addHorse,
              updateHorse, fetchOwners,
              login}

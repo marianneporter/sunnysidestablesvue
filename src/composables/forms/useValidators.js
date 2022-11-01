@@ -11,7 +11,7 @@ export default function useValidators() {
     const validSexAgeCombo = (value, siblings) => {
      
        let age = getAge(siblings.dob)    
-       console.log(' age is ' + age)  
+    
        if (age < 4 && (value === "Stallion" || value === "Mare" )) {
            return false
        }  
@@ -21,7 +21,7 @@ export default function useValidators() {
     const validAgeSexCombo = (value, siblings) => {
 
         let age = getAge(value)
-        console.log(' age is ' + age)  
+
         if (age < 4 && (siblings.sex === "Stallion" || siblings.sex === "Mare" )) {
             return false
         }
