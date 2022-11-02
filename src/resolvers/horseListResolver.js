@@ -5,8 +5,7 @@ export default async function horseListResolver(to, from, next )  {
     const { fetchHorses} = useDB();   
     const { horsesInCurrentList } = useListState()    
 
-    if (horsesInCurrentList() === 0) {
-   
+    if (horsesInCurrentList() === 0) {   
         await fetchHorses()  
     } 
 

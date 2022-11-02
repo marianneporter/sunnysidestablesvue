@@ -1,8 +1,6 @@
 import useCurrentUser from '@/composables/useCurrentUser.js'
 import useListState from '@/composables/ui-state/useListState.js'
 
-//const horseCount = ref(0);
-
 export default function useDB() {
 
     const { currentUser } = useCurrentUser()
@@ -34,16 +32,10 @@ export default function useDB() {
                             })
 
         
-        const data = await response.json()    
-
-       
+        const data = await response.json()           
         
-        addDbHorsesToList(data)
-
-        // horseCount.value = data.count;    
+        addDbHorsesToList(data)   
         
-        // horses.value=horses.value.concat(data.horses)
-   
     }  
 
     const fetchOwners = async () => {

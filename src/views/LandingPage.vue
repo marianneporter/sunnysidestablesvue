@@ -14,12 +14,14 @@
                     Login              
                 </button>  
             </div>
-            <transition name="slide">           
-                <div v-if="displayLogin" class="login-slider">
-                    <Login @loginSuccess="loginSuccess"                   
-                           @closeSlider="closeSlider" />
-                </div>   
-             </transition>
+            <div class="slider-section">
+                <transition name="slide">           
+                    <div v-if="displayLogin" class="login-slider">
+                        <Login @loginSuccess="loginSuccess"                   
+                            @closeSlider="closeSlider" />
+                    </div>   
+                </transition>
+            </div>
         </header>
     </div>  
 </template>
@@ -70,22 +72,32 @@
                     z-index: 10;
                     width: 95vw;
                     position: relative; 
-                    top: -80px;                       
+                    top: -80px;                  
+                    background-color: pink;
+                    
+                   
+                }
+
+                .slider-section {
+                    margin-left:25px;  // could be a calc
                 }
 
                 button {
-                    margin-top: 24px;
+                    margin-top: 5vw;
                     width: 200px;
                     font-size: 20px;
+                    left: 200px;
                 }
             }  
 
-            .slide-enter-from   { transform: translateX(100vw) }
-            .slide-enter-to     { transform: translateX(0) }
-            .slide-enter-active { transition: transform 2s ease-in }
-            .slide-leave-from   { transform: translateX(0)}
-            .slide-leave-to     { transform: translateX(100vw) }
-            .slide-leave-active { transition: transform 2s ease-out }   
+        .slide-enter-from   { transform: translateX(800px) }
+        .slide-enter-to     { transform: translate(0) }
+        .slide-enter-active { transition: transform 0.75s linear }
+        .slide-leave-from   { transform: translate(0)}
+        .slide-leave-to     { transform: translate(800px) }
+        .slide-leave-active { transition: transform 0.75s linear }  
+
+
         }
     }
 

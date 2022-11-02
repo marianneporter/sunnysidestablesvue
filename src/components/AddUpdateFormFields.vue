@@ -1,13 +1,13 @@
 <template>
     <div class="form-body">
-        <div class="form-element p75-width">
+        <div class="form-element name-element">
             <label>Name of horse:</label>
             <input type="text" class="name-input p75-width "
                     v-model="v$.name.$model">  
                 <ValidationMsg :model="v$.name"/>    
                      
         </div>               
-        <div class="form-element p40-width">
+        <div class="form-element dob-element">
             <label>Date of Birth:</label>
             <Datepicker v-model="v$.dob.$model"
                         format="dd MMM yyyy"
@@ -16,8 +16,8 @@
                         :maxDate="new Date()"
                         :minDate="minValidDOB()" />            
             <ValidationMsg :model="v$.dob"/>            
-            </div>  
-            <div class="form-element p40-width">
+        </div>  
+        <div class="form-element">
             <label>Colour:</label>
             <Multiselect
                 v-model="v$.colour.$model"
@@ -28,7 +28,7 @@
                             clearIcon: 'multiselect-clear-icon' }" />  
             <ValidationMsg :model="v$.colour"/>                     
         </div>    
-        <div class="form-element p40-width">
+        <div class="form-element">
             <label>Sex:</label>   
             <Multiselect
                 v-model="v$.sex.$model"
@@ -38,7 +38,7 @@
             <ValidationMsg :model="v$.sex"/>     
         </div>  
 
-        <div class="form-element p40-width">
+        <div class="form-element">
             <label>Height(hands):</label>
             <Multiselect
                 v-model="v$.height.$model"
@@ -108,25 +108,20 @@
         margin-top: 20px;          
 
         & * {
-                display: block;    
+            display: block;    
         }
     }
 
     .name-input {
+      
         border: 1px solid #D3D3D3;
         border-radius: 3px;
         padding: 5px;
-        font-size: 18px; 
+        font-size: 16px; 
+        color: #383838;
+       
     } 
-
-
-    .p40-width {
-        min-width: 40%;            
-    }
-
-    .p75-width {
-        min-width: 75%;
-    }
+ 
 
     .multiselect {
         min-width: 225px;
@@ -134,7 +129,7 @@
 
     .owners-select {
 
-        min-width: 230px;
+        min-width: 225px;
  
         .multiselect-owners {
             --ms-tag-bg: #f5f5f5;
@@ -159,30 +154,36 @@
             flex-wrap: wrap;                
             column-gap: 40px;
         }   
+
+        .form-element {
+            width: 225px;
+        }
+
+        .name-element {
+            min-width :500px;
+        }
         
         .owners-select {
             width: 200px;            
         }
 
-        .name-input { 
-            width: 200px;
+        .name-input {
+            width: 300px;
             height: 40px;
         }
 
     }
 </style>
 
-<style lang="scss">
+<style lang="scss">   
 
     .multiselect-clear {
-        position: relative;
-       
+        position: relative;       
 
         .multiselect-clear-icon {
             position: absolute; 
             top: 10px;
-            right: 10px;  
-              
+            right: 10px;                
         }
 
     }
@@ -190,9 +191,17 @@
     .owners-select {        
         .multiselect-clear {
             position: static; 
-            background-color: pink;
- 
+
         }
     } 
+
+   .dob-element svg.dp__icon.dp__clear_icon {
+        padding: 6px 8px 6px 12px;
+
+        & path {
+            color: #888888;      
+            stroke-width: 1.2;            
+        }
+    }
 
  </style>
