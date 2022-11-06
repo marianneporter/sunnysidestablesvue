@@ -10,7 +10,12 @@
                 <font-awesome-icon icon="fa-solid fa-plus" />
             &nbsp;Add Horse
         </router-link>
-        <div class="horse-cards">                       
+        <div v-if="horses.length==0" >
+            <p>should show loading!</p>
+             <loading
+                 :is-full-page="fullPage"/>
+        </div>
+        <div v-if="horses" class="horse-cards">                       
             <div v-for="horse in horses" :key="horse.id">
                 <HorseCard :horse="horse"
                             @getDetails="getDetails"
@@ -29,10 +34,14 @@
 </template>
 
 <script setup>
-    import { onMounted } from 'vue'
+    import { onMounted, ref } from 'vue'
+    import { useLoading } from 'vue-loading-overlay'
     import { useRouter } from 'vue-router'
 
     import { createToaster } from '@meforma/vue-toaster';
+  
+    import Loading from 'vue-loading-overlay';
+    import 'vue-loading-overlay/dist/css/index.css';
 
     import useDB from "@/composables/useDB.js"
     import useListState from "@/composables/ui-state/useListState.js"
@@ -49,12 +58,22 @@
             searchTerm,  
             horseCount,    
             horses   } = useListState();
+
     const { getMessage } = useMessageForNextPage()
 
     const toaster = createToaster({ position: 'top' });
 
-    onMounted(() => {
-      
+    const $loading =  useLoading({ loader: 'dots', color: '#28a428' })
+    const fullPage = ref(false)
+
+    onMounted( async () => {
+
+        let loader = $loading.show();  
+
+        await fetchHorses()  
+
+        loader.hide()      
+
         scrollToPos()
         let statusMessage = getMessage() 
         if (statusMessage) {

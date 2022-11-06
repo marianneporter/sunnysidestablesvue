@@ -23,8 +23,7 @@ const routes = [
         props: true,
         meta: {
             scrollTop: 0
-        },
-        beforeEnter: horseListResolver,                    
+        }                     
     },  
     {
         path: '/horses/:id',     
