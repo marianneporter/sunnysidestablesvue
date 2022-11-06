@@ -12,13 +12,11 @@ const horseCount = ref(0);
 export default function useListState() { 
    
     const setScrollPos = () =>  {
-        listScrollPos.value = window.scrollY   
-        console.log('in set scroll pos listScrollPos = ' + listScrollPos.value)   
+        listScrollPos.value = window.scrollY           
     }
    
     const scrollToPos = () => {
         window.scrollTo(0, listScrollPos.value)     
-        console.log('in in scrollToPos listScrollPos = ' + listScrollPos.value)  
         listScrollPos.value = 0
     } 
 
@@ -39,9 +37,8 @@ export default function useListState() {
     const addDbHorsesToList = (dataFromDb) => {
 
         horseCount.value = dataFromDb.count;
-        horses.value=horses.value.concat(dataFromDb.horses)
-        console.log('*********in addDbHorsesToList')
-        console.log('horseCount is ' + horseCount.value)
+        horses.value=horses.value.concat(dataFromDb.horses)   
+         
     }
     
     return {

@@ -1,10 +1,11 @@
 <template>
     <div class="search-input">
-        <input type="text" placeholder="search by horse's name" v-model="searchTerm" @keyup.enter="search()"> 
-        <span class="icon">
-            <button @click="resetSearch()"><font-awesome-icon icon="fa-solid fa-xmark" /></button>            
-            <button @click="search()"><font-awesome-icon icon="fa-solid fa-magnifying-glass" /></button>                               
-        </span>
+        <input type="text" placeholder="search by horse's name" v-model="searchTerm"   @keyup.enter="search()"> 
+      
+        <button :class="{ invisible: searchTerm==''}"
+                @click="resetSearch()"><font-awesome-icon icon="fa-solid fa-xmark" /></button>            
+        <button @click="search()"><font-awesome-icon icon="fa-solid fa-magnifying-glass" /></button>
+
     </div>   
  
 </template>
@@ -43,9 +44,12 @@
 </script>
 
 <style lang="scss" scoped>
+
+     @import "@/assets/scss/global.scss"; 
+
     .search-input {
         display: flex;
-        width: 225px;
+        width: 230px;
         height: 40px;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         
@@ -60,16 +64,17 @@
             }
         }
 
-        .icon {           
-            opacity: 0.5;
+        button {
+            display: inline-block;
+            border: none;   
+            padding: 12px 5px;
+            margin-left: 7px;
+            background-color: white;     
+            opacity: 0.5;   
+        } 
 
-            button {
-                display: inline-block;
-                border: none;   
-                padding: 12px 5px;
-                margin-left: 7px;
-                background-color: white;         
-            } 
+        .invisible {
+            opacity: 0;
         }
     }
 

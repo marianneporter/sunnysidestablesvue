@@ -8,8 +8,6 @@ import horseDetailsResolver from '@/resolvers/horseDetailsResolver.js'
 import horseListResolver from '@/resolvers/horseListResolver.js'
 import addUpdateResolver from '@/resolvers/addUpdateResolver.js'
 
-import store from "../store/index.js"
-
 import useCurrentUser from '../composables/useCurrentUser.js'
 
 const routes = [

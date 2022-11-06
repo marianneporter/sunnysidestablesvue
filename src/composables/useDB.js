@@ -7,8 +7,8 @@ export default function useDB() {
 
     const { clearListState, addDbHorsesToList, searchTerm, updateListState } = useListState()    
    
-    const baseURL = 'https://localhost:44398/api/' 
-   
+    const baseURL = process.env.VUE_APP_API_BASE_URL 
+    
     const getAuthHeaderValue = () => {
         return  `Bearer ${currentUser.token}`
     }   
@@ -116,7 +116,7 @@ export default function useDB() {
     
     const login = async (userCreds) => {
         
-         const response = await fetch(` ${baseURL}auth/login`, 
+         const response = await fetch(`${baseURL}auth/login`, 
                                       { method: 'POST',
                                                headers: {
                                                   'Content-Type'  : 'application/json'                                                                                              
