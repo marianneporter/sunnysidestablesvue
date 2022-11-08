@@ -14,30 +14,23 @@
     import useListState from "@/composables/ui-state/useListState.js"
     import { watch } from 'vue'
 
-    const { searchTerm, clearListState } = useListState()
+    const { searchTerm } = useListState()
 
     const emit = defineEmits(['searchChanged'])
 
     const search = () =>  {
         if (!searchTerm.value) {
             return
-        }
-        clearListState()
-        emit('searchChanged', true)      
+        } 
+        emit('searchChanged')      
     }
 
-    const resetSearch = (fromWatch=false) => { 
-        if (!searchTerm.value && !fromWatch) {
-            return
-        }
-        searchTerm.value=''
-        clearListState()
-        emit('searchChanged', false)      
-    }   
+    const resetSearch = () =>  searchTerm.value=''   
 
     watch(searchTerm, (newVal, oldVal) => {
+        // initiates search reset when searchTerm becomes equal to ''
         if (newVal === '') {
-            resetSearch(true)
+            emit('searchChanged')   
         }
     })
 

@@ -5,7 +5,12 @@ export default function useDB() {
 
     const { currentUser } = useCurrentUser()
 
-    const { clearListState, addDbHorsesToList, searchTerm, updateListState } = useListState()    
+    const { clearListState,
+            addDbHorsesToList,
+            searchTerm,
+            updateListState,
+            pageIndex,
+            pageSize  } = useListState()    
    
     const baseURL = process.env.VUE_APP_API_BASE_URL 
     
@@ -13,13 +18,16 @@ export default function useDB() {
         return  `Bearer ${currentUser.token}`
     }   
 
-    const fetchHorses = async (pageIndex=0, pageSize=12 ) => {
+    const fetchHorses = async () => {
 
-        let url = `${baseURL}horses?pageIndex=${pageIndex}&pageSize=${pageSize}`
+
+        let url = `${baseURL}horses?pageIndex=${pageIndex.value}&pageSize=${pageSize.value}`
 
         if (searchTerm.value !== '') {
             url = url += `&search=${searchTerm.value}`
         } 
+
+        console.log('url to api is ' + url )
  
         const response = await fetch(url,
                                       { method: 'GET',
@@ -30,12 +38,10 @@ export default function useDB() {
                             
                                  console.log(err)                               
                             })
-
         
         const data = await response.json()           
         
-        addDbHorsesToList(data)   
-        
+        addDbHorsesToList(data)           
     }  
 
     const fetchOwners = async () => {

@@ -1,11 +1,12 @@
 import { ref, computed } from 'vue'
 
 const horses = ref([])
-const pageSize = ref(12)
+const pageSize = ref(6)
 const pageIndex = ref(0)
-const listScrollPos = ref(0);
-const searchTerm = ref('');
-const horseCount = ref(0);
+const listScrollPos = ref(0)
+const searchTerm = ref('')
+const horseCount = ref(0)
+const searchCount = ref(0)
 
 
 
@@ -31,13 +32,20 @@ export default function useListState() {
         horses.value[listIndex] = updatedHorse         
     }
 
-    const horsesInCurrentList = () => horses.value.length
-    
+    const horsesInCurrentList = computed(() => horses.value.length)    
 
     const addDbHorsesToList = (dataFromDb) => {
 
-        horseCount.value = dataFromDb.count;
+        console.log('horses from db = ' + dataFromDb.horses)
+
+        console.log('in addDBHorsesToList')
+        console.log('current horse array before horses added ' + JSON.stringify(horses.value))
+
+        horseCount.value = dataFromDb.countAll
+        searchCount.value = dataFromDb.searchCount
         horses.value=horses.value.concat(dataFromDb.horses)   
+
+        console.log('current horse array after horses added ' + JSON.stringify(horses.value))
          
     }
     
@@ -52,6 +60,7 @@ export default function useListState() {
         addDbHorsesToList,
         horsesInCurrentList,
         horses,
-        horseCount      
+        horseCount, 
+        searchCount     
     }
 }

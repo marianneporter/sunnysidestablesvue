@@ -1,7 +1,7 @@
 <template>    
     <header>
         <h1>Horses...</h1>
-        <search-horses @searchChanged="searchChanged"/>
+        <search-horses @searchChanged="searchChanged"/>        
     </header>
    
     <main>  
@@ -11,6 +11,12 @@
                     <font-awesome-icon icon="fa-solid fa-plus" />
                 &nbsp;Add Horse
             </router-link>
+            <div class="count-status">
+                Total Horses: {{ horseCount }}
+                <span v-if="currentSearch" class="search-count">
+                    &nbsp;Horses for Search = {{ searchCount }}
+                </span>
+            </div>
         </div>    
 
         <div v-if="horses" class="horse-cards">   
@@ -27,7 +33,7 @@
 
     <footer>
        <div class="btn-area">
-            <button v-if="horses && (horses.length < horseCount)" 
+            <button v-if="horses && (horses.length < searchCount)" 
                     class="btn btn-primary"
                     @click="loadMore()">Load more</button>
         </div>
@@ -56,14 +62,19 @@
             setScrollPos, 
             scrollToPos, 
             searchTerm,  
+            searchCount,
             horseCount,    
-            horses   } = useListState();
+            horses,
+            horsesInCurrentList,
+            clearListState   } = useListState();
 
     const { getMessage } = useMessageForNextPage()
 
     const toaster = createToaster({ position: 'top' });
 
     const isLoading = ref(false)
+
+    const currentSearch = ref('0')
 
     onMounted( async () => {
 
@@ -96,12 +107,9 @@
         router.push({ name: "add-update", params: { id: id }} )       
     }
 
-    const searchChanged = (search) => {
-        if (search) {
-            fetchHorses(pageIndex.value, pageSize.value, searchTerm.value)
-        } else {
-            fetchHorses(pageIndex.value, pageSize.value)
-        }
+    const searchChanged = () => {
+        clearListState()  
+        fetchHorses()      
     }    
 
 </script>
@@ -114,6 +122,7 @@
     }    
 
     main {
+
         .add-btn {
             margin-bottom: 20px;
             margin-left: 15px;
@@ -148,7 +157,7 @@
 
     @media screen and (max-width: 500px){
        header {
-           display: block;
+            display: block;
             margin-left: 5px;
            .search-input {
                margin-top: 15px;
