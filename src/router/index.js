@@ -5,7 +5,6 @@ import Details from '../views/horses/Details.vue'
 import AddUpdate from '@/views/horses/AddUpdate.vue'
 
 import horseDetailsResolver from '@/resolvers/horseDetailsResolver.js'
-import horseListResolver from '@/resolvers/horseListResolver.js'
 import addUpdateResolver from '@/resolvers/addUpdateResolver.js'
 
 import useCurrentUser from '../composables/useCurrentUser.js'
