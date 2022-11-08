@@ -4,18 +4,19 @@
         <search-horses @searchChanged="searchChanged"/>
     </header>
    
-    <main>      
-        <router-link :to="{ name: 'add-update', params: { id: 0} }" 
-            class="btn btn-success add-btn">
-                <font-awesome-icon icon="fa-solid fa-plus" />
-            &nbsp;Add Horse
-        </router-link>
-        <div v-if="horses.length==0" >
-            <p>should show loading!</p>
-             <loading
-                 :is-full-page="fullPage"/>
-        </div>
-        <div v-if="horses" class="horse-cards">                       
+    <main>  
+        <div v-if="!isLoading">
+            <router-link :to="{ name: 'add-update', params: { id: 0} }" 
+                class="btn btn-success add-btn">
+                    <font-awesome-icon icon="fa-solid fa-plus" />
+                &nbsp;Add Horse
+            </router-link>
+        </div>    
+
+        <div v-if="horses" class="horse-cards">   
+            <Loading v-model:active="isLoading"  
+                     loader="dots"
+                     color="#28a428" />
             <div v-for="horse in horses" :key="horse.id">
                 <HorseCard :horse="horse"
                             @getDetails="getDetails"
@@ -35,7 +36,6 @@
 
 <script setup>
     import { onMounted, ref } from 'vue'
-    import { useLoading } from 'vue-loading-overlay'
     import { useRouter } from 'vue-router'
 
     import { createToaster } from '@meforma/vue-toaster';
@@ -63,17 +63,14 @@
 
     const toaster = createToaster({ position: 'top' });
 
-    const $loading =  useLoading({ loader: 'dots', color: '#28a428' })
-    const fullPage = ref(false)
+    const isLoading = ref(false)
 
     onMounted( async () => {
 
-        let loader = $loading.show();  
-
+        isLoading.value = true        
         await fetchHorses()  
-
-        loader.hide()      
-
+        isLoading.value=false;
+   
         scrollToPos()
         let statusMessage = getMessage() 
         if (statusMessage) {

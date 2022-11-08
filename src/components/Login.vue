@@ -11,18 +11,30 @@
                 <input type="text" v-model.lazy="v$.email.$model" @focus="resetPWMessage()"> 
                 <ValidationMsg :model="v$.email"/>
             </div>
-            <div class="form-element"  >
+            <div class="form-element">
                 <label>Password:</label>
                 <input type="password" v-model.lazy="v$.password.$model" @focus="resetPWMessage()"> 
                 <ValidationMsg :model="v$.password"/>   
-                <div class="error-message" v-if="incorrectPassword">
+                <div class="error-message" v-if="incorrectPassword" >
                     Email/Password Combination Invalid
                 </div>
             </div>
            <div class="form-element">
-                <button type="submit"
-                        class="btn-full btn-primary login-btn"
-                      >Log In</button>
+                <div class="vl-parent">
+                    <Loading v-model:active="isLoading"                      
+                            :is-full-page="fullPage"
+                             width=30
+                             height=30
+                             loader="dots"
+                             color=white />
+
+                    <button type="submit"
+                            class="btn-full btn-primary login-btn"
+                            :class="{ 'no-text' : isLoading }"
+                          >Log In
+                    </button>
+
+                </div>
             </div>
         </form>           
     </div>
@@ -32,16 +44,23 @@
 <script setup>  
     import ValidationMsg from '@/components/ValidationMsg'
     import useAuth from "@/composables/useAuth.js"
-    import useLogin from '@/composables/forms/login/useLogin.js'
+    import useLogin from '@/composables/forms/login/useLogin.js'  
+      
+    import Loading from 'vue-loading-overlay';
+    import 'vue-loading-overlay/dist/css/index.css';
+
     import { ref } from 'vue'
 
+    const fullPage = ref(false)  
+    const isLoading = ref(false)
+   
     const { v$, getUserCreds } = useLogin()
 
     const emit = defineEmits(['loginSuccess', 'closeSlider'])
  
     const { displayLogin, resetDisplayLogin, login, state } = useAuth()
 
-    const closeSlider = () => emit('closeSlider')     
+    const closeSlider = () => emit('closeSlider')        
 
     let incorrectPassword = ref(false)
 
@@ -51,10 +70,14 @@
         
         if (v$.value.$invalid) {                        
             v$.value.$touch()
-        } else {        
+
+        } else {  
+
+            isLoading.value = true
             let userCreds = getUserCreds()
             let loginResult = await login(userCreds)
-          
+            isLoading.value=false;
+
             if (loginResult === 'success') {
                 closeSlider()
                 emit('loginSuccess')                
@@ -72,9 +95,7 @@
 
     .form-container {
 
-        position: relative;    
-
-
+        position: relative;  
 
         .close-btn {            
             position: absolute;
@@ -97,7 +118,6 @@
         .login-btn:disabled {
             opacity: 0.5;
         }
-
     }
 
     @media screen and (max-width: 992px) {
@@ -132,12 +152,16 @@
                     color: white;
                     padding-bottom: 40px;                   
                 }
+
+                .login-btn.no-text {
+                    color: transparent;
+                }
             }
         }
     }
 
     @media screen and (min-width: 992px) {
-        .form-container {       
+        .form-container {   
             background-color: white;
             height: 100vh;
             width: 400px;
@@ -149,21 +173,32 @@
                 }
 
                 .form-element {
+                    width: 290px;
                     label, button {
                         display: block;   
                         margin-top: 10px;
+                       
                     }
-                    input {
-                        width: 90%;
-                        height: 30px;                    
+                    input {                     
+                        width: 100%;  
+                        height: 35px;                    
                     }
+ 
                 }
 
                 .login-btn {
                     margin-top: 40px;
+                    width: 100%;
                     font-size: 18px;                
-                    color: white;                  
+                    color: white;   
                 }
+
+                .login-btn.no-text {
+                     color: transparent;
+                }
+
+              
+
             }
         }
     }
