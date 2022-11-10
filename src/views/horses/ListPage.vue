@@ -5,19 +5,51 @@
     </header>
    
     <main>  
-        <div v-if="!isLoading">
+        <!-- <div v-if="!isLoading" class="top-line">
             <router-link :to="{ name: 'add-update', params: { id: 0} }" 
                 class="btn btn-success add-btn">
                     <font-awesome-icon icon="fa-solid fa-plus" />
                 &nbsp;Add Horse
             </router-link>
-            <div class="count-status">
-                Total Horses: {{ horseCount }}
-                <span v-if="currentSearch" class="search-count">
-                    &nbsp;Horses for Search = {{ searchCount }}
-                </span>
+
+
+            <div class="counts">
+
+               
+                <div v-if="searchCount" class="count">
+                    &nbsp;Horses beginning with searchTerm = {{ searchCount }}
+                </div>
+
+                <div class="count">
+                    Total Horses: {{ horseCount }}
+                </div>
+
             </div>
-        </div>    
+        </div>    -->
+
+        <div v-if="!isLoading" class="top-line">
+
+            <router-link :to="{ name: 'add-update', params: { id: 0} }" 
+                class="btn btn-success add-btn">
+                    <font-awesome-icon icon="fa-solid fa-plus" />
+                &nbsp;Add Horse
+            </router-link>
+               
+            <div v-if="searchMode" class="count">
+                <span v-if="searchCount === 0">
+                    No horses found beginning with {{ searchTerm }}
+                </span>
+                <span v-else>
+                    {{ searchCount }} horses found beginning with {{ searchTerm }}  
+                </span>              
+            </div>
+
+            <div class="count total-count">
+                Total Horses: {{ horseCount }}
+            </div>
+
+        
+        </div>           
 
         <div v-if="horses" class="horse-cards">   
             <Loading v-model:active="isLoading"  
@@ -63,9 +95,9 @@
             scrollToPos, 
             searchTerm,  
             searchCount,
+            searchMode,
             horseCount,    
             horses,
-            horsesInCurrentList,
             clearListState   } = useListState();
 
     const { getMessage } = useMessageForNextPage()
@@ -73,8 +105,6 @@
     const toaster = createToaster({ position: 'top' });
 
     const isLoading = ref(false)
-
-    const currentSearch = ref('0')
 
     onMounted( async () => {
 
@@ -123,10 +153,52 @@
 
     main {
 
+        .top-line {
+            display: flex;
+            justify-content: space-between;
+           
+        }
+
+        // .counts {
+        //     display: flex;
+        //     column-gap: 20px;
+        //     height: 40px;
+        //     align-items: center;
+            
+
+        //     // .count {
+        //     //     padding: 10px;
+        //     //     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            
+        //     // }
+      
+      
+        // }
+
+       
+            
+
+        .count {
+            margin-top: 15px;
+            padding: 10px;
+            height: 40px;
+
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        
+        }
+
+        .total-count {
+            width: 165px;
+            padding-left: 20px;
+        }
+      
+      
+       
+
         .add-btn {
-            margin-bottom: 20px;
-            margin-left: 15px;
-            max-width: 165px;
+         margin-bottom: 20px; 
+      //      margin-left: 15px;
+            width: 165px;
         }
         max-width: 1200px;
         margin: 0 auto;

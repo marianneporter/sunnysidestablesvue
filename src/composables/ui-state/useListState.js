@@ -32,22 +32,13 @@ export default function useListState() {
         horses.value[listIndex] = updatedHorse         
     }
 
-    const horsesInCurrentList = computed(() => horses.value.length)    
-
     const addDbHorsesToList = (dataFromDb) => {
-
-        console.log('horses from db = ' + dataFromDb.horses)
-
-        console.log('in addDBHorsesToList')
-        console.log('current horse array before horses added ' + JSON.stringify(horses.value))
-
         horseCount.value = dataFromDb.countAll
         searchCount.value = dataFromDb.searchCount
-        horses.value=horses.value.concat(dataFromDb.horses)   
-
-        console.log('current horse array after horses added ' + JSON.stringify(horses.value))
-         
+        horses.value=horses.value.concat(dataFromDb.horses)  
     }
+
+    const searchMode = computed(() => searchCount.value !== horseCount.value )
     
     return {
         setScrollPos,
@@ -58,9 +49,9 @@ export default function useListState() {
         clearListState,
         updateListState,
         addDbHorsesToList,
-        horsesInCurrentList,
         horses,
         horseCount, 
-        searchCount     
+        searchCount,
+        searchMode     
     }
 }

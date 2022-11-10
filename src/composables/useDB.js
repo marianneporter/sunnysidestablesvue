@@ -26,8 +26,6 @@ export default function useDB() {
         if (searchTerm.value !== '') {
             url = url += `&search=${searchTerm.value}`
         } 
-
-        console.log('url to api is ' + url )
  
         const response = await fetch(url,
                                       { method: 'GET',
