@@ -1,7 +1,6 @@
 <template>
     <div class="search-input">
-        <input type="text" placeholder="search by horse's name" v-model="searchTerm"   @keyup.enter="search()"> 
-      
+        <input type="text" placeholder="search by horse's name" v-model="searchTerm"   @keyup.enter="search()">      
         <button :class="{ invisible: searchTerm==''}"
                 @click="resetSearch()"><font-awesome-icon icon="fa-solid fa-xmark" /></button>            
         <button @click="search()"><font-awesome-icon icon="fa-solid fa-magnifying-glass" /></button>
@@ -49,8 +48,9 @@
         input {
             height: inherit;
             border: none;
-            padding-left: 3px;    
-            
+            padding-left: 3px;   
+            flex: 1 0 0;           
+                  
             &:focus {
                 border: none;
                 outline: none;
@@ -60,15 +60,31 @@
         button {
             display: inline-block;
             border: none;   
-            padding: 12px 5px;
-            margin-left: 7px;
-            background-color: white;     
+            flex: 0 0 35px;            
             opacity: 0.5;   
+            background-color: white;
         } 
 
         .invisible {
             opacity: 0;
         }
+    }
+
+    @media screen and (max-width: 992px) {
+        .search-input {
+            margin: 0 auto;
+            width: 95%;
+            height: 50px;
+
+            input {
+                flex: 1 0 0;
+            }
+
+            button {
+                flex: 0 1 40px; 
+            }
+       
+       }
     }
 
 </style>

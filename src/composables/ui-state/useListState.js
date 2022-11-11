@@ -1,5 +1,6 @@
 import { ref, computed } from 'vue'
 
+
 const horses = ref([])
 const pageSize = ref(6)
 const pageIndex = ref(0)
@@ -7,6 +8,13 @@ const listScrollPos = ref(0)
 const searchTerm = ref('')
 const horseCount = ref(0)
 const searchCount = ref(0)
+const savedListState = ref({
+    horses: [],
+    listScrollPos: 0,
+    pageIndex: 0,
+    horseCount: 0,
+    searchCount: 0
+})
 
 
 
@@ -32,10 +40,10 @@ export default function useListState() {
         horses.value[listIndex] = updatedHorse         
     }
 
-    const addDbHorsesToList = (dataFromDb) => {
+    const addDbHorsesToList = (dataFromDb) => {        
         horseCount.value = dataFromDb.countAll
         searchCount.value = dataFromDb.searchCount
-        horses.value=horses.value.concat(dataFromDb.horses)  
+        horses.value=horses.value.concat(dataFromDb.horses)        
     }
 
     const searchMode = computed(() => searchCount.value !== horseCount.value )

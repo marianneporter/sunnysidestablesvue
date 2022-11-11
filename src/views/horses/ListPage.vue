@@ -1,55 +1,40 @@
-<template>    
+<template>
+    <div class="content">
+
+    
     <header>
         <h1>Horses...</h1>
-        <search-horses @searchChanged="searchChanged"/>        
     </header>
    
     <main>  
-        <!-- <div v-if="!isLoading" class="top-line">
-            <router-link :to="{ name: 'add-update', params: { id: 0} }" 
-                class="btn btn-success add-btn">
-                    <font-awesome-icon icon="fa-solid fa-plus" />
-                &nbsp;Add Horse
-            </router-link>
-
-
-            <div class="counts">
-
-               
-                <div v-if="searchCount" class="count">
-                    &nbsp;Horses beginning with searchTerm = {{ searchCount }}
-                </div>
-
-                <div class="count">
+ 
+        <div  v-if="!isLoading" class="add-and-search-line">
+            <div class="add-btn">
+                <router-link :to="{ name: 'add-update', params: { id: 0} }" 
+                    class="btn btn-success">
+                        <font-awesome-icon icon="fa-solid fa-plus" />
+                    &nbsp;Add Horse
+                </router-link>       
+            </div>  
+            <div class="counts-and-search">
+                <div class="search">
+                      <search-horses @searchChanged="searchChanged"/>  
+                </div>      
+                <div class="count total-count">
                     Total Horses: {{ horseCount }}
+                </div>           
+                <div v-if="searchMode" class="count search-count">
+                    <span v-if="searchCount === 0">
+                        No horses found beginning with {{ searchTerm }}
+                    </span>
+                    <span v-else>
+                        {{ searchCount }} horse{{searchCount===1 ? '' : 's'}}
+                                          found beginning with {{ searchTerm }}  
+                    </span>                              
                 </div>
-
-            </div>
-        </div>    -->
-
-        <div v-if="!isLoading" class="top-line">
-
-            <router-link :to="{ name: 'add-update', params: { id: 0} }" 
-                class="btn btn-success add-btn">
-                    <font-awesome-icon icon="fa-solid fa-plus" />
-                &nbsp;Add Horse
-            </router-link>
-               
-            <div v-if="searchMode" class="count">
-                <span v-if="searchCount === 0">
-                    No horses found beginning with {{ searchTerm }}
-                </span>
-                <span v-else>
-                    {{ searchCount }} horses found beginning with {{ searchTerm }}  
-                </span>              
-            </div>
-
-            <div class="count total-count">
-                Total Horses: {{ horseCount }}
-            </div>
-
-        
-        </div>           
+            </div>  
+        </div>
+       
 
         <div v-if="horses" class="horse-cards">   
             <Loading v-model:active="isLoading"  
@@ -70,6 +55,7 @@
                     @click="loadMore()">Load more</button>
         </div>
     </footer>
+</div>
 </template>
 
 <script setup>
@@ -98,6 +84,7 @@
             searchMode,
             horseCount,    
             horses,
+            addDbHorsesToList,
             clearListState   } = useListState();
 
     const { getMessage } = useMessageForNextPage()
@@ -106,10 +93,13 @@
 
     const isLoading = ref(false)
 
+   
+
     onMounted( async () => {
 
         isLoading.value = true        
-        await fetchHorses()  
+        const dbHorseData = await fetchHorses()  
+        addDbHorsesToList(dbHorseData)
         isLoading.value=false;
    
         scrollToPos()
@@ -122,9 +112,10 @@
     
     const router = useRouter()
     
-    const loadMore = () => {        
+    const loadMore = async () => {        
         pageIndex.value++
-        fetchHorses(pageIndex.value, pageSize.value)        
+        const dbHorseData = await fetchHorses()  
+        addDbHorsesToList(dbHorseData)     
     }
 
     const getDetails = (id) => {
@@ -137,69 +128,32 @@
         router.push({ name: "add-update", params: { id: id }} )       
     }
 
-    const searchChanged = () => {
-        clearListState()  
-        fetchHorses()      
+    const searchChanged = async () => {  
+
+        const prevPageIndex = pageIndex.value   
+        pageIndex.value=0
+       
+        const dbHorseData = await fetchHorses()   
+
+        if (dbHorseData.searchCount > 0) {
+            clearListState()
+            addDbHorsesToList(dbHorseData)
+        } else {
+            searchCount.value = 0
+            pageIndex.value= prevPageIndex
+        }
     }    
 
 </script>
 
 <style lang="scss" scoped>
-    header {
-        display: flex;
-        justify-content: space-between;    
-        margin: 30px 5%;        
-    }    
+
+    .content {
+        padding: 10px;
+    }
 
     main {
 
-        .top-line {
-            display: flex;
-            justify-content: space-between;
-           
-        }
-
-        // .counts {
-        //     display: flex;
-        //     column-gap: 20px;
-        //     height: 40px;
-        //     align-items: center;
-            
-
-        //     // .count {
-        //     //     padding: 10px;
-        //     //     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-            
-        //     // }
-      
-      
-        // }
-
-       
-            
-
-        .count {
-            margin-top: 15px;
-            padding: 10px;
-            height: 40px;
-
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        
-        }
-
-        .total-count {
-            width: 165px;
-            padding-left: 20px;
-        }
-      
-      
-       
-
-        .add-btn {
-         margin-bottom: 20px; 
-      //      margin-left: 15px;
-            width: 165px;
-        }
         max-width: 1200px;
         margin: 0 auto;
 
@@ -226,22 +180,78 @@
         }
     }
 
+    @media screen and (max-width: 992px) {
+        header {
+            margin: 10px 5px;
+        }
 
-    @media screen and (max-width: 500px){
-       header {
-            display: block;
-            margin-left: 5px;
-           .search-input {
-               margin-top: 15px;
-               margin-right: 5px;
-               margin-left: auto;
-               width: 240px;
+        .horse-cards {
+            margin-top: 30px;
+        }
 
-               input {
-                   width: 200px;
-               }              
-           }
-       }
+        .add-and-search-line {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+
+            .counts-and-search {
+                display: contents;
+            }
+
+            .search {
+                order: 1;
+                min-width: 100%;
+            }
+
+            .total-count {
+                order: 2;
+            }
+
+            .search-count {
+                order: 3;
+            }
+
+            .add-btn {
+                order: 4;
+                max-width: 50%;
+                margin-right: 10px;
+                margin-left: auto;
+            }
+        }
     }
+
+     @media screen and (min-width: 992px) {
+
+        header {
+            margin: 30px 50px;
+        } 
+
+        main {
+
+            .add-and-search-line {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .counts-and-search {
+                margin-bottom: 35px;
+                max-width: 450px;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 20px;
+                justify-content: center;
+             }   
+             
+            .count {
+              padding: 10px 20px;
+              height: 38px;
+              box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);        
+            }
+
+            .search { order: 2 }
+            .total-count { order: 1 }
+            .search-count { order: 3 }
+            }
+     }   
 
 </style>

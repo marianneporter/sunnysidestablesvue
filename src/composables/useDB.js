@@ -5,8 +5,7 @@ export default function useDB() {
 
     const { currentUser } = useCurrentUser()
 
-    const { clearListState,
-            addDbHorsesToList,
+    const { clearListState,           
             searchTerm,
             updateListState,
             pageIndex,
@@ -19,7 +18,6 @@ export default function useDB() {
     }   
 
     const fetchHorses = async () => {
-
 
         let url = `${baseURL}horses?pageIndex=${pageIndex.value}&pageSize=${pageSize.value}`
 
@@ -36,10 +34,13 @@ export default function useDB() {
                             
                                  console.log(err)                               
                             })
+
         
-        const data = await response.json()           
         
-        addDbHorsesToList(data)           
+        return response.json()           
+        
+
+      //  addDbHorsesToList(data)           
     }  
 
     const fetchOwners = async () => {

@@ -70,4 +70,26 @@
         justify-content: space-around;
     }
 
+    @media screen and (max-width: 300px) {
+        .horse-card {
+            height: 425px;
+            width: 270px;
+        }
+        .img-area {
+            height: 225px;
+            img {
+                max-width: 250px;
+                height: auto;
+            }
+        }
+
+        .btn-area {
+            .btn {
+                min-width: 110px;              
+            }
+        }
+        
+
+    }
+
 </style>
