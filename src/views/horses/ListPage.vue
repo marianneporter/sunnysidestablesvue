@@ -1,60 +1,57 @@
 <template>
     <div class="content">
-
     
-    <header>
-        <h1>Horses...</h1>
-    </header>
-   
-    <main>  
- 
-        <div  v-if="!isLoading" class="add-and-search-line">
-            <div class="add-btn">
-                <router-link :to="{ name: 'add-update', params: { id: 0} }" 
-                    class="btn btn-success">
-                        <font-awesome-icon icon="fa-solid fa-plus" />
-                    &nbsp;Add Horse
-                </router-link>       
-            </div>  
-            <div class="counts-and-search">
-                <div class="search">
-                      <search-horses @searchChanged="searchChanged"/>  
-                </div>      
-                <div class="count total-count">
-                    Total Horses: {{ horseCount }}
-                </div>           
-                <div v-if="searchMode" class="count search-count">
-                    <span v-if="searchCount === 0">
-                        No horses found beginning with {{ searchTerm }}
-                    </span>
-                    <span v-else>
-                        {{ searchCount }} horse{{searchCount===1 ? '' : 's'}}
-                                          found beginning with {{ searchTerm }}  
-                    </span>                              
-                </div>
-            </div>  
-        </div>
-       
-
-        <div v-if="horses" class="horse-cards">   
-            <Loading v-model:active="isLoading"  
-                     loader="dots"
-                     color="#28a428" />
-            <div v-for="horse in horses" :key="horse.id">
-                <HorseCard :horse="horse"
-                            @getDetails="getDetails"
-                            @editHorse="editHorse" /> 
+        <header>
+            <h1>Horses...</h1>
+        </header>    
+        <main>      
+            <div  v-if="!isLoading" class="add-and-search-line">
+                <div class="add-btn">
+                    <router-link :to="{ name: 'add-update', params: { id: 0} }" 
+                        class="btn btn-success">
+                            <font-awesome-icon icon="fa-solid fa-plus" />
+                        &nbsp;Add Horse
+                    </router-link>       
+                </div>  
+                <div class="counts-and-search">
+                    <div class="search">
+                        <search-horses @searchChanged="searchChanged"/>  
+                    </div>      
+                    <div class="count total-count">
+                        Total Horses: {{ horseCount }}
+                    </div>           
+                    <div v-if="searchMode" class="count search-count">
+                        <span v-if="searchCount === 0">
+                            No horses found beginning with {{ searchTerm }}
+                        </span>
+                        <span v-else>
+                            {{ searchCount }} horse{{searchCount===1 ? '' : 's'}}
+                                            found beginning with {{ searchTerm }}  
+                        </span>                              
+                    </div>
+                </div>  
             </div>
-        </div> 
-    </main>
+        
 
-    <footer>
-       <div class="btn-area">
-            <button v-if="horses && (horses.length < searchCount)" 
-                    class="btn btn-primary"
-                    @click="loadMore()">Load more</button>
-        </div>
-    </footer>
+            <div v-if="horses" class="horse-cards">   
+                <Loading v-model:active="isLoading"  
+                        loader="dots"
+                        color="#28a428" />
+                <div v-for="horse in horses" :key="horse.id">
+                    <HorseCard :horse="horse"
+                                @getDetails="getDetails"
+                                @editHorse="editHorse" /> 
+                </div>
+            </div> 
+        </main>
+
+        <footer>
+        <div class="btn-area">
+                <button v-if="horses && (horses.length < searchCount)" 
+                        class="btn btn-primary"
+                        @click="loadMore()">Load more</button>
+            </div>
+        </footer>
 </div>
 </template>
 
@@ -75,8 +72,8 @@
     import SearchHorses from '@/components/SearchHorses.vue'     
     
     const { fetchHorses } = useDB();
-    const { pageSize, 
-            pageIndex,
+    
+    const { pageIndex,
             setScrollPos, 
             scrollToPos, 
             searchTerm,  
