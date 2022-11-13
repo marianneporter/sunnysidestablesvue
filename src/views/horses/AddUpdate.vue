@@ -30,7 +30,7 @@
     import useFormState from '@/composables/forms/add-update/useFormState' 
     import useFormatDataAndSubmit from '@/composables/forms/add-update/useFormatDataAndSubmit'   
     //nested components
-    import AddUpdateFormFields  from '@/components/AddUpdateFormFields.vue'   
+    import AddUpdateFormFields  from '@/components/add-update/AddUpdateFormFields.vue'   
 
     export default {    
         name: 'AddUpdate',
@@ -92,10 +92,7 @@
             const route = useRoute()
             const router = useRouter()
 
-            const toaster = createToaster({ position: 'bottom' });              
-            
-
-            // destructure composables   
+            const toaster = createToaster({ position: 'bottom' });    
           
             const { state, photoState,
                     v$, clearState,

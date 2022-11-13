@@ -22,7 +22,10 @@ export default function useDates() {
         return new Date(yyyy, 0, 1)
     }
 
-    const jsDateToYYYYMMDDFormat = (inDate) => inDate.toISOString().split('T')[0] 
+    const jsDateToYYYYMMDDFormat = (inDate) => {
+        
+        return `${inDate.getFullYear()}-${inDate.getMonth()+1}-${inDate.getDate()}`
+    }
  
     return {
         inputDateToDisplayFormat, minValidDOB,

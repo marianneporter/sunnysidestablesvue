@@ -16,8 +16,6 @@ const savedListState = ref({
     searchCount: 0
 })
 
-
-
 export default function useListState() { 
    
     const setScrollPos = () =>  {

@@ -17,6 +17,7 @@ export default function useSubmitForm() {
         if (id) {            
             horseFormData.append('id', id)
         }
+
         horseFormData.append('name', state.name)
         horseFormData.append('colour', state.colour)
         horseFormData.append('sex', state.sex)      

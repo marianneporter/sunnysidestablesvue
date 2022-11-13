@@ -5,7 +5,7 @@
 
             <div class="card-body">
                 <div class="img-area">
-                    <img :src="horse.imageUrl" :alt="altMessage">
+                    <img :src="horse.imageUrl" alt="No photo uploaded yet">
                 </div>         
             
                 <div class="detail-lines">

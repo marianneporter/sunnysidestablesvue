@@ -81,7 +81,7 @@
     import '@vuepic/vue-datepicker/dist/main.css';
 
     //nested components
-    import PhotoUpload from '@/components/PhotoUpload.vue'
+    import PhotoUpload from '@/components/add-update/PhotoUpload.vue'
     import ValidationMsg from '@/components/ValidationMsg.vue'
 
     const { sexes, colours, heights } = useSelectOptions()

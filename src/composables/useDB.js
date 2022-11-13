@@ -84,9 +84,8 @@ export default function useDB() {
                 return
             })
 
-
         if (response.status === 201) {
-            let data = await response.json()               
+            let data = await response.json()                    
             clearListState()
             return data
         }  
