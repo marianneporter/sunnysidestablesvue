@@ -8,8 +8,9 @@
              <img :src="horse.imageUrl" alt="No photo uploaded yet">
         </div>         
         <div class="btn-area">
-            <button class="btn btn-success"
-                     @click="editHorse()">Edit</button>
+            <button v-if="editAllowed"             
+                    class="btn btn-success"
+                    @click="editHorse()">Edit</button>
             <button class="btn btn-primary"
                    @click="getDetails()">Details</button>
         </div>
@@ -22,6 +23,7 @@
 
     const props = defineProps({
         horse: Object,
+        editAllowed: Boolean
     }); 
 
     const horseCard = ref(null)
@@ -29,8 +31,6 @@
     const emit = defineEmits(['getDetails', 'editHorse'])
 
     const horse = { ...props.horse };  
-
-
 
     const altMessage = computed(() => `photo of ${horse.name} is not available`)
 
@@ -88,8 +88,6 @@
                 min-width: 110px;              
             }
         }
-        
-
     }
 
 </style>

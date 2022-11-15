@@ -12,19 +12,36 @@
 </template>
 
 <script setup>
-    import { computed  } from 'vue'  
+    import { computed, watchEffect  } from 'vue'  
     import { useRoute } from 'vue-router'
-    import useAuth  from '@/composables/useAuth.js'
+    import { createToaster } from '@meforma/vue-toaster';
+    import useAuth  from '@/composables/auth/useAuth.js'
+    import useMessageForNextPage from '@/composables/ui-state/useMessageForNextPage.js'
     import Nav from '@/components/Nav.vue'
 
     document.title = "Sunnyside Stables Vue Demo"
 
     const { setCurrentUserIfPresent } = useAuth();
 
+    const { statusMessage, clearStatusMessage } = useMessageForNextPage()  
+    
+     const toaster = createToaster({ position: 'top' });
+
     setCurrentUserIfPresent();
 
     const route = useRoute()
     const displayNav = computed(()=> route.fullPath !== '/') 
+
+    // display status message if necessary
+    watchEffect(() => {   
+    
+        if (statusMessage.content == null) {
+            return
+        }  
+        toaster.show(statusMessage.content,
+                    {type: statusMessage.type})                     
+        clearStatusMessage()                           
+    } )
 
 </script>
 

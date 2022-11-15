@@ -28,8 +28,8 @@
 <script setup>    
 
     import { ref } from 'vue'
-    import useAuth  from '@/composables/useAuth.js'
-    import useCurrentUser from '@/composables/useCurrentUser.js'
+    import useAuth  from '@/composables/auth/useAuth.js'
+    import useCurrentUser from '@/composables/auth/useCurrentUser.js'
 
     import { useRouter } from 'vue-router'
 
@@ -40,8 +40,7 @@
 
     let toggleNav = ref(false);
 
-    const toggle = () => toggleNav.value = !toggleNav.value
-   
+    const toggle = () => toggleNav.value = !toggleNav.value   
 
     const logout = () => {
         authLogout()

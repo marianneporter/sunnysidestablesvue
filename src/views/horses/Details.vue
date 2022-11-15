@@ -13,7 +13,7 @@
                         <span class="detail-title">Height: </span>
                         <span class="detail-value">{{ horse.heightHands }}</span>
                     </div>
-                    <div class="detail-line">
+                    <div class="detail-line">npm run serve
                         <span class="detail-title">Sex: </span>
                         <span class="detail-value">{{ horse.sex }}</span>
                     </div>
@@ -36,7 +36,7 @@
            
             <div class="btn-area"> 
                 <router-link :to="{ name: 'horseList'}" class="btn btn-secondary btn-full-mob"><font-awesome-icon icon="fa-solid fa-arrow-left" />&nbsp;Back to List</router-link>
-                <router-link :to="{ name: 'add-update',  params: { id: horse.id } }"
+                <router-link v-if="updateAuthOk" :to="{ name: 'add-update',  params: { id: horse.id } }"
                               class="btn btn-success btn-full-mob">Edit
                 </router-link>
             </div>   
@@ -46,44 +46,34 @@
 
 <script>
 
-    import { computed, onMounted, ref } from 'vue'
+    import { computed, ref } from 'vue'
     import { useRoute } from 'vue-router'
 
     import OwnersList from '@/components/OwnersList.vue'  
-    import useDates from '@/composables/useDates.js'
-    import useMessageForNextPage from '@/composables/ui-state/useMessageForNextPage'
-    import { createToaster } from '@meforma/vue-toaster';
-
-
+    import useDates from '@/composables/useDates.js' 
+    import useCheckAuthRoute from '@/composables/auth/useCheckAuthRoute.js'
+  
     export default {
         name: 'Details',
         components: { OwnersList },
 
-        mounted() {
-            let statusMessage = this.getMessage() 
-            if (statusMessage) {
-                this.toaster.show(statusMessage.content,
-                                    {type: statusMessage.type,
-                                     duration: 5000})             
-            }
-        },
-
         setup() {
             const route = useRoute()
+
+            const { authorisedRoute } = useCheckAuthRoute()
+
+            const updateAuthOk = ref(authorisedRoute('add-update')) 
 
             const horse = ref({})
 
             horse.value = route.meta['horse']  
-
-            const toaster = createToaster({ position: 'top' });
         
             const { inputDateToDisplayFormat } = useDates()
-            const { getMessage } = useMessageForNextPage()
-
+   
             const altMessage = computed(() => `photo of ${horse.value.name} is not available`)    
 
             return {
-                horse, inputDateToDisplayFormat, getMessage, toaster
+                horse, inputDateToDisplayFormat, updateAuthOk
             }
         }
     }   
@@ -169,11 +159,7 @@
             .btn-area {
                 margin-top: 24px;
                 display: flex;
-                justify-content: space-around;
-
-                button {
-                    width: 150px;
-                }
+                justify-content: space-around;                
             }
         }
 
@@ -187,9 +173,7 @@
                 height: auto;
                 margin-top: 20px;
             }
-        }
- 
-       
+        }       
     }
 
 </style>

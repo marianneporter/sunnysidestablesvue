@@ -3,7 +3,9 @@
         <h1>Horses...</h1>
 
         <div  v-if="!isLoading" class="add-and-search-line">
-            <button class="btn btn-success add-btn" @click="emit('addHorse')">Add Horse</button>  
+            <div>
+                 <button v-if="addAllowed" class="btn btn-success add-btn" @click="emit('addHorse')">Add Horse</button>  
+            </div>           
             <div class="counts-and-search">
                 <div class="search">
                     <search-horses @searchChanged="emit('searchChanged')"/>  
@@ -26,17 +28,17 @@
 </template>
 
 <script setup>
-    import useListState from "@/composables/ui-state/useListState.js"
-    import SearchHorses from '@/components/list/SearchHorses.vue'     
+    import useListState from "@/composables/ui-state/useListState.js"   
+    import SearchHorses from '@/components/list/SearchHorses.vue'        
 
     const emit  = defineEmits(['searchChanged', 'addHorse'])
-    const props = defineProps(['isLoading'])
+    const props = defineProps(['isLoading', 'addAllowed'])   
 
     const { horseCount,
             searchCount,
             searchTerm,
             searchMode } = useListState()
-
+    
 </script>
 
 <style lang="scss" scoped>

@@ -7,7 +7,9 @@ import AddUpdate from '@/views/horses/AddUpdate.vue'
 import horseDetailsResolver from '@/resolvers/horseDetailsResolver.js'
 import addUpdateResolver from '@/resolvers/addUpdateResolver.js'
 
-import useCurrentUser from '../composables/useCurrentUser.js'
+import useCurrentUser from '../composables/auth/useCurrentUser.js'
+import useCheckAuthRoute from '@/composables/auth/useCheckAuthRoute.js'
+import useMessageForNextPage from '@/composables/ui-state/useMessageForNextPage.js'
 
 const routes = [
     {
@@ -43,21 +45,32 @@ const routes = [
 
 const { loggedIn } = useCurrentUser()
 
+const { authorisedRoute } = useCheckAuthRoute()
+
+const { setMessage } = useMessageForNextPage()
+
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes  
 })
 
 router.beforeEach(async (to, from) => {
-   
+
     if ( to.name === 'landing') {      
         return true;
     }    
   
     if (loggedIn.value) {   
-        return true;
+
+        if (authorisedRoute(to.name)) 
+            return true
+     
+            //logged in but does not have sufficient access level    
+            setMessage('Sorry - access is not allowed', 'error')   
+            return { name: from.name}
+       
     }
- 
+
     return { name: 'landing' }
 
   })

@@ -1,31 +1,25 @@
-const statusMessage = {
+import { reactive } from 'vue'
+
+const statusMessage = reactive({
     content: null,
     type: null
-}
+})
 
 export default function useMessageForNextPage() { 
 
     const setMessage = (inMsg, msgType) =>  {
         statusMessage.content = inMsg
-        statusMessage.type = msgType
+        statusMessage.type = msgType      
     }
-   
-    const getMessage = () => {
 
-        if (!statusMessage.content) {
-            return null
-        }
-
-        let msgToReturn = { ...statusMessage }
-
+    const clearStatusMessage = () => {
         statusMessage.content=null
-        statusMessage.type=null       
-      
-        return msgToReturn      
-    } 
+        statusMessage.type=null            
+    }
 
     return {
-        setMessage,
-        getMessage
+        setMessage,    
+        statusMessage,
+        clearStatusMessage
     }
 }

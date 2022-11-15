@@ -1,4 +1,4 @@
-import useCurrentUser from '@/composables/useCurrentUser.js'
+import useCurrentUser from '@/composables/auth/useCurrentUser.js'
 import useListState from '@/composables/ui-state/useListState.js'
 
 export default function useDB() {
@@ -24,6 +24,8 @@ export default function useDB() {
         if (searchTerm.value !== '') {
             url = url += `&search=${searchTerm.value}`
         } 
+
+        console.log(url)
  
         const response = await fetch(url,
                                       { method: 'GET',
@@ -33,14 +35,10 @@ export default function useDB() {
                             .catch(err => {
                             
                                  console.log(err)                               
-                            })
-
-        
+                            })        
         
         return response.json()           
-        
-
-      //  addDbHorsesToList(data)           
+          
     }  
 
     const fetchOwners = async () => {
@@ -54,9 +52,7 @@ export default function useDB() {
                                  console.log(err)                               
                             })
 
-
-        return await response.json()      
- 
+        return await response.json()     
     }  
 
     const fetchHorse = async (id) => {

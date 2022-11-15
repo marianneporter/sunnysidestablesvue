@@ -43,7 +43,7 @@
 
 <script setup>  
     import ValidationMsg from '@/components/ValidationMsg'
-    import useAuth from "@/composables/useAuth.js"
+    import useAuth from "@/composables/auth/useAuth.js"
     import useLogin from '@/composables/forms/login/useLogin.js'  
       
     import Loading from 'vue-loading-overlay';
@@ -196,9 +196,6 @@
                 .login-btn.no-text {
                      color: transparent;
                 }
-
-              
-
             }
         }
     }
