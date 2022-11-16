@@ -86,7 +86,7 @@
     @media screen and (min-width: 992px) {
  
         header {
-            margin: 30px 50px;          
+            margin: 30px 100px;          
 
             .add-and-search-line {
                 display: flex;

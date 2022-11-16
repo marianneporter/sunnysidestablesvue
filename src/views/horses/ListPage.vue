@@ -65,11 +65,14 @@
     const isLoading = ref(false)   
 
     onMounted( async () => {
-        isLoading.value = true        
-        const dbHorseData = await fetchHorses()  
-        addDbHorsesToList(dbHorseData)
-        isLoading.value=false;   
-        scrollToPos()
+        if (horses.value.length === 0) {
+            isLoading.value = true        
+            const dbHorseData = await fetchHorses()  
+            addDbHorsesToList(dbHorseData)
+            isLoading.value=false;   
+        } else {
+            scrollToPos()
+        }       
     }) 
     
     const loadMore = async () => {        

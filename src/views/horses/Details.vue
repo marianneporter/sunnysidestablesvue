@@ -13,7 +13,7 @@
                         <span class="detail-title">Height: </span>
                         <span class="detail-value">{{ horse.heightHands }}</span>
                     </div>
-                    <div class="detail-line">npm run serve
+                    <div class="detail-line">
                         <span class="detail-title">Sex: </span>
                         <span class="detail-value">{{ horse.sex }}</span>
                     </div>
