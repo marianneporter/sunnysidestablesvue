@@ -10,27 +10,27 @@
             
                 <div class="detail-lines">
                     <div class="detail-line">
-                        <span class="detail-title">Height: </span>
-                        <span class="detail-value">{{ horse.heightHands }}</span>
+                        <div class="detail-title">Height: </div>
+                        <div class="detail-value">{{ horse.heightHands }}</div>
                     </div>
                     <div class="detail-line">
-                        <span class="detail-title">Sex: </span>
-                        <span class="detail-value">{{ horse.sex }}</span>
+                        <div class="detail-title">Sex: </div>
+                        <div class="detail-value">{{ horse.sex }}</div>
                     </div>
                     <div class="detail-line">
-                        <span class="detail-title">Colour: </span>
-                        <span class="detail-value"> {{ horse.colour }} </span>
-                    </div>           
-                    <div class="detail-line owner-line">
-                        <span class="detail-title">Owners: </span>
-                        <span class="detail-value">
-                            <OwnersList :owners="horse.owners" />
-                        </span>
-                    </div>          
+                        <div class="detail-title">Colour: </div>
+                        <div class="detail-value"> {{ horse.colour }} </div>
+                    </div>   
                     <div class="detail-line">
-                        <span class="detail-title">DOB: </span>
-                        <span class="detail-value">{{ inputDateToDisplayFormat(horse.dob) }}</span>
+                        <div class="detail-title">DOB: </div>
+                        <div class="detail-value">{{ inputDateToDisplayFormat(horse.dob) }}</div>
                     </div> 
+                    <div class="detail-line owner-line">
+                        <div class="detail-title">Owners: </div>
+                        <div class="detail-value">
+                            <OwnersList :owners="horse.owners" />
+                        </div>
+                    </div>  
                 </div>
             </div>
            
@@ -84,32 +84,59 @@
 
     @import "@/assets/scss/global.scss";  
 
+    .content {
+        padding-top: 20px;
+        padding: 20px 10px;
+    }
+
+    .detail-lines {
+        margin-top: 16px;
+    }
+
     .horse-details-card {
-        background-color: white;
+         background-color: white;
+         padding: 16px 8px;
+         margin: auto;
+
+        .detail-title, .detail-value {
+            display: inline-block;
+        }
+
+        .detail-title {
+            width: 80px;
+        }
+
+        .detail-value {
+            width: calc(95% - 80px);
+            vertical-align: top;
+        }     
     }
 
-    .detail-title {
-        font-weight: 600;
-    }
-
-    @media screen and (max-width: 992px) {
+    @media screen and (max-width: 299px) {
         .content {
-            @include mobile-background;
-            padding: 32px 16px;
+           @include mobile-background;
+         
+        }
+
+        .img-area {
+            img {
+                display: block;
+                max-width: 250px;
+                height: auto;           
+                margin: 10px auto;
+            }
+        }
+    }
+
+    @media screen and (min-width: 300px) and (max-width: 768px){
+        .content {
+            @include mobile-background;    
+            height: $contentHeight;      
         }
 
         .horse-details-card {
-            max-width: 350px;
+            max-width: 600px;
             padding: 16px;
-
-            .detail-line {
-                padding-top: 32px;
-
-                .detail-title {
-                    display: inline-block;
-                    width: 80px;                
-                }
-            }        
         }
 
         .img-area {
@@ -118,53 +145,50 @@
                 max-width: 300px;
                 height: auto;
                 margin-top: 20px;
+                margin: 0 auto;
             }
         }
     }
 
-    @media screen and (min-width: 992px) {
+    @media screen and (min-width: 768px) {
         .content {
-            @include desktop-background($formBackgroundImage, true, 0.75);        
+            @include desktop-background($formBackgroundImage, true, 0.75);              
             display:flex;
             justify-content: center;
-            align-items: center;
+            align-items: center;          
+        }
+
+        .horse-details-card {
+            margin-top: 2.5%;
         }
 
         .card-body {
-            min-height: 300px;
+         
+            padding: 16px 32px;    
         }
 
         .horse-details-card {
             width: 600px;
             height: 650px;
-            padding: 32px;
+            padding: 32px; 
+        }
 
-            .detail-lines {
-                margin-top: 32px;
-                display: flex;
-                flex-wrap: wrap;
-                padding-left: 32px;
- 
-                .detail-line {                    
-                    padding-top: 16px;                  
-                    width: 45%;                   
-                }
+        .detail-lines {
+            display: flex;
+            flex-wrap: wrap;
 
-                .owner-line {
-                    order: 5;
-                    width: auto;                   
-                }
+            .detail-line {
+                width: 45%;
+                line-height: 32px;
+                padding-left: 20px;
             }
 
-            .btn-area {
-                margin-top: 24px;
-                display: flex;
-                justify-content: space-around;                
+            .detail-line.owner-line {
+                width: 95%;
             }
         }
 
-        .img-area {
-           
+        .img-area {           
             img {
                 display: block;
                 margin-right: 24px;
@@ -173,7 +197,16 @@
                 height: auto;
                 margin-top: 20px;
             }
-        }       
+        } 
+
+        .btn-area {
+            margin-top: 24px;
+            display: flex;
+            justify-content: space-around;     
+            .btn {
+                width: 30%;
+            }           
+        }  
     }
 
 </style>
