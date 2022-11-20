@@ -44,6 +44,7 @@
     import useDB from "@/composables/useDB.js"
     import useListState from "@/composables/ui-state/useListState.js"
     import useCheckAuthRoute from '@/composables/auth/useCheckAuthRoute.js'
+    import useMessageForNextPage from '@/composables/ui-state/useMessageForNextPage.js'
       
     const router = useRouter()
     const route = useRoute()
@@ -51,6 +52,8 @@
     const { fetchHorses } = useDB()
 
     const { authorisedRoute } = useCheckAuthRoute()
+
+    const { setMessage } = useMessageForNextPage()
 
     const addUpdateAuthOk = ref(authorisedRoute('add-update'))    
         
@@ -66,10 +69,19 @@
 
     onMounted( async () => {
         if (horses.value.length === 0) {
-            isLoading.value = true        
-            const dbHorseData = await fetchHorses()  
-            addDbHorsesToList(dbHorseData)
-            isLoading.value=false;   
+            isLoading.value = true            
+            let dbHorseData = {}
+            try {
+                 dbHorseData = await fetchHorses()  
+                 addDbHorsesToList(dbHorseData)
+                 isLoading.value=false;  
+            }   
+            catch(err) {
+                 isLoading.value=false;  
+                 setMessage('Sunnyside Stables is not available at present - please try later', 'error')
+                 router.push({name: 'landing'})
+            } 
+
         } else {
             scrollToPos()
         }       

@@ -29,14 +29,9 @@ export default function useDB() {
                                       { method: 'GET',
                                                headers: {
                                                 'Content-Type': 'application/json',
-                                                'Authorization': getAuthHeaderValue()}} )                                                              
-                            .catch(err => {
-                            
-                                 console.log(err)                               
-                            })        
-        
+                                                'Authorization': getAuthHeaderValue()}} )                                
+    
         return response.json()           
-          
     }  
 
     const fetchOwners = async () => {
@@ -50,21 +45,28 @@ export default function useDB() {
                                  console.log(err)                               
                             })
 
-        return await response.json()     
+        return await response.json()  
     }  
 
     const fetchHorse = async (id) => {
-        
+    
         const response = await fetch(`${baseURL}horses/${id}`,
                                       { method: 'GET',
                                                headers: {
                                                 'Content-Type': 'application/json',
-                                                'Authorization': getAuthHeaderValue()}} )                                                              
-                            .catch(err => {
-                                 console.log(err)                               
-                            })
-      
-        return await response.json()        
+                                                'Authorization': getAuthHeaderValue()}} )                                 
+        
+
+        if (response.status === 200) {
+            return  await response.json()
+        } 
+
+        if (response.status === 404) {
+            return 'The horse you are looking for could not be found'
+        } 
+
+        return 'An error has occurred - please try later'
+     
     }    
 
     const addHorse = async (horseFormData) => {
@@ -120,10 +122,11 @@ export default function useDB() {
                                                   'Content-Type'  : 'application/json'                                                                                              
                                                },
                                                body: JSON.stringify(userCreds) })                      
-                         .catch(err => {  
-                            console.log(err)
-                            return 'Login cannot be completed at this time'
-                         })
+                    //      .catch(err => {  
+                    //         console.log(err)
+                    //         console.log('in catch block of useDB')
+                    //   //      return 'Login cannot be completed at this time'
+                    //      })
 
         if (response.status === 200) {
             let data = await response.json()
@@ -133,7 +136,7 @@ export default function useDB() {
         if (response.status === 401) {
             return 'Cannot find this email/password combination'
         }
-
+        console.log('at end of login in useDB')
         return 'Login cannot be completed at this time'       
       
     }   

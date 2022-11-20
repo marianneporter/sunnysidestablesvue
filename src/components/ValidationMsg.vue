@@ -5,8 +5,9 @@
 </template>
 
 <script setup>
-    const props = defineProps(['model'])  
-   
+    const props = defineProps({
+        model: Object        
+    });    
 </script>
 
 <style lang="scss" scoped>

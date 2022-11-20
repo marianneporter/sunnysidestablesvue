@@ -45,6 +45,7 @@
     import ValidationMsg from '@/components/ValidationMsg'
     import useAuth from "@/composables/auth/useAuth.js"
     import useLogin from '@/composables/forms/login/useLogin.js'  
+    import useMessageForNextPage from '@/composables/ui-state/useMessageForNextPage.js'
       
     import Loading from 'vue-loading-overlay';
     import 'vue-loading-overlay/dist/css/index.css';
@@ -55,6 +56,7 @@
     const isLoading = ref(false)
    
     const { v$, getUserCreds } = useLogin()
+    const { setMessage } = useMessageForNextPage()
 
     const emit = defineEmits(['loginSuccess', 'closeSlider'])
  
@@ -67,23 +69,35 @@
     const resetPWMessage = () => { incorrectPassword.value = false }
 
     const attemptLogin = async ()=> {     
-        
-        if (v$.value.$invalid) {                        
+               
+        if (v$.value.$invalid) {  
+
             v$.value.$touch()
 
-        } else {  
+        } else {              
 
             isLoading.value = true
-            let userCreds = getUserCreds()
-            let loginResult = await login(userCreds)
-            isLoading.value=false;
 
-            if (loginResult === 'success') {
-                closeSlider()
-                emit('loginSuccess')                
-            } else {
-                incorrectPassword.value = true
+            try {
+                let userCreds = getUserCreds()       
+                let loginResult = await login(userCreds)
+            
+                isLoading.value=false;
+
+                if (loginResult === 'success') {
+                    closeSlider()
+                    emit('loginSuccess')                
+                } else {
+                    incorrectPassword.value = true
+                }
+                console.log('in try bloxk')
             }
+            catch(err) {             
+                isLoading.value = false
+                closeSlider()
+                setMessage('Sorry! Application is not available at present', 'error')
+            }
+
         }       
     }
 

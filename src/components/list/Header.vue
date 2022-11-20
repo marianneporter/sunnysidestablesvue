@@ -32,7 +32,11 @@
     import SearchHorses from '@/components/list/SearchHorses.vue'        
 
     const emit  = defineEmits(['searchChanged', 'addHorse'])
-    const props = defineProps(['isLoading', 'addAllowed'])   
+     
+    const props = defineProps({
+        isLoading: Boolean,
+        addAllowed: Boolean        
+    }); 
 
     const { horseCount,
             searchCount,

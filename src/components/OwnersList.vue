@@ -8,7 +8,10 @@
 </template>
 
 <script setup>
-    const props = defineProps( ['owners'])
+ 
+    const props = defineProps({
+        owners: Array        
+    }); 
    
     const getFullOwnerName = (owner, index) => {
         let name = `${owner.firstName} ${owner.lastName}`

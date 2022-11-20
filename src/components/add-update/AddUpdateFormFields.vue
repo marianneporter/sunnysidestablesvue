@@ -88,7 +88,10 @@
     const { v$, photoState } = useFormState()
     const { minValidDOB } = useDates()  
 
-    const props = defineProps(['addMode', 'owners'])
+    const props = defineProps({
+        addMode: Boolean,
+        owners: Array        
+    }); 
 
     //ui setup for owners select
     const ownersForSelect =

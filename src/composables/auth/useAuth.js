@@ -34,7 +34,7 @@ export default function useAuth() {
     }
 
     const login = async (userCreds) => {
-    
+   
         let loginResult = await loginAuth(userCreds)   
        
         if (typeof loginResult === 'object') {

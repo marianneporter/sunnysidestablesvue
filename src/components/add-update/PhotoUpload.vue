@@ -25,17 +25,6 @@
                     @click="resetPhoto()"
                     v-if="photoForUpdate">Reset Photo</button> 
         </div>
-
-
-    
-        <!-- <button mat-raised-button 
-                class="reset-photo-btn photo-btn"
-                *ngIf="previewPhoto"
-            (click)="clearUploadPhoto()">
-            Reset Photo                          
-        </button>          
-                        -->
-
     </div>   
 </template>
 
@@ -47,7 +36,10 @@
 
     const { photoState } = useFormState()
     const { previewPhoto, fileValidAndLoaded } = usePhotoHelpers()
-    const props = defineProps(['addMode'])   
+      
+    const props = defineProps({
+        addMode: Boolean       
+    }); 
 
     const photoForUpdate = computed(() =>  photoState.uploadedPhoto || photoState.currentPhotoUrl) 
 
@@ -79,15 +71,11 @@
         display: none;
     }
 
-
-
-  //  @media screen and (min-width: 992px) {    
     .photo-area {
         margin-top: 30px;
         display: flex; 
         column-gap: 10px; 
         justify-content: space-evenly; 
-        
         button {
             display: block;
             height: 30px;
@@ -119,10 +107,6 @@
             margin-bottom: 30px;
             column-gap: 0;       
         }
-
-    }
-    
-    
- //   }
+    } 
 
 </style>
