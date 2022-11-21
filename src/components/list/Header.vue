@@ -3,8 +3,8 @@
         <h1>Horses...</h1>
 
         <div  v-if="!isLoading" class="add-and-search-line">
-            <div>
-                 <button v-if="addAllowed" class="btn btn-success add-btn" @click="emit('addHorse')">Add Horse</button>  
+            <div class="add-btn">
+                 <button v-if="addAllowed" class="btn btn-success" @click="emit('addHorse')">Add Horse</button>  
             </div>           
             <div class="counts-and-search">
                 <div class="search">
@@ -48,8 +48,9 @@
 <style lang="scss" scoped>
 
     @media screen and (max-width: 992px) {
-        header {
-            margin: 10px 5px;
+        header {   
+            width: 90%;
+            margin: 15px auto;
 
             h1 {
                 margin-bottom: 8px;
@@ -59,8 +60,8 @@
         .add-and-search-line {
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;           
-
+            gap: 15px;        
+         
             .counts-and-search {
                 display: contents;
             }
@@ -71,6 +72,7 @@
             }
 
             .total-count {
+                margin-top: 15px;
                 order: 2;
             }
 
@@ -81,6 +83,7 @@
             .add-btn {
                 order: 4;
                 max-width: 50%;
+                margin-top: 10px;
                 margin-right: 10px;
                 margin-left: auto;
             }

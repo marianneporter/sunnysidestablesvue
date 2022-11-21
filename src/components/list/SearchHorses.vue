@@ -60,7 +60,7 @@
         button {
             display: inline-block;
             border: none;   
-            flex: 0 0 35px;            
+            flex: 0 0 25px;            
             opacity: 0.5;   
             background-color: white;
         } 
@@ -77,7 +77,7 @@
             height: 50px;
 
             input {
-                flex: 1 0 0;
+                flex: 1 0 200px;
             }
 
             button {

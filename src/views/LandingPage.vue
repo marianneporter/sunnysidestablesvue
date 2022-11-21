@@ -18,7 +18,7 @@
                 <transition name="slide">           
                     <div v-if="displayLogin" class="login-slider">
                         <Login @loginSuccess="loginSuccess"                   
-                            @closeSlider="closeSlider" />
+                               @closeSlider="closeSlider" />
                     </div>   
                 </transition>
             </div>

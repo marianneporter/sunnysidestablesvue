@@ -114,8 +114,7 @@
 
     @media screen and (max-width: 299px) {
         .content {
-           @include mobile-background;
-         
+           @include mobile-background;         
         }
 
         .img-area {
@@ -155,7 +154,9 @@
             @include desktop-background($formBackgroundImage, true, 0.75);              
             display:flex;
             justify-content: center;
-            align-items: center;          
+            align-items: center; 
+            max-height: $contentHeight;  
+            position: fixed;         
         }
 
         .horse-details-card {

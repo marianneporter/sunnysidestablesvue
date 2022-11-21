@@ -6,7 +6,11 @@
     </header>
 
     <main>
-         <router-view ></router-view>
+        <router-view v-slot="{ Component }">
+            <transition name="route" mode="out-in">
+                <component :is="Component"></component>
+            </transition>
+        </router-view>
     </main>  
 
 </template>
@@ -49,4 +53,9 @@
 
    @import "@/assets/scss/global.scss";
 
-</style>
+   /* route transition classes */
+   .route-enter-from { opacity: 0; }
+   .route-enter-active, .route-leave-active { transition: all 0.6s ease-in }
+   .route-leave-to { opacity: 0; } 
+
+</style> 
