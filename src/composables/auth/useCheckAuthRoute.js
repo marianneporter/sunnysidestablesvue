@@ -1,10 +1,11 @@
 import useCurrentUser from '@/composables/auth/useCurrentUser'
 
 let authorisedRolesForRoute = new Map([
-    ['landing', ['All']],
+    ['home', ['All']],
     ['horseList', ['All']],
     ['details',   ['All']],
-    ['add-update', ['Manager', 'Admin']]
+    ['add-update', ['Manager', 'Admin']],
+    ['about', ['All']]
 ]);
 
 

@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import LandingPage from '../views/LandingPage.vue';
+import Home from '../views/Home.vue';
 import ListPage from '../views/horses/ListPage.vue';
 import Details from '../views/horses/Details.vue'
 import AddUpdate from '@/views/horses/AddUpdate.vue'
+import About from '@/views/About.vue'
 
 import horseDetailsResolver from '@/resolvers/horseDetailsResolver.js'
 import addUpdateResolver from '@/resolvers/addUpdateResolver.js'
@@ -14,8 +15,8 @@ import useMessageForNextPage from '@/composables/ui-state/useMessageForNextPage.
 const routes = [
     {
         path: '/',
-        name: 'landing',
-        component: LandingPage,
+        name: 'home',
+        component: Home,
     },
     {
         path: '/list',
@@ -40,7 +41,11 @@ const routes = [
         props: true,
         beforeEnter: addUpdateResolver,    
     },     
-
+    {
+        path: '/about',     
+        name: 'about',
+        component: About  
+    },    
 ]
 
 const { loggedIn } = useCurrentUser()
@@ -56,7 +61,7 @@ const router = createRouter({
 
 router.beforeEach(async (to, from) => {
 
-    if ( to.name === 'landing') {      
+    if ( to.name === 'home') {      
         return true;
     }    
   
@@ -71,7 +76,7 @@ router.beforeEach(async (to, from) => {
        
     }
 
-    return { name: 'landing' }
+    return { name: 'home' }
 
   })
 

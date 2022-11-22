@@ -72,10 +72,7 @@
                     z-index: 10;
                     width: 95vw;
                     position: relative; 
-                    top: -80px;                  
-                    background-color: pink;
-                    
-                   
+                    top: -80px;                   
                 }
 
                 .slider-section {

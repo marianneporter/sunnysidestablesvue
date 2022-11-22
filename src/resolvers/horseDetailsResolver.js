@@ -14,12 +14,12 @@ export default async function horseDetailsResolver(to, from, next )  {
             next() 
         } else {
             setMessage(res, 'error')      
-            next({ name: 'landing'}) 
+            next({ name: 'home'}) 
         }    
     }
     catch(err) {
         setMessage('Unable to perform this function at present', 'error')      
-        next({ name: 'landing'})         
+        next({ name: 'home'})         
     }
 
 }

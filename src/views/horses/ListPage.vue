@@ -79,7 +79,7 @@
             catch(err) {
                  isLoading.value=false;  
                  setMessage('Sunnyside Stables is not available at present - please try later', 'error')
-                 router.push({name: 'landing'})
+                 router.push({name: 'home'})
             } 
 
         } else {
