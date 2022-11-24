@@ -97,6 +97,7 @@
             ul {                
                 list-style: none;     
                 display: flex;
+                
             }
 
             li{
@@ -136,6 +137,11 @@
             flex-direction: column;
             align-items: flex-start;
             height: auto;   
+            background-color: purple;
+            color: white;
+            
+        
+         //   color: black;
           
 
             .navbar-toggle {
@@ -143,25 +149,33 @@
                 margin-top: 6px;
             }
 
-            .nav-link-wrapper {
-                position: absolute;
-                top: 50px;
-                left: 0px;
-                right: 0px;
-                z-index: 10;
-                background-color: $primary;
+            //.nav-link-wrapper {
+                // position: absolute;
+                // top: 50px;
+                // left: 0px;
+                // right: 0px;
+                // z-index: 10;
+                // background-color: $primary;
                 // position: relative;
                 // transform: translateX(-300px);
                 
-            }
+          //  }
+
+          
 
             .nav-links {
-                display: none;
-              
+           //    display: none;
+            //    transform: translateY(-300px);
+                position: absolute;
+                top: -300px;
+                background-color: green;
+                z-index: 99;
+                transition: top 3s;
               
                 &.active {
-                    display: flex;
-                         
+            //    display: flex;
+                //     transform: translateY(700px);
+                    top: 50px;     
                 }
 
                 width: 100%;
