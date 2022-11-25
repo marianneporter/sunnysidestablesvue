@@ -61,6 +61,8 @@
 
             @include mobile-background;
 
+            padding: 30px 10px;
+
             header {
                 .main-content {
                     display: flex;

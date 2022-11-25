@@ -3,8 +3,11 @@
         <div class="site-name"><font-awesome-icon icon="fa-solid fa-horse fa-lg" />&nbsp; Sunnyside Stables</div>
         <a href="#" class="navbar-toggle"  @click="toggle()">
             <span><font-awesome-icon icon="fa-solid fa-bars" /></span> 
-        </a>      
+        </a>  
+
+        <div class="mob-divider-line"></div>    
         <ul :class="{ active: toggleNav }">
+
             <li>
                 <router-link class="nav-link" :to="{ name: 'home'}">                 
                     Home
@@ -25,7 +28,8 @@
 
             <li v-if="userFirstName" class="login-dets">
                 <div  class="greeting">Hello {{userFirstName}}</div>
-                <div><button class="logout-btn" @click="logout()">Log out?</button></div>
+                <div class="mob-divider-line"></div>
+                <button class="logout-btn" @click="logout()">Log out?</button>
             </li>             
         </ul>   
     </nav>  
@@ -74,7 +78,7 @@
 
         .navbar-toggle {            
             display:none;         
-        }          
+        }   
 
         ul {                
             list-style: none;     
@@ -169,12 +173,24 @@
 
                 .login-dets {
                     position: relative;
+                    width: 100%;
 
                     .greeting {
                         display: none;
                     }
+
+                    .mob-divider-line {
+                        border-bottom: 0.25px solid white;
+                        width: 50%;
+                        margin: 0 auto;
+                    }
+
+                     .logout-btn {
+                         padding: 20px 0;
+                         font-size: 16px;
+                     }
                 }
-            } 
+            }            
         } 
     }
 </style>
