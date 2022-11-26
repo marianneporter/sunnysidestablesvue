@@ -7,25 +7,9 @@
 
         <div class="mob-divider-line"></div>    
         <ul :class="{ active: toggleNav }">
-
-            <li>
-                <router-link class="nav-link" :to="{ name: 'home'}">                 
-                    Home
-                </router-link>
-            </li>   
-
-            <li>              
-                <router-link class="nav-link" :to="{ name: 'horseList'}">                  
-                    Horse List
-                </router-link>
-            </li>
-
-            <li>              
-                <router-link class="nav-link" :to="{ name: 'about'}">                  
-                    About
-                </router-link>
-            </li>
-
+            <li @click="navigate('home')">Home</li> 
+            <li @click="navigate('horseList')">Horse List</li> 
+            <li @click="navigate('about')">About</li> 
             <li v-if="userFirstName" class="login-dets">
                 <div  class="greeting">Hello {{userFirstName}}</div>
                 <div class="mob-divider-line"></div>
@@ -41,9 +25,10 @@
     import useAuth  from '@/composables/auth/useAuth.js'
     import useCurrentUser from '@/composables/auth/useCurrentUser.js'
 
-    import { useRouter } from 'vue-router'
+    import { useRouter, useRoute } from 'vue-router'
 
     const router = useRouter() 
+    const route = useRoute()     
 
     const {  logout: authLogout } = useAuth()
     const { userFirstName } = useCurrentUser()
@@ -51,6 +36,13 @@
     let toggleNav = ref(false);
 
     const toggle = () => toggleNav.value = !toggleNav.value   
+
+    const navigate = (routeName) => {
+        toggleNav.value = false; 
+        if (route.name !== routeName) {
+             router.push( { name: routeName } )
+        }       
+    }
 
     const logout = () => {
         authLogout()
@@ -86,20 +78,17 @@
             column-gap: 30px;
             align-items:center;        
 
-            li{                
-                a {
-                    display: block;
-                    text-decoration: none;
-                    color: white;   
-                    padding: 16px 24px; 
-                }              
+            li{                 
+                display: block;
+                text-decoration: none;
+                color: white;   
+                padding: 16px 24px;                       
 
                 &:hover:not(:last-child) {
                     background-color: $primaryHighlight;
                 }
            }            
         }
-
 
         .login-dets {
             position: absolute;
@@ -160,11 +149,7 @@
                 flex-direction: column;
 
                 li {
-                    text-align: center;
-
-                    a {
-                        padding: 15px;
-                    }                                      
+                    text-align: center;                    
                 }
               
                 &.active {

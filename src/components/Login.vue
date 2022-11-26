@@ -33,7 +33,6 @@
                             :class="{ 'no-text' : isLoading }"
                           >Log In
                     </button>
-
                 </div>
             </div>
         </form>           
@@ -60,7 +59,7 @@
 
     const emit = defineEmits(['loginSuccess', 'closeSlider'])
  
-    const { displayLogin, resetDisplayLogin, login, state } = useAuth()
+    const { login } = useAuth()
 
     const closeSlider = () => emit('closeSlider')        
 
@@ -89,8 +88,7 @@
                     emit('loginSuccess')                
                 } else {
                     incorrectPassword.value = true
-                }
-                console.log('in try bloxk')
+                }               
             }
             catch(err) {             
                 isLoading.value = false

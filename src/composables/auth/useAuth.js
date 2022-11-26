@@ -3,7 +3,7 @@ import useDB from '../useDB.js'
 import useCurrentUser from './useCurrentUser.js'
 import useJwt from '@/composables/auth/useJwt.js'
 
-
+// tells home page if the login slider should be showing or not
 const globalDisplayLogin = ref(false)
 
 export default function useAuth() {   

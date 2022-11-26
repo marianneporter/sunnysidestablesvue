@@ -78,7 +78,7 @@
                 }
 
                 .slider-section {
-                    margin-left:25px;  // could be a calc
+                    margin-left:25px;  
                 }
 
                 button {

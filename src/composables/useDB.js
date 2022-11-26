@@ -121,12 +121,8 @@ export default function useDB() {
                                                headers: {
                                                   'Content-Type'  : 'application/json'                                                                                              
                                                },
-                                               body: JSON.stringify(userCreds) })                      
-                    //      .catch(err => {  
-                    //         console.log(err)
-                    //         console.log('in catch block of useDB')
-                    //   //      return 'Login cannot be completed at this time'
-                    //      })
+                                               body: JSON.stringify(userCreds) })                     
+
 
         if (response.status === 200) {
             let data = await response.json()
