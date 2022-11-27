@@ -15,13 +15,13 @@
     import { computed, watchEffect  } from 'vue'  
     import { useRoute } from 'vue-router'
     import { createToaster } from '@meforma/vue-toaster';
-    import useAuth  from '@/composables/auth/useAuth.js'
+    import useCurrentUser  from '@/composables/auth/useCurrentUser.js'
     import useMessageForNextPage from '@/composables/ui-state/useMessageForNextPage.js'
     import Nav from '@/components/Nav.vue'
 
     document.title = "Sunnyside Stables Vue Demo"
 
-    const { setCurrentUserIfPresent } = useAuth();
+    const { setCurrentUserIfPresent } = useCurrentUser();
 
     const { statusMessage, clearStatusMessage } = useMessageForNextPage()  
     

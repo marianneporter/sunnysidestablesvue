@@ -1,9 +1,7 @@
 import useValidate from '@vuelidate/core'
 import { required, helpers, minLength, maxLength } from '@vuelidate/validators'
 import { reactive, computed, ref} from 'vue'
-import useValidators from '@/composables/forms/useValidators.js'
-
-//import useDB from '@/composables/useDB'
+import useValidators from '@/composables/add-update/useValidators.js'
 
 const state = reactive({
     name: null,

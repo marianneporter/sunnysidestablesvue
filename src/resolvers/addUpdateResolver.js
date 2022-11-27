@@ -1,4 +1,4 @@
-import useDB from "@/composables/useDB"
+import useDB from "@/composables/database/useDB"
 import fetchHorseResolver from "@/resolvers/horseDetailsResolver";
 
 export default async function addUpdateResolver(to, from, next )  {

@@ -1,5 +1,5 @@
 import { ref,  computed } from 'vue'
-import useDB from '../useDB.js'
+import useDB from '../database/useDB.js'
 import useCurrentUser from './useCurrentUser.js'
 import useJwt from '@/composables/auth/useJwt.js'
 
@@ -9,29 +9,14 @@ const globalDisplayLogin = ref(false)
 export default function useAuth() {   
 
     const { login: loginAuth } = useDB();  
-    const { validateAndDecodeToken, decodeToken } = useJwt()
+    const { decodeToken } = useJwt()
 
-    const { currentUser, setCurrentUser, clearCurrentUser } = useCurrentUser();
+    const { setCurrentUser, clearCurrentUser } = useCurrentUser();
    
     const displayLogin = computed(()=> globalDisplayLogin.value)  
    
     const setDisplayLogin   = () => globalDisplayLogin.value = true  
     const resetDisplayLogin = () => globalDisplayLogin.value = false
-
-    const setCurrentUserIfPresent = () => {
-        let userFromLocalStorage = JSON.parse(localStorage.getItem('user'))
-        if (userFromLocalStorage) {
-            const validDecodedToken = validateAndDecodeToken(userFromLocalStorage.token)
-            if (validDecodedToken) {
-                setCurrentUser(userFromLocalStorage.token,
-                               validDecodedToken,
-                               userFromLocalStorage.user  )
-             } else {
-                clearCurrentUser()
-                localStorage.clear();               
-            }
-        }
-    }
 
     const login = async (userCreds) => {
    
@@ -50,15 +35,13 @@ export default function useAuth() {
     const logout = () => {
         clearCurrentUser()
         localStorage.clear();       
-    }
-
- 
+    } 
 
     return { setDisplayLogin,
              resetDisplayLogin,
              displayLogin,  
              login, 
-             logout,  
-             setCurrentUserIfPresent        
+             logout  
+                  
     }
 }

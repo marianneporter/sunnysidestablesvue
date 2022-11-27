@@ -41,7 +41,7 @@
     import Loading from 'vue-loading-overlay';
     import 'vue-loading-overlay/dist/css/index.css';
 
-    import useDB from "@/composables/useDB.js"
+    import useDB from "@/composables/database/useDB.js"
     import useListState from "@/composables/ui-state/useListState.js"
     import useCheckAuthRoute from '@/composables/auth/useCheckAuthRoute.js'
     import useMessageForNextPage from '@/composables/ui-state/useMessageForNextPage.js'

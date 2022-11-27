@@ -50,7 +50,7 @@
     import { useRoute } from 'vue-router'
 
     import OwnersList from '@/components/OwnersList.vue'  
-    import useDates from '@/composables/useDates.js' 
+    import useDates from '@/composables/utility/useDates.js' 
     import useCheckAuthRoute from '@/composables/auth/useCheckAuthRoute.js'
   
     export default {

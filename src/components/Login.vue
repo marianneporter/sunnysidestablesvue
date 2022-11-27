@@ -43,7 +43,7 @@
 <script setup>  
     import ValidationMsg from '@/components/ValidationMsg'
     import useAuth from "@/composables/auth/useAuth.js"
-    import useLogin from '@/composables/forms/login/useLogin.js'  
+    import useLogin from '@/composables/auth/useLogin.js'  
     import useMessageForNextPage from '@/composables/ui-state/useMessageForNextPage.js'
       
     import Loading from 'vue-loading-overlay';

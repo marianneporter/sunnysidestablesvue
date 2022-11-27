@@ -27,8 +27,8 @@
     //imported plug-ins
     import { createToaster } from "@meforma/vue-toaster";
     //imported composables   
-    import useFormState from '@/composables/forms/add-update/useFormState' 
-    import useFormatDataAndSubmit from '@/composables/forms/add-update/useFormatDataAndSubmit'   
+    import useFormState from '@/composables/add-update/useFormState' 
+    import useFormatDataAndSubmit from '@/composables/add-update/useFormatDataAndSubmit'   
     //nested components
     import AddUpdateFormFields  from '@/components/add-update/AddUpdateFormFields.vue'   
 

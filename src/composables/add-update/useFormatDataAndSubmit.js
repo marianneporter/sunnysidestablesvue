@@ -1,7 +1,7 @@
-import useFormState from '@/composables/forms/add-update/useFormState'
+import useFormState from '@/composables/add-update/useFormState'
 import useMessageForNextPage from  '@/composables/ui-state/useMessageForNextPage'
-import useDB from '@/composables/useDB'
-import useDates from '@/composables/useDates'
+import useDB from '@/composables/database/useDB'
+import useDates from '@/composables/utility/useDates'
 
 export default function useSubmitForm() { 
   

@@ -31,8 +31,8 @@
 <script setup>
     import { computed } from 'vue'
 
-    import usePhotoHelpers from '@/composables/forms/add-update/usePhotoHelpers' 
-    import useFormState from '@/composables/forms/add-update/useFormState' 
+    import usePhotoHelpers from '@/composables/add-update/usePhotoHelpers' 
+    import useFormState from '@/composables/add-update/useFormState' 
 
     const { photoState } = useFormState()
     const { previewPhoto, fileValidAndLoaded } = usePhotoHelpers()

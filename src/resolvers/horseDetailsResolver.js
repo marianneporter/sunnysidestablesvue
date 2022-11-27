@@ -1,4 +1,4 @@
-import useDB from "@/composables/useDB"
+import useDB from "@/composables/database/useDB"
 import useMessageForNextPage from "@/composables/ui-state/useMessageForNextPage";
 
 export default async function horseDetailsResolver(to, from, next )  {

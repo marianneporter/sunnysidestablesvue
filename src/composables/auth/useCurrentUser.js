@@ -1,4 +1,5 @@
 import { reactive, ref, computed, watch } from 'vue'
+import useJwt from '@/composables/auth/useJwt.js'
 
 let currentUser = reactive({    
     token: null,
@@ -9,6 +10,23 @@ let currentUser = reactive({
 let loggedIn = ref(false)
 
 export default function useCurrentUser() {
+
+    const { validateAndDecodeToken } = useJwt()
+    
+    const setCurrentUserIfPresent = () => {
+        let userFromLocalStorage = JSON.parse(localStorage.getItem('user'))
+        if (userFromLocalStorage) {
+            const validDecodedToken = validateAndDecodeToken(userFromLocalStorage.token)
+            if (validDecodedToken) {
+                setCurrentUser(userFromLocalStorage.token,
+                               validDecodedToken,
+                               userFromLocalStorage.user  )
+             } else {
+                clearCurrentUser()
+                localStorage.clear();               
+            }
+        }
+    }
 
     const setCurrentUser = (token, tokenObject, user) => {        
         currentUser.token = token
@@ -29,6 +47,7 @@ export default function useCurrentUser() {
 
     return {
         currentUser,
+        setCurrentUserIfPresent,  
         setCurrentUser,
         clearCurrentUser,
         userFirstName,
