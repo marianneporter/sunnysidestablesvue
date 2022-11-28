@@ -12,7 +12,7 @@
                 :src="photoState.currentPhotoUrl" >                 
 
             <img v-else class="preview-photo"                        
-                :src="previewPhoto" >       
+                       :src="previewPhoto" >       
         </div>
                             
         <div class="btn-area">
@@ -38,7 +38,10 @@
     const { previewPhoto, fileValidAndLoaded } = usePhotoHelpers()
       
     const props = defineProps({
-        addMode: Boolean       
+        addMode: {
+            type:Boolean,
+            required: true
+        }  
     }); 
 
     const photoForUpdate = computed(() =>  photoState.uploadedPhoto || photoState.currentPhotoUrl) 

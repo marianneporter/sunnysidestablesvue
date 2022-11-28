@@ -1,10 +1,10 @@
 <template>
     <div class="content">
 
-        <Header @addHorse="addHorse"
-                @searchChanged="searchChanged"
-                :isLoading="isLoading"
-                :addAllowed="addUpdateAuthOk"/>
+        <HorseListHeader @addHorse="addHorse"
+                         @searchChanged="searchChanged"
+                         :is-loading="isLoading"
+                         :add-allowed="addUpdateAuthOk"/>
 
         <main> 
             <div v-if="horses" class="horse-cards">   
@@ -12,10 +12,10 @@
                         loader="dots"
                         color="#28a428" />
                 <div v-for="horse in horses" :key="horse.id">
-                    <HorseCard :horse="horse"
-                               :editAllowed="addUpdateAuthOk" 
-                               @getDetails="getDetails"
-                               @editHorse="editHorse" /> 
+                    <HorseListCard :horse="horse"
+                                   :edit-allowed="addUpdateAuthOk" 
+                                   @getDetails="getDetails"
+                                   @editHorse="editHorse" /> 
                 </div>
             </div> 
         </main>
@@ -32,8 +32,8 @@
 
 <script setup>
   
-    import Header from '@/components/list/Header.vue'
-    import HorseCard from '@/components/list/HorseCard.vue'  
+    import HorseListHeader from '@/components/HorseListHeader.vue'
+    import HorseListCard from '@/components/HorseListCard.vue'  
 
     import { onMounted, ref } from 'vue'
     import { useRouter, useRoute } from 'vue-router' 
@@ -55,7 +55,7 @@
 
     const { setMessage } = useMessageForNextPage()
 
-    const addUpdateAuthOk = ref(authorisedRoute('add-update'))    
+    const addUpdateAuthOk = ref(authorisedRoute('horse-add-update'))    
         
     const { pageIndex,
             setScrollPos, 
@@ -95,16 +95,16 @@
 
     const getDetails = (id) => {
         setScrollPos()
-        router.push({ name: "details", params: { id: id }} )
+        router.push({ name: "horse-details", params: { id: id }} )
     }
 
     const addHorse = () => {
-        router.push({ name: "add-update", params: { id: 0 }} )    
+        router.push({ name: "horse-add-update", params: { id: 0 }} )    
     }
 
     const editHorse = (id) => {
         setScrollPos()
-        router.push({ name: "add-update", params: { id: id }} )       
+        router.push({ name: "horse-add-update", params: { id: id }} )       
     }
 
      const searchChanged = async () => {  

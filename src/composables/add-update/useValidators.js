@@ -8,26 +8,49 @@ export default function useValidators() {
 
     const noOfOwners = (value) => value.length > 0 && value.length <= 4
 
-    const validSexAgeCombo = (value, siblings) => {
+    //check that the sex entered is compatible with dob if this has been entered
+    const validSexAgeCombo = (sex, siblings) => {
+ 
+        if (!siblings.dob) {
+            return true
+        }   
+        
+        return validSexDob(siblings.dob, sex)
      
-       let age = getAge(siblings.dob)    
-    
-       if (age < 4 && (value === "Stallion" || value === "Mare" )) {
-           return false
-       }  
-       return true
     }
 
-    const validAgeSexCombo = (value, siblings) => {
+    // check that dob entered is compatible with the sex if this has been entered
+    const validAgeSexCombo = (dob, siblings) => {
 
-        let age = getAge(value)
-
-        if (age < 4 && (siblings.sex === "Stallion" || siblings.sex === "Mare" )) {
-            return false
+        if (!siblings.sex) {  
+            return true
         }
-        return true
-     }   
 
-     return { mustBeAtLeast1Owner, noOfOwners, validSexAgeCombo, validAgeSexCombo }
+        return validSexDob(dob, siblings.sex) 
+    }
+
+    // helper method for dob/sex combination validators
+    const validSexDob = (dob, sex) => {    
+
+        if (sex === 'Gelding') {          
+            return true
+        }
+
+        let age = getAge(dob)  
+
+        if (age < 4) {
+            if  (sex === "Colt" || sex === "Filly") {
+                return true 
+            }
+        } else  {      // age >= 4
+            if (sex === "Stallion" || sex === "Mare") {
+                return true
+            }       
+        }
+
+        return false;
+    }
+
+    return { mustBeAtLeast1Owner, noOfOwners, validSexAgeCombo, validAgeSexCombo }
 
 }

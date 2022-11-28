@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
-import ListPage from '../views/horses/ListPage.vue';
-import Details from '../views/horses/Details.vue'
-import AddUpdate from '@/views/horses/AddUpdate.vue'
+import HorseList from '../views/HorseList.vue';
+import HorseDetails from '../views/HorseDetails.vue'
+import HorseAddUpdate from '@/views/HorseAddUpdate.vue'
 import About from '@/views/About.vue'
 
 import horseDetailsResolver from '@/resolvers/horseDetailsResolver.js'
@@ -21,7 +21,7 @@ const routes = [
     {
         path: '/list',
         name: 'horseList',
-        component: ListPage,
+        component: HorseList,
         props: true,
         meta: {
             scrollTop: 0
@@ -29,15 +29,15 @@ const routes = [
     },  
     {
         path: '/horses/:id',     
-        name: 'details',
-        component: Details,
+        name: 'horse-details',
+        component: HorseDetails,
         props: true,
         beforeEnter: horseDetailsResolver
     }, 
     {
         path: '/horses/add-update/:id',     
-        name: 'add-update',
-        component: AddUpdate,
+        name: 'horse-add-update',
+        component: HorseAddUpdate,
         props: true,
         beforeEnter: addUpdateResolver,    
     },     
@@ -72,8 +72,7 @@ router.beforeEach(async (to, from) => {
      
             //logged in but does not have sufficient access level    
             setMessage('Sorry - access is not allowed', 'error')   
-            return { name: from.name}
-       
+            return { name: from.name}       
     }
 
     return { name: 'home' }

@@ -28,7 +28,7 @@
                     <div class="detail-line owner-line">
                         <div class="detail-title">Owners: </div>
                         <div class="detail-value">
-                            <OwnersList :owners="horse.owners" />
+                            <OwnersNames :owners="horse.owners" />
                         </div>
                     </div>  
                 </div>
@@ -36,7 +36,7 @@
            
             <div class="btn-area"> 
                 <router-link :to="{ name: 'horseList'}" class="btn btn-secondary btn-full-mob"><font-awesome-icon icon="fa-solid fa-arrow-left" />&nbsp;Back to List</router-link>
-                <router-link v-if="updateAuthOk" :to="{ name: 'add-update',  params: { id: horse.id } }"
+                <router-link v-if="updateAuthOk" :to="{ name: 'horse-add-update',  params: { id: horse.id } }"
                               class="btn btn-success btn-full-mob">Edit
                 </router-link>
             </div>   
@@ -49,20 +49,20 @@
     import { computed, ref } from 'vue'
     import { useRoute } from 'vue-router'
 
-    import OwnersList from '@/components/OwnersList.vue'  
+    import OwnersNames from '@/components/OwnersNames.vue'  
     import useDates from '@/composables/utility/useDates.js' 
     import useCheckAuthRoute from '@/composables/auth/useCheckAuthRoute.js'
   
     export default {
-        name: 'Details',
-        components: { OwnersList },
+        name: 'HorseDetails',
+        components: { OwnersNames },
 
         setup() {
             const route = useRoute()
 
             const { authorisedRoute } = useCheckAuthRoute()
 
-            const updateAuthOk = ref(authorisedRoute('add-update')) 
+            const updateAuthOk = ref(authorisedRoute('horse-add-update')) 
 
             const horse = ref({})
 

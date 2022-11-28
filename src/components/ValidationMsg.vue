@@ -6,7 +6,10 @@
 
 <script setup>
     const props = defineProps({
-        model: Object        
+        model: {
+            type: Object,
+            required: true
+        }     
     });    
 </script>
 

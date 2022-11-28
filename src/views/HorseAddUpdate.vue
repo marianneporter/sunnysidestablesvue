@@ -3,8 +3,8 @@
         <form novalidate @submit.prevent="addUpdateHorse()" enctype="multipart/form-data">
             <h3>{{addMode ? 'Add' : 'Update'}} Horse</h3>
 
-            <add-update-form-fields  :addMode="addMode"
-                                     :owners="owners" />
+            <HorseAddUpdateInputs :addMode="addMode"
+                                  :owners="owners" />
 
             <div class="btn-area">
                 <router-link :to="{ name: 'horseList'}" class="btn btn-secondary btn-full-mob">
@@ -14,29 +14,28 @@
                         class="btn btn-success btn-full-mob submit-btn"> {{addMode ? 'Add' : 'Update'}} Horse
                 </button>                  
             </div>  
-        </form> 
-  
+        </form>   
     </div>
 </template>
 
 <script>
 
     //imports from vue
-    import { onUnmounted, ref, onBeforeMount } from 'vue'
-    import { useRoute, useRouter, onBeforeRouteLeave } from 'vue-router'      
+    import { ref } from 'vue'
+    import { useRoute, useRouter } from 'vue-router'      
     //imported plug-ins
     import { createToaster } from "@meforma/vue-toaster";
     //imported composables   
     import useFormState from '@/composables/add-update/useFormState' 
     import useFormatDataAndSubmit from '@/composables/add-update/useFormatDataAndSubmit'   
     //nested components
-    import AddUpdateFormFields  from '@/components/add-update/AddUpdateFormFields.vue'   
+    import HorseAddUpdateInputs  from '@/components/HorseAddUpdateInputs.vue'   
 
     export default {    
         name: 'AddUpdate',
 
         components: {
-            AddUpdateFormFields
+            HorseAddUpdateInputs
         },        
 
         created() {  
@@ -136,7 +135,7 @@
                                       
                 let newRoute
                 if (submitSuccess) {
-                    newRoute = { name: `details`, params: { id: idForRoute }}            
+                    newRoute = { name: `horse-details`, params: { id: idForRoute }}            
                 } else {
                     newRoute = { name: `horseList`} 
                 }       

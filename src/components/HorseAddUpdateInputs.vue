@@ -24,7 +24,7 @@
                 :label="v$.colour.$model"
                 :value="v$.colour.$model"
                 :options="colours"
-                :classes="{clear: 'multiselect-clear',
+                :classes="{ clear: 'multiselect-clear',
                             clearIcon: 'multiselect-clear-icon' }" />  
             <ValidationMsg :model="v$.colour"/>                     
         </div>    
@@ -60,8 +60,7 @@
             <ValidationMsg :model="v$.owners"/>     
         </div>   
 
-        <photo-upload :addMode="addMode" />   
-           
+        <HorseAddUpdateInputsPhotoUpload :add-mode="addMode" />             
 
     </div>   
         
@@ -81,7 +80,7 @@
     import '@vuepic/vue-datepicker/dist/main.css';
 
     //nested components
-    import PhotoUpload from '@/components/add-update/PhotoUpload.vue'
+    import HorseAddUpdateInputsPhotoUpload from '@/components/HorseAddUpdateInputsPhotoUpload'
     import ValidationMsg from '@/components/ValidationMsg.vue'
 
     const { sexes, colours, heights } = useSelectOptions()
@@ -89,8 +88,14 @@
     const { minValidDOB } = useDates()  
 
     const props = defineProps({
-        addMode: Boolean,
-        owners: Array        
+        addMode: {
+            type: Boolean,
+            required: true
+        },  
+        owners: {
+            type: Array,
+            required: true
+        }       
     }); 
 
     //ui setup for owners select
@@ -174,7 +179,6 @@
             width: 300px;
             height: 40px;
         }
-
     }
 </style>
 

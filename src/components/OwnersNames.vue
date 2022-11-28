@@ -10,7 +10,10 @@
 <script setup>
  
     const props = defineProps({
-        owners: Array        
+        owners: {
+            type: Array,
+            required: true
+        }       
     }); 
    
     const getFullOwnerName = (owner, index) => {

@@ -3,8 +3,8 @@ import useCurrentUser from '@/composables/auth/useCurrentUser'
 let authorisedRolesForRoute = new Map([
     ['home', ['All']],
     ['horseList', ['All']],
-    ['details',   ['All']],
-    ['add-update', ['Manager', 'Admin']],
+    ['horse-details',   ['All']],
+    ['horse-add-update', ['Manager', 'Admin']],
     ['about', ['All']]
 ]);
 
@@ -13,7 +13,7 @@ export default function useCheckAuthRoute() {
 
     const { currentUser } = useCurrentUser();
 
-    const authorisedRoute = (route) => {
+    const authorisedRoute = (route) => {        
 
         const authorisedRoles = authorisedRolesForRoute.get(route)
 

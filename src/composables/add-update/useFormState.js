@@ -40,7 +40,7 @@ export default function useFormState() {
             height: { required: helpers.withMessage(`Please enter horse's height in hands`, required)  },
             dob:  
             {
-                required: helpers.withMessage(`Please enter horse's date of birth`, required),
+                required: helpers.withMessage(`Please enter horse's date of birth`, required),          
                 validAgeSexCombo: helpers.withMessage(`Invalid sex / dob combination `, validAgeSexCombo) },
             owners: { noOfOwners: helpers.withMessage(`Please select between 1 and 4 owners`, noOfOwners)}          
         }

@@ -2,7 +2,7 @@
     <div class="horse-card" >
         <h3 ref="horseCard">{{ horse.name }}</h3>
         <h6>Owned by:
-            <OwnersList :owners="horse.owners" />           
+            <OwnersNames :owners="horse.owners" />           
         </h6>  
         <div class="img-area">
              <img :src="horse.imageUrl" alt="No photo uploaded yet">
@@ -19,11 +19,17 @@
 
 <script setup>  
     import { computed, ref } from 'vue'
-    import OwnersList from '@/components/OwnersList.vue'    
+    import OwnersNames from '@/components/OwnersNames.vue'    
 
     const props = defineProps({
-        horse: Object,
-        editAllowed: Boolean
+        horse: {
+            type: Object,
+            required: true
+        }, 
+        editAllowed: {
+            type: Boolean,
+            required: true
+        }
     }); 
 
     const horseCard = ref(null)

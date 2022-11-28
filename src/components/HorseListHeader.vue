@@ -8,7 +8,7 @@
             </div>           
             <div class="counts-and-search">
                 <div class="search">
-                    <search-horses @searchChanged="emit('searchChanged')"/>  
+                    <HorseListHeaderSearch @searchChanged="emit('searchChanged')"/>  
                 </div>      
                 <div class="count total-count">
                     Total Horses: {{ horseCount }}
@@ -29,13 +29,19 @@
 
 <script setup>
     import useListState from "@/composables/ui-state/useListState.js"   
-    import SearchHorses from '@/components/list/SearchHorses.vue'        
+    import HorseListHeaderSearch from '@/components/HorseListHeaderSearch.vue'        
 
     const emit  = defineEmits(['searchChanged', 'addHorse'])
      
     const props = defineProps({
-        isLoading: Boolean,
-        addAllowed: Boolean        
+        isLoading: {
+           type: Boolean,
+           required: true
+        },
+        addAllowed: {
+            type: Boolean,
+            required: true
+        }        
     }); 
 
     const { horseCount,
