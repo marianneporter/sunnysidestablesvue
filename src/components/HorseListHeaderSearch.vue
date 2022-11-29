@@ -4,7 +4,6 @@
         <button :class="{ invisible: searchTerm==''}"
                 @click="resetSearch()"><font-awesome-icon icon="fa-solid fa-xmark" /></button>            
         <button @click="search()"><font-awesome-icon icon="fa-solid fa-magnifying-glass" /></button>
-
     </div>   
  
 </template>

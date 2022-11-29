@@ -3,7 +3,7 @@
         <form novalidate @submit.prevent="addUpdateHorse()" enctype="multipart/form-data">
             <h3>{{addMode ? 'Add' : 'Update'}} Horse</h3>
 
-            <HorseAddUpdateInputs :addMode="addMode"
+            <HorseAddUpdateInputs :add-mode="addMode"
                                   :owners="owners" />
 
             <div class="btn-area">
@@ -27,7 +27,8 @@
     import { createToaster } from "@meforma/vue-toaster";
     //imported composables   
     import useFormState from '@/composables/add-update/useFormState' 
-    import useFormatDataAndSubmit from '@/composables/add-update/useFormatDataAndSubmit'   
+    import useFormatDataAndSubmit from '@/composables/add-update/useFormatDataAndSubmit' 
+    import useMessageForNextPage from  '@/composables/ui-state/useMessageForNextPage'  
     //nested components
     import HorseAddUpdateInputs  from '@/components/HorseAddUpdateInputs.vue'   
 
@@ -70,15 +71,14 @@
 
         methods: {
 
-            confirmLeave(e) {
-              
+            confirmLeave(e) {              
 
                 if (this.v$.$anyDirty || this.photoState.uploadedPhoto) {
-                    e.returnValue = null     // displaysn message  on its own displays message if together with above you get the message
+                    e.returnValue = null  
                     return null
                 }
 
-                e.preventDefault()      // leaves anyway if on its own   if altogethere with return value you still get the message        
+                e.preventDefault()          
                
             },   
        
@@ -87,11 +87,12 @@
         setup() {
             const addMode = ref(false)
             const horse = ref({})
-
             const route = useRoute()
             const router = useRouter()
 
-            const toaster = createToaster({ position: 'bottom' });    
+            const toaster = createToaster({ position: 'bottom' });  
+
+            const { setMessage } = useMessageForNextPage()  
           
             const { state, photoState,
                     v$, clearState,
@@ -130,17 +131,23 @@
                 } 
 
                 formSubmitted.value = true
-        
-                let { submitSuccess, idForRoute } = await handleFormSubmit(horse.value, addMode.value)  
-                                      
-                let newRoute
-                if (submitSuccess) {
-                    newRoute = { name: `horse-details`, params: { id: idForRoute }}            
-                } else {
-                    newRoute = { name: `horseList`} 
-                }       
 
+                let newRoute
+                try {
+                    let { submitSuccess, idForRoute } = await handleFormSubmit(horse.value, addMode.value)  
+                    if (submitSuccess) {
+                        newRoute = { name: `horse-details`, params: { id: idForRoute }}            
+                    } else {
+                        newRoute = { name: `horseList`} 
+                    }                      
+                }
+                catch(err) {
+                    setMessage('Something went wrong. Please try later', 'error')                              
+                    newRoute = { name: `home`} 
+                }    
+                
                 router.push(newRoute)
+
             }
 
             return {

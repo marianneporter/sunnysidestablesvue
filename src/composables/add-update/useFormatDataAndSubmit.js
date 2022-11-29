@@ -1,3 +1,9 @@
+/*
+    Changing data to FormData format
+    Submits form to api
+    Sets up suitable status messages for success or failure of api request
+*/
+
 import useFormState from '@/composables/add-update/useFormState'
 import useMessageForNextPage from  '@/composables/ui-state/useMessageForNextPage'
 import useDB from '@/composables/database/useDB'

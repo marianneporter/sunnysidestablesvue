@@ -40,12 +40,10 @@ export default function useDB() {
                                       { method: 'GET',
                                                headers: {
                                                 'Content-Type': 'application/json',
-                                                'Authorization': getAuthHeaderValue()}} )                                                              
-                            .catch(err => {                            
-                                 console.log(err)                               
-                            })
+                                                'Authorization': getAuthHeaderValue()}} )           
+    
 
-        return await response.json()  
+        return response.json()  
     }  
 
     const fetchHorse = async (id) => {
@@ -74,12 +72,8 @@ export default function useDB() {
         const response = await fetch(` ${baseURL}horses`, 
         { method: 'POST', 
                 headers: { 'Authorization': getAuthHeaderValue() },     
-                body: horseFormData })                      
-            .catch(err => {  
-                console.log(err)
-                return
-            })
-
+                body: horseFormData })   
+                
         if (response.status === 201) {
             let data = await response.json()                    
             clearListState()
@@ -98,11 +92,7 @@ export default function useDB() {
         { method: 'PATCH', 
                 headers: { 'Authorization': getAuthHeaderValue() },     
                 body: horseFormData })                      
-            .catch(err => {  
-                console.log(err)               
-                return
-            })
-        
+ 
         if (response.status === 200) {
             let data = await response.json()    
             let updatedHorse =  await fetchHorse(id)  
@@ -132,7 +122,7 @@ export default function useDB() {
         if (response.status === 401) {
             return 'Cannot find this email/password combination'
         }
-        console.log('at end of login in useDB')
+
         return 'Login cannot be completed at this time'       
       
     }   

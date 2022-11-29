@@ -1,8 +1,8 @@
 <template>
     <div class="content">
 
-        <HorseListHeader @addHorse="addHorse"
-                         @searchChanged="searchChanged"
+        <HorseListHeader @add-horse="addHorse"
+                         @search-changed="searchChanged"
                          :is-loading="isLoading"
                          :add-allowed="addUpdateAuthOk"/>
 
@@ -14,8 +14,8 @@
                 <div v-for="horse in horses" :key="horse.id">
                     <HorseListCard :horse="horse"
                                    :edit-allowed="addUpdateAuthOk" 
-                                   @getDetails="getDetails"
-                                   @editHorse="editHorse" /> 
+                                   @get-details="getDetails"
+                                   @edit-horse="editHorse" /> 
                 </div>
             </div> 
         </main>

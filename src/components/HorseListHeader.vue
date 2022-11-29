@@ -8,7 +8,7 @@
             </div>           
             <div class="counts-and-search">
                 <div class="search">
-                    <HorseListHeaderSearch @searchChanged="emit('searchChanged')"/>  
+                    <HorseListHeaderSearch @search-changed="emit('searchChanged')"/>  
                 </div>      
                 <div class="count total-count">
                     Total Horses: {{ horseCount }}

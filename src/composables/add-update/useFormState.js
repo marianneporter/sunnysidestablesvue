@@ -1,3 +1,7 @@
+/*
+    Maintains state for the add update form, including inputs photo and validation
+*/
+
 import useValidate from '@vuelidate/core'
 import { required, helpers, minLength, maxLength } from '@vuelidate/validators'
 import { reactive, computed, ref} from 'vue'
