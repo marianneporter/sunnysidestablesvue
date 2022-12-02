@@ -2,6 +2,8 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 
+
+
 /* import the fontawesome core */
 import { library } from '@fortawesome/fontawesome-svg-core'
 
@@ -10,6 +12,8 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 /* import specific icons */
 import { faBars, faHorse, faMagnifyingGlass, faArrowLeft, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons'
+
+import { VTooltip, Tooltip } from 'floating-vue'
 
 /* add icons to the library */
 library.add(faBars)
@@ -20,6 +24,8 @@ library.add(faPlus)
 library.add (faXmark)
 
 const app = createApp(App)   
-          .use(router)  
+          .use(router) 
+          .directive('tooltip', VTooltip) 
           .component('font-awesome-icon', FontAwesomeIcon)
+          .component('VTooltip', Tooltip)
           .mount('#app')

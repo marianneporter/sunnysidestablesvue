@@ -4,30 +4,13 @@ export default function useValidators() {
 
     const { getAge } = useDates()
 
-    const mustBeAtLeast1Owner = (value) => value.length !== 0 
-
     const noOfOwners = (value) => value.length > 0 && value.length <= 4
 
-    //check that the sex entered is compatible with dob if this has been entered
-    const validSexAgeCombo = (sex, siblings) => {
- 
-        if (!siblings.dob) {
-            return true
-        }   
-        
-        return validSexDob(siblings.dob, sex)
-     
-    }
+    const validNameChars = (value) =>  /^[A-Za-z\s]*$/.test(value)
 
-    // check that dob entered is compatible with the sex if this has been entered
-    const validAgeSexCombo = (dob, siblings) => {
+    const validSexDobCombo = (sex, siblings) => !siblings.dob || validSexDob(siblings.dob, sex)
 
-        if (!siblings.sex) {  
-            return true
-        }
-
-        return validSexDob(dob, siblings.sex) 
-    }
+    const validDobSexCombo = (dob, siblings) => !siblings.sex || validSexDob(dob, siblings.sex) 
 
     // helper method for dob/sex combination validators
     const validSexDob = (dob, sex) => {    
@@ -51,6 +34,10 @@ export default function useValidators() {
         return false;
     }
 
-    return { mustBeAtLeast1Owner, noOfOwners, validSexAgeCombo, validAgeSexCombo }
+    return { validNameChars,          
+             noOfOwners,
+             validSexDobCombo,
+             validDobSexCombo
+    }
 
 }

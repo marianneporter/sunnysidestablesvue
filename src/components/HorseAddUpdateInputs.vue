@@ -2,9 +2,9 @@
     <div class="form-body">
         <div class="form-element name-element">
             <label>Name of horse:</label>
-            <input type="text" class="name-input p75-width "
+            <input type="text" class="name-input p75-width" 
                     v-model="v$.name.$model">  
-                <ValidationMsg :model="v$.name"/>    
+                <div  v-tooltip="{ content: nameTooltip, html: true }"><ValidationMsg :model="v$.name"/></div>    
                      
         </div>               
         <div class="form-element dob-element">
@@ -15,7 +15,7 @@
                         :startDate="v$.dob.$model"
                         :maxDate="new Date()"
                         :minDate="minValidDOB()" />            
-            <ValidationMsg :model="v$.dob"/>            
+            <div v-tooltip="{ content: ageDobTooltip, html: true }"><ValidationMsg :model="v$.dob"/></div>           
         </div>  
         <div class="form-element">
             <label>Colour:</label>
@@ -27,15 +27,16 @@
                 :classes="{ clear: 'multiselect-clear',
                             clearIcon: 'multiselect-clear-icon' }" />  
             <ValidationMsg :model="v$.colour"/>                     
-        </div>    
-        <div class="form-element">
+        </div>   
+
+        <div class="form-element sex-element">
             <label>Sex:</label>   
             <Multiselect
                 v-model="v$.sex.$model"
                 :label="v$.sex.$model"
                 :value="v$.sex.$model"
-                :options="sexes"/>  
-            <ValidationMsg :model="v$.sex"/>     
+                :options="sexes"/>            
+            <div v-tooltip="{ content: ageDobTooltip, html: true }" ><ValidationMsg :model="v$.sex"/></div>     
         </div>  
 
         <div class="form-element">
@@ -64,20 +65,24 @@
 
     </div>   
         
-
+    
 </template>
 
 <script setup>
+
+    import { ref } from 'vue'
     
     //imported composables
     import useFormState from '@/composables/add-update/useFormState.js'
     import useSelectOptions from '@/composables/add-update/useSelectOptions.js'
     import useDates from '@/composables/utility/useDates'
 
-    //imported plug ins 
+    //npm imports
     import Multiselect from '@vueform/multiselect'
-    import Datepicker from '@vuepic/vue-datepicker';
+    import Datepicker from '@vuepic/vue-datepicker';  
     import '@vuepic/vue-datepicker/dist/main.css';
+    import 'floating-vue/dist/style.css'
+   
 
     //nested components
     import HorseAddUpdateInputsPhotoUpload from '@/components/HorseAddUpdateInputsPhotoUpload'
@@ -103,6 +108,12 @@
         props.owners.map((o)=> {           
             return {value: o.id.toString(), label: `${o.firstName} ${o.lastName}` }            
         }) 
+ 
+    const ageDobTooltip = ref('<p>Colts & Fillys are < 4 years,</p>'
+                            + '<p>Mares and Stallions >= 4 years,</p>'
+                            + '<p> Geldings can be any age</p>')
+    const nameTooltip = ref('<p>Name mus3 characters</p>'
+                          + '<p>and contain letters and spaces only</p>')
 
 </script>
 
@@ -183,7 +194,7 @@
 </style>
 
 <style lang="scss">   
-
+   
     .multiselect-clear {
         position: relative;       
 
@@ -209,6 +220,10 @@
             color: #888888;      
             stroke-width: 1.2;            
         }
+    }
+
+    .tooltip {
+        max-width: 100px !important;
     }
 
  </style>
