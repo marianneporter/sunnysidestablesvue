@@ -1,19 +1,23 @@
-# sunnysidestablesvue
+# SunnysideStablesVue
 
-## Project setup
-```
-npm install
-```
+## Basic Functionality
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+Application for holding details about horses and their owners.
 
-### Compiles and minifies for production
-```
-npm run build
-```
+Different access levels for Admin and Owner Users.
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+All users can see the list of horses and get details about individual horses.
+
+## Technologies Used
+
+Vue 3, JavaScript, SCSS, HTML, Vuelidate
+
+##asp.net core API written in c# at marianneporter/SunnysideStablesAPI
+
+
+
+
+
+
+
+## Example screenshots at

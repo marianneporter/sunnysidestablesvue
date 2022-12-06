@@ -5,7 +5,7 @@
             <OwnersNames :owners="horse.owners" />           
         </h6>  
         <div class="img-area">
-             <img :src="horse.imageUrl" alt="No photo uploaded yet">
+             <img :src="horse.imageUrl" alt="No photo available">
         </div>         
         <div class="btn-area">
             <button v-if="editAllowed"             

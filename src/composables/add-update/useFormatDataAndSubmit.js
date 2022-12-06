@@ -27,14 +27,15 @@ export default function useSubmitForm() {
         horseFormData.append('name', state.name)
         horseFormData.append('colour', state.colour)
         horseFormData.append('sex', state.sex)      
-        horseFormData.append('heightHands', state.height)
-       
+        horseFormData.append('heightHands', state.height)       
         horseFormData.append('dob', jsDateToYYYYMMDDFormat(state.dob))
+        horseFormData.append('photoReset', photoState.photoReset)   
 
         state.owners.forEach(ownerId => horseFormData.append('ownerIds', ownerId))
 
        
-        if (photoState.uploadedPhoto) {          
+        if (photoState.uploadedPhoto) {   
+  
             horseFormData.append('imageFile', photoState.uploadedPhoto)
         }
 

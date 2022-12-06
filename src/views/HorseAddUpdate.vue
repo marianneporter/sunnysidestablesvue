@@ -7,7 +7,7 @@
                                   :owners="owners" />
 
             <div class="btn-area">
-                <router-link :to="{ name: 'horseList'}" class="btn btn-secondary btn-full-mob">
+                <router-link :to="{ name: 'horseList'}" class="btn btn-secondary back-btn btn-full-mob">
                              <font-awesome-icon icon="fa-solid fa-arrow-left" />&nbsp;Back to List
                 </router-link>
                 <button type="submit"
@@ -39,20 +39,18 @@
             HorseAddUpdateInputs
         },        
 
-        created() {  
-            
+        created() {                         
             window.addEventListener('beforeunload', this.confirmLeave );
         },
 
-        unmounted() {
-           
+        unmounted() {  
             window.removeEventListener('beforeunload',  this.confirmLeave  )
             this.resetHorseForm()
             this.clearState()
         },
 
-        beforeRouteLeave() {
- 
+        beforeRouteLeave() { 
+
             if ( this.formSubmitted || (!this.v$.$anyDirty && !this.photoState.uploadedPhoto)) {
                 return
             }
@@ -113,13 +111,91 @@
            //  form submit and redirect
             const addUpdateHorse = async () => {     
 
-                if ((!v$.value.$anyDirty && !photoState.uploadedPhoto)) {
-                    toaster.show(`Please amend form or click back button to return to list`,
-                            {type: 'info',
-                            position: 'top'}) 
-                    return
-                }  
+                // if ((!v$.value.$anyDirty && !photoState.uploadedPhoto)) {
+                //     toaster.show(`Please amend form or click back button to return to list`,
+                //             {type: 'info',
+                //             position: 'top'}) 
+                //     return
+                // }  
 
+                // if ( addMode ) {
+                //     if ((!v$.value.$anyDirty && !photoState.uploadedPhoto)) {
+                //         toaster.show(`Please amend form or click back button to return to list`,
+                //                 {type: 'info',
+                //                 position: 'top'}) 
+                //         return
+                //     }
+                // }  else {   //update mode
+                //     if (v$.value.$anyDirty) {
+                //         continue
+                //     } else if (photoState.uploadedPhoto) {
+                //         continue
+                //     } else if (photoState.currentPhotoUrl && !photoState.uploadedPhoto) {
+                //         continue
+                //     } else {
+                //         toaster.show(`Please amend form or click back button to return to list`,
+                //                 {type: 'info',
+                //                 position: 'top'}) 
+                //         return                        
+                //     }
+                // }  
+                
+                console.log('current photo url ' + photoState.currentPhotoUrl )
+                console.log('photoState.uploadedPhoto ' + photoState.uploadedPhoto)
+                console.log(addMode.value)
+
+                if ( addMode.value ) {
+                     console.log('in horseaddupdate view add section')
+                    if ((!v$.value.$anyDirty && !photoState.uploadedPhoto)) {
+                        toaster.show(`Please amend form or click back button to return to list`,
+                                {type: 'info',
+                                position: 'top'}) 
+                        return
+                    }
+                }  else {   //update mode
+                    console.log('in horseaddupdate view update section')
+                    console.log('v$.value.$anyDirty ' + v$.value.$anyDirty )
+                    console.log('photoState.uploadedPhoto ' + photoState.uploadedPhoto)
+                    console.log('photoState.currentPhotoUrl ' + photoState.currentPhotoUrl)
+
+                    if (!v$.value.$anyDirty) {
+                        console.log('not anydirty is ' + !v$.value.$anyDirty)
+                    }
+
+                    if (photoState.currentPhotoUrl == null) {
+                        console.log('current photo url = null is true ')
+                    }
+
+                    if (photoState.uploadedPhoto == null) {
+                        console.log('uploadedPhoto = null is true ')
+                    }
+
+                    if ( !v$.value.$anyDirty && !photoState.uploadedPhoto && !photoState.photoReset) {
+                        toaster.show(`Please amend form or click back button to return to list`,
+                                {type: 'info',
+                                position: 'top'}) 
+                        return                       
+                    }
+                }
+                console.log('after the big if')
+
+
+
+                //         && (!photoState.uploadedPhoto && photoState.currentPhotoUrl)|| photoState.uploadedPhoto)
+                    
+                //     {
+                //         continue
+                //     } else if (photoState.uploadedPhoto) {
+                //         continue
+                //     } else if (photoState.currentPhotoUrl && !photoState.uploadedPhoto) {
+                //         continue
+                //     } else {
+                //         toaster.show(`Please amend form or click back button to return to list`,
+                //                 {type: 'info',
+                //                 position: 'top'}) 
+                //         return                        
+                //     }
+                // }     
                 v$.value.$touch()
 
                 if (v$.value.$invalid) {     
@@ -165,50 +241,72 @@
 
 <style lang="scss" scoped>
   
-    @import "@/assets/scss/global.scss"; 
-   
+    @import "@/assets/scss/global.scss";    
+ 
     .content {
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: center;      
     }
 
     form {
         background-color: white;       
         padding: 40px 30px;
-        color: #404040;
+        color: #404040;     
     }
-
-    @media screen and (max-width: 992px) {
+   
+    @media screen and (max-width: 767px),
+                      (min-width: 768px) and (max-height: 699px)  {
         .content {
             @include mobile-background;
         }
 
         form {
             width: 95%;
-            margin: 0 auto;
+            max-width: 400px;
+            margin: 16px auto;
+        }
+
+        .btn-area  {
+            margin-top: 10px;
+          
+
+            & > * {
+                width: 95%;
+                margin: 0 auto;
+              
+            }
+
+            .submit-btn {
+                margin-top: 5px;                
+            }
         }
     }
 
-    @media screen and (min-width: 992px) {
+
+    @media screen and (min-width: 768px) and (min-height: 700px) {
         .content {
             @include desktop-background($formBackgroundImage, true, 0.75);  
         } 
 
         form {
             margin: 0 auto;
-            width: 600px;
-          
-            height:650px; 
+            width: 600px;    
         }
 
         .btn-area {
             display: flex;
             justify-content: space-around;
-            margin-top: 50px;
+            border-top: 0.5px solid #BEBEBE;
+            padding-top: 20px;                  
+            column-gap: 20px;
+            margin-top: 35px;
 
-            .submit-btn {
-                width: 160px;
+            .submit-btn, .back-btn  {            
+                max-width: 650px;
+                width: 180px;
+                height: 50px; 
+                margin-top: 0;           
             }
         }
     }

@@ -5,7 +5,7 @@
 
             <div class="card-body">
                 <div class="img-area">
-                    <img :src="horse.imageUrl" alt="No photo uploaded yet">
+                    <img :src="horse.imageUrl" alt="No photo available">
                 </div>         
             
                 <div class="detail-lines">
@@ -84,13 +84,8 @@
 
     @import "@/assets/scss/global.scss";  
 
-    .content {
-        padding-top: 20px;
+    .content {     
         padding: 20px 10px;
-    }
-
-    .detail-lines {
-        margin-top: 16px;
     }
 
     .horse-details-card {
@@ -98,18 +93,37 @@
          padding: 16px 8px;
          margin: auto;
 
-        .detail-title, .detail-value {
-            display: inline-block;
-        }
 
-        .detail-title {
-            width: 80px;
-        }
+        .detail-lines {
 
-        .detail-value {
-            width: calc(95% - 80px);
-            vertical-align: top;
-        }     
+            margin-top: 16px;
+
+            .detail-line {
+                line-height:24px;              
+            }
+            
+            .detail-line.owner-line {
+                padding-top: 2px;
+                line-height: 20px; 
+            }
+
+            .detail-title, .detail-value {
+               display: inline-block;
+            }
+
+            .detail-title {
+                width: 80px;
+            }
+
+            .detail-value {
+                width: calc(95% - 80px);
+                vertical-align: top;
+            }  
+        } 
+        
+        .btn-area > * {
+            margin: 5px;
+        }
     }
 
     @media screen and (max-width: 299px) {
@@ -127,15 +141,15 @@
         }
     }
 
-    @media screen and (min-width: 300px) and (max-width: 768px){
+    @media screen and (min-width: 300px) and (max-width: 767px),
+                      (min-width: 768px) and (max-height: 699px) {
         .content {
-            @include mobile-background;    
-            height: $contentHeight;      
+            @include mobile-background;        
         }
 
         .horse-details-card {
             max-width: 600px;
-            padding: 16px;
+            padding: 16px;                        
         }
 
         .img-area {
@@ -143,35 +157,34 @@
                 display: block;
                 max-width: 300px;
                 height: auto;
-                margin-top: 20px;
-                margin: 0 auto;
+                margin: 8px auto;
             }
-        }
+        }  
     }
 
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: 768px) and (min-height: 700px) {
         .content {
             @include desktop-background($formBackgroundImage, true, 0.75);              
             display:flex;
             justify-content: center;
             align-items: center; 
-            max-height: $contentHeight;  
+            min-height: $contentHeight;       
             position: fixed;         
+        } 
+
+        .card-body {         
+            padding: 0 32px 16px 32px;  
+        }
+
+        
+        h3 {
+             margin-left: 24px;          
         }
 
         .horse-details-card {
-            margin-top: 2.5%;
-        }
-
-        .card-body {
-         
-            padding: 16px 32px;    
-        }
-
-        .horse-details-card {
-            width: 600px;
-            height: 650px;
-            padding: 32px; 
+            width: 600px;      
+            min-height: 550px;
+            padding: 32px;  
         }
 
         .detail-lines {
@@ -185,7 +198,9 @@
             }
 
             .detail-line.owner-line {
-                width: 95%;
+                padding-top: 6px;
+                width: 95%;              
+                line-height:20px;        
             }
         }
 
@@ -197,11 +212,12 @@
                 max-width: 375px;
                 height: auto;
                 margin-top: 20px;
-            }
+            }         
         } 
 
-        .btn-area {
-            margin-top: 24px;
+        .btn-area {         
+            border-top: 0.5px solid #BEBEBE;
+            padding-top: 20px;
             display: flex;
             justify-content: space-around;     
             .btn {

@@ -6,7 +6,6 @@
                 @change="photoAdded"                           
                 ref="fileInput"> 
 
-
             <img v-if="!addMode && !photoState.uploadedPhoto"
                 class="preview-photo"                        
                 :src="photoState.currentPhotoUrl" >                 
@@ -18,12 +17,14 @@
         <div class="btn-area">
             <button class="add-btn" type="button"
                 @click="$refs.fileInput.click()"  >
-                {{addMode ? 'Add' : photoForUpdate ? 'Update' : 'Add'}} Photo            
+                {{ photoForUpdate ? 'Update' : 'Add'}} Photo            
             </button>   
             <button class="reset-btn"
                     type="button"
                     @click="resetPhoto()"
                     v-if="photoForUpdate">Reset Photo</button> 
+
+        
         </div>
     </div>   
 </template>
@@ -46,12 +47,28 @@
 
     const photoForUpdate = computed(() =>  photoState.uploadedPhoto || photoState.currentPhotoUrl) 
 
+    // const photoForUpdate = computed(() => {
+    //      console.log('in photoForUpdate')
+    //      console.log('  photoState.uploadedPhoto ' +   photoState.uploadedPhoto)
+    //      console.log(' photoState.currentPhotoUrl ' + photoState.currentPhotoUrl)
+    //      console.log('returned value is ' +  photoState.currentPhotoUrl ||   photoState.uploadedPhoto)
+
+    //      if (photoState.uploadedPhoto == null && photoState.currentPhotoUrl == null) {
+    //          return false;
+    //      }        
+
+    //      return true;
+        
+         
+    // }); 
+
     const photoAdded = (event) => {   
         
         fileValidAndLoaded(event.target.files[0]) 
             .then((res) => {
                 if (res) {
-                        photoState.uploadedPhoto=event.target.files[0]      
+                        photoState.uploadedPhoto=event.target.files[0]  
+                        photoState.photoReset = false    
                     } else {
                     toaster.show(`Photo must be a jpeg or png file in landscape format`,
                                     {type: 'error'}) 
@@ -60,8 +77,13 @@
     }
 
     const resetPhoto = () => {
+        console.log('in reset photo')
         photoState.uploadedPhoto = null
+        photoState.currentPhotoUrl = null
         previewPhoto.value = null
+        if (photoState.currentPhotoUrl != null ) {
+            photoState.photoReset = true
+        }        
     } 
 
 </script>
@@ -104,12 +126,22 @@
         }
     }  
 
+    @media screen and (max-width:300px) {
+        .photo-area {
+            .preview-photo {
+                max-width: 100px;
+            }
+        }
+
+    } 
+
     @media screen and (max-width: 992px) {
         .photo-area {
             margin-top: 15px;
-            margin-bottom: 30px;
-            column-gap: 0;       
+            margin-bottom: 30px; 
         }
     } 
+
+
 
 </style>

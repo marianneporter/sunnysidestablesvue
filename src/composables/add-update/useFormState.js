@@ -17,7 +17,8 @@ const state = reactive({
 
 const photoState = reactive ( {
     uploadedPhoto: null,
-    currentPhotoUrl: null
+    currentPhotoUrl: null,
+    photoReset: false
 } )
 
 export default function useFormState() {  

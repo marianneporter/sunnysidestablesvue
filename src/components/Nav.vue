@@ -60,6 +60,7 @@
         align-items: center;
         background-color: $primary;
         color: white;   
+        min-height: $navbarHeight;
         min-width: 100%; 
 
         .site-name {
@@ -104,9 +105,18 @@
                 border: none;
             }
         }      
-    }  
+    } 
+    
+    @media screen and (max-width: 299px) {
+        .navbar {
+            .site-name {
+                font-size: 18px;
+            }
+        }
 
-    @media screen and (max-width: 992px) {     
+    }
+
+    @media screen and (max-width: 767px) {     
 
         .navbar {
             flex-direction: column;
@@ -114,6 +124,7 @@
             height: auto;   
             background-color: $primary;
             color: white;
+            min-height: auto;
  
 
             .navbar-toggle {

@@ -124,7 +124,7 @@
     @import "@/assets/scss/global.scss";  
 
     .form-element {
-        margin-top: 20px;          
+        margin-top: 20px;  
 
         & * {
             display: block;    
@@ -138,6 +138,8 @@
         padding: 5px;
         font-size: 16px; 
         color: #383838;
+                 width: 100%;
+            height: 35px;
        
     } 
  
@@ -159,15 +161,7 @@
     } 
 
 
-    @media screen and (max-width: 992px) {
-
-        .name-input {
-            width: 100%;
-            height: 35px;
-        }
-    }
-
-    @media screen and (min-width: 992px) {
+    @media screen and (min-width: 768px) and (min-height: 700px) {
         .form-body {
             display: flex;
             flex-wrap: wrap;                
