@@ -23,8 +23,8 @@
                 <div class="vl-parent">
                     <Loading v-model:active="isLoading"                      
                             :is-full-page="fullPage"
-                             width=30
-                             height=30
+                            :width="loadingIndicatorSize"
+                            :height="loadingIndicatorSize"
                              loader="dots"
                              color=white />
 
@@ -53,6 +53,7 @@
 
     const fullPage = ref(false)  
     const isLoading = ref(false)
+    const loadingIndicatorSize = ref(30)
    
     const { v$, getUserCreds } = useLogin()
     const { setMessage } = useMessageForNextPage()
@@ -142,6 +143,8 @@
             form {
                 font-size: 24px;
                 padding: 70px 10px;
+                max-width: 500px;
+                margin: 0 auto;
 
                 .form-element {
                     margin-top: 20px;

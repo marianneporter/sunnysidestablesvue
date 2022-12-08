@@ -53,7 +53,7 @@
 
 <style lang="scss" scoped>
 
-    @media screen and (max-width: 992px) {
+    @media screen and (max-width: 767px) {
         header {   
             width: 90%;
             margin: 15px auto;
@@ -88,7 +88,6 @@
 
             .add-btn {
                 order: 4;
-                max-width: 50%;
                 margin-top: 10px;
                 margin-right: 10px;
                 margin-left: auto;
@@ -96,21 +95,27 @@
         }
     }
 
-    @media screen and (min-width: 992px) {
+  
+
+    @media screen and (min-width: 768px) {
  
-        header {
-            margin: 30px 100px;          
+        header {              
+            padding: 0 25px;
+
+            h1 {
+                margin: 20px 0;
+            }
 
             .add-and-search-line {
                 display: flex;
-                justify-content: space-between;
-                max-width: 1200px;
+                justify-content: space-between;  
                 margin: 0 auto;
             }
 
             .counts-and-search {
                 margin-bottom: 35px;
                 max-width: 450px;
+        
                 display: flex;
                 flex-wrap: wrap;
                 gap: 20px;
@@ -128,12 +133,24 @@
             .search-count { order: 3 }
 
             .add-btn {
-                margin-top: 16px;
+              
                 height: 50px;
             }
         }   
-            
- 
+    }
+
+    @media screen and (min-width: 992px) {
+        header {
+
+            h1 {
+                margin: 0 0 50px 50px;
+            }
+             margin: 30px 100px 0 100px;   
+
+            .add-and-search-line {
+               max-width: 1200px;
+            }             
+        }
     }
     
 

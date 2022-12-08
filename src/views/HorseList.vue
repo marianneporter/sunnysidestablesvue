@@ -159,7 +159,7 @@
         }
     }
 
-    @media screen and (max-width: 992px) {
+    @media screen and (max-width: 767px) {
 
         .horse-cards {
             margin-top: 30px;

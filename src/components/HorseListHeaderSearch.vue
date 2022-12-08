@@ -42,13 +42,13 @@
         display: flex;
         width: 230px;
         height: 40px;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);       
         
         input {
             height: inherit;
             border: none;
             padding-left: 3px;   
-            flex: 1 0 0;           
+            flex: 1 0 0;    
                   
             &:focus {
                 border: none;
@@ -58,8 +58,8 @@
 
         button {
             display: inline-block;
-            border: none;   
-            flex: 0 0 25px;            
+            border: none;        
+            width: 25px;         
             opacity: 0.5;   
             background-color: white;
         } 
@@ -69,20 +69,19 @@
         }
     }
 
-    @media screen and (max-width: 992px) {
+    @media screen and (max-width: 767px) {
         .search-input {
             margin: 0 auto;
             width: 95%;
             height: 50px;
 
             input {
-                flex: 1 0 200px;
+                width: 150px;
             }
 
             button {
-                flex: 0 1 40px; 
-            }
-       
+                width: 40px;
+            }       
        }
     }
 

@@ -11,7 +11,7 @@ export default function useDates() {
     }
     
     const inputDateToDisplayFormat = (inDate) => {    
-        const options = {  year: 'numeric', month: 'long', day: 'numeric' };
+        const options = {  year: 'numeric', month: 'short', day: 'numeric' };
         let date = new Date(inDate)
         return date.toLocaleDateString('en-GB', options)  
     }

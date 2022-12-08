@@ -72,9 +72,12 @@
                 
                 .login-slider {    
                     z-index: 10;
+                    max-width: 500px;
                     width: 95vw;
+                   
                     position: relative; 
-                    top: -80px;                   
+                    top: -80px;   
+                    right:10px;                
                 }
 
                 .slider-section {
@@ -85,15 +88,15 @@
                     margin-top: 5vw;
                     width: 200px;
                     font-size: 20px;
-                    left: 200px;
+                    left: 250px;
                 }
             }  
 
         .slide-enter-from   { transform: translateX(800px) }
-        .slide-enter-to     { transform: translate(0) }
+        .slide-enter-to     { transform: translateX(0) }
         .slide-enter-active { transition: transform 0.75s linear }
-        .slide-leave-from   { transform: translate(0)}
-        .slide-leave-to     { transform: translate(800px) }
+        .slide-leave-from   { transform: translateX(0)}
+        .slide-leave-to     { transform: translateX(800px) }
         .slide-leave-active { transition: transform 0.75s linear }  
 
 

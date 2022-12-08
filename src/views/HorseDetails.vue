@@ -26,7 +26,7 @@
                         <div class="detail-value">{{ inputDateToDisplayFormat(horse.dob) }}</div>
                     </div> 
                     <div class="detail-line owner-line">
-                        <div class="detail-title">Owners: </div>
+                        <div class="detail-title">Owned by: </div>
                         <div class="detail-value">
                             <OwnersNames :owners="horse.owners" />
                         </div>
