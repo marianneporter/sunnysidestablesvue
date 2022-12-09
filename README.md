@@ -12,12 +12,6 @@ All users can see the list of horses and get details about individual horses.
 
 Vue 3, JavaScript, SCSS, HTML, Vuelidate
 
-##asp.net core API written in c# at marianneporter/SunnysideStablesAPI
+## asp.net core API written in c# at marianneporter/SunnysideStablesAPI
 
-
-
-
-
-
-
-## Example screenshots at
+## Example screenshots at https://drive.google.com/drive/folders/12qEmubz3nmRLScF5DSvOco9YNTrKKLuc?usp=sharing
