@@ -33,11 +33,11 @@ export default function useSubmitForm() {
 
         state.owners.forEach(ownerId => horseFormData.append('ownerIds', ownerId))
 
+
        
-        if (photoState.uploadedPhoto) {   
-  
-            horseFormData.append('imageFile', photoState.uploadedPhoto)
-        }
+        // add newly uploaded photo to formdata
+        if (photoState.uploadedPhoto) {     
+            horseFormData.append('imageFile', photoState.uploadedPhoto)        }
 
         let heightHands= horseFormData.get('heightHands')
         

@@ -8,7 +8,7 @@
 
             <img v-if="!addMode && !photoState.uploadedPhoto"
                 class="preview-photo"                        
-                :src="photoState.currentPhotoUrl" >                 
+                :src="photoState.newPhotoUrl" >      
 
             <img v-else class="preview-photo"                        
                        :src="previewPhoto" >       
@@ -45,22 +45,9 @@
         }  
     }); 
 
-    const photoForUpdate = computed(() =>  photoState.uploadedPhoto || photoState.currentPhotoUrl) 
+   const photoForUpdate = computed(() =>  photoState.uploadedPhoto || photoState.newPhotoUrl) 
 
-    // const photoForUpdate = computed(() => {
-    //      console.log('in photoForUpdate')
-    //      console.log('  photoState.uploadedPhoto ' +   photoState.uploadedPhoto)
-    //      console.log(' photoState.currentPhotoUrl ' + photoState.currentPhotoUrl)
-    //      console.log('returned value is ' +  photoState.currentPhotoUrl ||   photoState.uploadedPhoto)
-
-    //      if (photoState.uploadedPhoto == null && photoState.currentPhotoUrl == null) {
-    //          return false;
-    //      }        
-
-    //      return true;
-        
-         
-    // }); 
+ 
 
     const photoAdded = (event) => {   
         
@@ -68,22 +55,18 @@
             .then((res) => {
                 if (res) {
                         photoState.uploadedPhoto=event.target.files[0]  
-                        photoState.photoReset = false    
-                    } else {
+//                        photoState.photoReset = false    
+                } else {
                     toaster.show(`Photo must be a jpeg or png file in landscape format`,
                                     {type: 'error'}) 
                 }                 
             })
     }
 
-    const resetPhoto = () => {
-        console.log('in reset photo')
-        photoState.uploadedPhoto = null
-        photoState.currentPhotoUrl = null
-        previewPhoto.value = null
-        if (photoState.currentPhotoUrl != null ) {
-            photoState.photoReset = true
-        }        
+    const resetPhoto = () => {        
+        photoState.uploadedPhoto = null  
+        photoState.newPhotoUrl = null   
+        previewPhoto.value = null     
     } 
 
 </script>

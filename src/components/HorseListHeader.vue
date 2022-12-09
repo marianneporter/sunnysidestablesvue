@@ -4,7 +4,8 @@
 
         <div  v-if="!isLoading" class="add-and-search-line">
             <div class="add-btn">
-                 <button v-if="addAllowed" class="btn btn-success" @click="emit('addHorse')">Add Horse</button>  
+                 <button v-if="addAllowed" class="btn btn-success"
+                        @click="emit('addHorse')">Add Horse</button>  
             </div>           
             <div class="counts-and-search">
                 <div class="search">

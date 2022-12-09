@@ -109,43 +109,10 @@
             const owners = route.meta['owners']
         
            //  form submit and redirect
-            const addUpdateHorse = async () => {     
-
-                // if ((!v$.value.$anyDirty && !photoState.uploadedPhoto)) {
-                //     toaster.show(`Please amend form or click back button to return to list`,
-                //             {type: 'info',
-                //             position: 'top'}) 
-                //     return
-                // }  
-
-                // if ( addMode ) {
-                //     if ((!v$.value.$anyDirty && !photoState.uploadedPhoto)) {
-                //         toaster.show(`Please amend form or click back button to return to list`,
-                //                 {type: 'info',
-                //                 position: 'top'}) 
-                //         return
-                //     }
-                // }  else {   //update mode
-                //     if (v$.value.$anyDirty) {
-                //         continue
-                //     } else if (photoState.uploadedPhoto) {
-                //         continue
-                //     } else if (photoState.currentPhotoUrl && !photoState.uploadedPhoto) {
-                //         continue
-                //     } else {
-                //         toaster.show(`Please amend form or click back button to return to list`,
-                //                 {type: 'info',
-                //                 position: 'top'}) 
-                //         return                        
-                //     }
-                // }  
-                
-                console.log('current photo url ' + photoState.currentPhotoUrl )
-                console.log('photoState.uploadedPhoto ' + photoState.uploadedPhoto)
-                console.log(addMode.value)
-
+            const addUpdateHorse = async () => {   
+            
                 if ( addMode.value ) {
-                     console.log('in horseaddupdate view add section')
+                
                     if ((!v$.value.$anyDirty && !photoState.uploadedPhoto)) {
                         toaster.show(`Please amend form or click back button to return to list`,
                                 {type: 'info',
@@ -153,49 +120,16 @@
                         return
                     }
                 }  else {   //update mode
-                    console.log('in horseaddupdate view update section')
-                    console.log('v$.value.$anyDirty ' + v$.value.$anyDirty )
-                    console.log('photoState.uploadedPhoto ' + photoState.uploadedPhoto)
-                    console.log('photoState.currentPhotoUrl ' + photoState.currentPhotoUrl)
-
-                    if (!v$.value.$anyDirty) {
-                        console.log('not anydirty is ' + !v$.value.$anyDirty)
-                    }
-
-                    if (photoState.currentPhotoUrl == null) {
-                        console.log('current photo url = null is true ')
-                    }
-
-                    if (photoState.uploadedPhoto == null) {
-                        console.log('uploadedPhoto = null is true ')
-                    }
 
                     if ( !v$.value.$anyDirty && !photoState.uploadedPhoto && !photoState.photoReset) {
+                    
                         toaster.show(`Please amend form or click back button to return to list`,
                                 {type: 'info',
                                 position: 'top'}) 
                         return                       
                     }
-                }
-                console.log('after the big if')
+                }  
 
-
-
-                //         && (!photoState.uploadedPhoto && photoState.currentPhotoUrl)|| photoState.uploadedPhoto)
-                    
-                //     {
-                //         continue
-                //     } else if (photoState.uploadedPhoto) {
-                //         continue
-                //     } else if (photoState.currentPhotoUrl && !photoState.uploadedPhoto) {
-                //         continue
-                //     } else {
-                //         toaster.show(`Please amend form or click back button to return to list`,
-                //                 {type: 'info',
-                //                 position: 'top'}) 
-                //         return                        
-                //     }
-                // }     
                 v$.value.$touch()
 
                 if (v$.value.$invalid) {     

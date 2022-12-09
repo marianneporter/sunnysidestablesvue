@@ -17,8 +17,11 @@ const state = reactive({
 
 const photoState = reactive ( {
     uploadedPhoto: null,
-    currentPhotoUrl: null,
-    photoReset: false
+    newPhotoUrl: null,
+    originalPhotoUrl: null,
+    get photoReset() {
+        return this.newPhotoUrl == null && this.originalPhotoUrl != null
+    }
 } )
 
 export default function useFormState() {  
@@ -63,7 +66,8 @@ export default function useFormState() {
         state.height = null
         state.dob    = null
         state.owners = []
-        photoState.currentPhotoUrl = null
+        photoState.newPhotoUrl = null
+        photoState.originalPhotoUrl = null
         photoState.uploadedPhoto = null        
     }
 
@@ -75,14 +79,13 @@ export default function useFormState() {
         state.sex              = horse.sex
         state.dob              = new Date(horse.dob) 
         state.height           = horse.heightHands
-        state.owners           = horse.owners.map(o => o.id)
+        state.owners           = horse.owners.map(o => o.id)       
         if (horse.imageUrl) {
-            photoState.currentPhotoUrl = horse.imageUrl
-        }       
+            photoState.newPhotoUrl = horse.imageUrl          
+            photoState.originalPhotoUrl = horse.imageUrl
+        }          
     }  
-
-
-
+    
     const v$ = useValidate(rules, state) 
 
     return { v$, state, photoState, clearState, setStateFields, formSubmitted }
