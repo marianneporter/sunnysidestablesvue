@@ -1,6 +1,4 @@
-/*******************************************************************/
-/* data for login form                                             */
-/*******************************************************************/
+/************************ Login data and validation *************************** */
 import useValidate from '@vuelidate/core'
 import { required, email, minLength,  helpers } from '@vuelidate/validators'
 import { reactive, computed, toRaw } from 'vue'

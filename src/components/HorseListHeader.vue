@@ -54,6 +54,7 @@
 
 <style lang="scss" scoped>
 
+    /***************** small and extra small screens *************/
     @media screen and (max-width: 767px) {
         header {   
             width: 90%;
@@ -97,7 +98,7 @@
     }
 
   
-
+ /*********************** medium screens *********************/
     @media screen and (min-width: 768px) {
  
         header {              
@@ -140,6 +141,7 @@
         }   
     }
 
+     /*********************** large screens *********************/
     @media screen and (min-width: 992px) {
         header {
 

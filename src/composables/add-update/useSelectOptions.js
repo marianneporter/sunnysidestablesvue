@@ -1,5 +1,3 @@
-import { reactive } from 'vue'
-
 export default function useSelectOptions() { 
      
     const sexes =['Gelding', 'Mare', 'Colt', 'Filly', 'Stallion']

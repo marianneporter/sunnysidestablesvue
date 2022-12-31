@@ -126,6 +126,8 @@
         }
     }
 
+
+    /*********************** extra small screens *********************/
     @media screen and (max-width: 299px) {
         .content {
            @include mobile-background;         
@@ -141,6 +143,7 @@
         }
     }
 
+     /*********************** small screens *********************/
     @media screen and (min-width: 300px) and (max-width: 767px),
                       (min-width: 768px) and (max-height: 699px) {
         .content {
@@ -162,6 +165,7 @@
         }  
     }
 
+     /*********************** medium screens *********************/
     @media screen and (min-width: 768px) and (min-height: 700px) {
         .content {
             @include desktop-background($formBackgroundImage, true, 0.75);              

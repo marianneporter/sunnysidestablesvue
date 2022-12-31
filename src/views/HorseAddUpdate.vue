@@ -23,7 +23,7 @@
     //imports from vue
     import { ref } from 'vue'
     import { useRoute, useRouter } from 'vue-router'      
-    //imported plug-ins
+    //packages
     import { createToaster } from "@meforma/vue-toaster";
     //imported composables   
     import useFormState from '@/composables/add-update/useFormState' 

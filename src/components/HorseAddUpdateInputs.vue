@@ -187,6 +187,7 @@
     }
 </style>
 
+
 <style lang="scss">   
    
     .multiselect-clear {

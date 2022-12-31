@@ -39,8 +39,7 @@
 
     @media screen and (min-width: 768px) {
         .content {
-            @include desktop-background($formBackgroundImage, true, 0.75);   
-                
+            @include desktop-background($formBackgroundImage, true, 0.75);                   
         }
 
         .about-card {           

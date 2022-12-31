@@ -5,8 +5,7 @@ export default async function horseDetailsResolver(to, from, next )  {
     const { fetchHorse } = useDB() 
     const { setMessage } = useMessageForNextPage()  
 
-    try {
-       
+    try {       
         let res =  await fetchHorse(+to.params['id'])   
 
         if ( typeof res == 'object') {

@@ -31,7 +31,7 @@
 
 <script setup>
     import { computed } from 'vue'
-
+   
     import usePhotoHelpers from '@/composables/add-update/usePhotoHelpers' 
     import useFormState from '@/composables/add-update/useFormState' 
 
@@ -45,17 +45,14 @@
         }  
     }); 
 
-   const photoForUpdate = computed(() =>  photoState.uploadedPhoto || photoState.newPhotoUrl) 
-
- 
-
+    const photoForUpdate = computed(() =>  photoState.uploadedPhoto || photoState.newPhotoUrl)  
+         
     const photoAdded = (event) => {   
         
         fileValidAndLoaded(event.target.files[0]) 
             .then((res) => {
                 if (res) {
                         photoState.uploadedPhoto=event.target.files[0]  
-//                        photoState.photoReset = false    
                 } else {
                     toaster.show(`Photo must be a jpeg or png file in landscape format`,
                                     {type: 'error'}) 

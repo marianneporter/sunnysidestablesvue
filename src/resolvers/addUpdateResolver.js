@@ -1,5 +1,4 @@
 import useDB from "@/composables/database/useDB"
-import fetchHorseResolver from "@/resolvers/horseDetailsResolver";
 import useMessageForNextPage from "@/composables/ui-state/useMessageForNextPage";
 
 export default async function addUpdateResolver(to, from, next )  {

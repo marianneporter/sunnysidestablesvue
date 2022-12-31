@@ -32,8 +32,6 @@ export default function useSubmitForm() {
         horseFormData.append('photoReset', photoState.photoReset)   
 
         state.owners.forEach(ownerId => horseFormData.append('ownerIds', ownerId))
-
-
        
         // add newly uploaded photo to formdata
         if (photoState.uploadedPhoto) {     
@@ -92,7 +90,6 @@ export default function useSubmitForm() {
                 
         return { submitSuccess, idForRoute }
     } 
-
   
     return {
           resetHorseForm, handleFormSubmit 
