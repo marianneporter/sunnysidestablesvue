@@ -25,7 +25,7 @@
 
     const { statusMessage, clearStatusMessage } = useMessageForNextPage()  
     
-     const toaster = createToaster({ position: 'top' });
+    const toaster = createToaster({ position: 'top' });
 
     setCurrentUserIfPresent();
 

@@ -1,6 +1,6 @@
 <template>
     <div class="horse-card" >
-        <h3 ref="horseCard">{{ horse.name }}</h3>
+        <h3>{{ horse.name }}</h3> 
         <h6>Owned by:
             <OwnersNames :owners="horse.owners" />           
         </h6>  

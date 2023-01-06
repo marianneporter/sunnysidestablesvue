@@ -113,7 +113,6 @@
                 font-size: 18px;
             }
         }
-
     }
 
     @media screen and (max-width: 767px) {     
@@ -125,12 +124,6 @@
             background-color: $primary;
             color: white;
             min-height: auto;
- 
-
-            .navbar-toggle {
-                display: flex;
-                margin-top: 6px;
-            }
 
             .site-name {
                 position: relative; 
@@ -148,6 +141,7 @@
                 flex-direction: column;
                 justify-content: space-between;
                 color: white;
+                margin-top: 6px;
             }
 
             ul {
