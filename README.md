@@ -15,4 +15,7 @@ Vue 3, JavaScript, SCSS, HTML, Vuelidate
 ## asp.net core API written in c# at marianneporter/SunnysideStablesAPI
 
 ## Example screenshots at
-https://drive.google.com/drive/folders/12qEmubz3nmRLScF5DSvOco9YNTrKKLuc?usp=sharing
+https://drive.google.com/drive/folders/1Rg5Vka-KUM5EK522jyW8V_HllBmuaD4J?usp=sharing
+
+##  Please see my Wiki for design notes and further information about the app.
+
