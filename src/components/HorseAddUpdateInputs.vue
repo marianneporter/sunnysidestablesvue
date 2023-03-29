@@ -124,12 +124,15 @@
 <style src="@vueform/multiselect/themes/default.css"></style>
 
 <style lang="scss" scoped>
+
     @import "@/assets/scss/global.scss";  
+    
     .form-element {
         margin-top: 20px;  
         & *:not(.multiselect) {
             display: block;    
         }
+        min-width: 225px;
     }
 
     .name-input {      
@@ -141,13 +144,8 @@
         width: 100%;
         height: 35px;       
     } 
- 
-    .multiselect {
-        min-width: 225px;
-    }
 
     .owners-select {
-        min-width: 225px;
  
         .multiselect-owners {
             --ms-tag-bg: #f5f5f5;
@@ -163,16 +161,15 @@
             flex-wrap: wrap;                
             column-gap: 40px;
         }   
+
         .form-element {
             width: 225px;
         }
+
         .name-element {
-            min-width :500px;
+            min-width: 500px;
         }
-        
-        .owners-select {
-            width: 200px;            
-        }
+
         .name-input {
             width: 300px;
             height: 40px;
@@ -181,16 +178,19 @@
 </style>
 
 
-<style lang="scss">   
+<style lang="scss">   // non scoped scss relating to custom styling
+                      // form elements nested components from packages
    
     .multiselect-clear {
-        position: relative;       
+        position: relative;   
+
         .multiselect-clear-icon {
             position: absolute; 
             top: 10px;
             right: 10px;                
         }
     }
+
     .owners-select {        
         .multiselect-clear {
             position: static; 
@@ -212,6 +212,7 @@
            top: 12px;
            right: 12px;
            color: #808080;
+           pointer-events: none;
         }
     }
 
