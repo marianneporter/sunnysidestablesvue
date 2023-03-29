@@ -165,7 +165,7 @@
         }  
     }
 
-     /*********************** medium screens *********************/
+     /*********************** medium and large screens *********************/
     @media screen and (min-width: 768px) and (min-height: 700px) {
         .content {
             @include desktop-background($formBackgroundImage, true, 0.75);              
