@@ -1,7 +1,7 @@
 <template>
     <div class="content">           
         <form novalidate @submit.prevent="addUpdateHorse()" enctype="multipart/form-data">
-            <h3>{{addMode ? 'Add' : 'Update'}} Horse</h3>
+            <h2>{{addMode ? 'Add' : 'Update'}} Horse</h2>
 
             <HorseAddUpdateInputs :add-mode="addMode"
                                   :owners="owners" />
@@ -225,7 +225,8 @@
 
         form {
             margin: 0 auto;
-            width: 600px;    
+            width: 600px;   
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);  
         }
 
         .btn-area {

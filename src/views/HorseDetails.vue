@@ -1,7 +1,7 @@
 <template>
     <div class="content">
         <div class="horse-details-card">
-            <h3>{{ horse.name }}</h3>
+            <h2>{{ horse.name }}</h2>
 
             <div class="card-body">
                 <div class="img-area">
@@ -92,7 +92,7 @@
          background-color: white;
          padding: 16px 8px;
          margin: auto;
-
+         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
 
         .detail-lines {
 
@@ -112,7 +112,8 @@
             }
 
             .detail-title {
-                width: 80px;
+                font-weight: 600;
+                min-width: 85px;
             }
 
             .detail-value {
@@ -179,7 +180,6 @@
         .card-body {         
             padding: 0 32px 16px 32px;  
         }
-
         
         h3 {
              margin-left: 24px;          
