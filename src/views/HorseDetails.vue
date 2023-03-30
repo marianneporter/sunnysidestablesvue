@@ -91,7 +91,7 @@
     .horse-details-card {
          background-color: white;
          padding: 16px 8px;
-         margin: auto;
+         margin: 0 auto;
          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
 
         .detail-lines {
@@ -121,10 +121,6 @@
                 vertical-align: top;
             }  
         } 
-        
-        .btn-area > * {
-            margin: 5px;
-        }
     }
 
 
@@ -167,13 +163,13 @@
     }
 
      /*********************** medium and large screens *********************/
-    @media screen and (min-width: 768px) and (min-height: 700px) {
+    @media screen and (min-width: 768px) and (min-height: 600px) {
         .content {
             @include desktop-background($formBackgroundImage, true, 0.75);              
             display:flex;
             justify-content: center;
             align-items: center; 
-            min-height: $contentHeight;       
+            min-height: $contentHeight;               
             position: fixed;         
         } 
 
@@ -213,7 +209,7 @@
                 display: block;
                 margin-right: 24px;
                 margin-left: auto;
-                max-width: 375px;
+                max-width: 300px;
                 height: auto;
                 margin-top: 20px;
             }         
@@ -228,6 +224,14 @@
                 width: 30%;
             }           
         }  
+    }
+
+    @media screen and (min-width: 768px) and (min-height: 700px) {
+        .img-area {           
+            img {  
+                max-width: 375px;  
+            }         
+        } 
     }
 
 </style>
