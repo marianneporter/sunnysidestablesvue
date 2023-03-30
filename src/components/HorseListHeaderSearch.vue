@@ -41,13 +41,14 @@
     .search-input {
         display: flex;
         width: 230px;
-        height: 40px;
+        height: 40px;           
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);       
         
         input {
             height: inherit;
             border: none;
-            padding-left: 3px;   
+            padding-left:18px;
+          
             flex: 1 0 0;    
                   
             &:focus {
@@ -61,6 +62,7 @@
             border: none;        
             width: 25px;         
             opacity: 0.5;   
+            padding-top: 3px;
             background-color: white;
         } 
 
@@ -76,7 +78,7 @@
             height: 50px;
 
             input {
-                width: 150px;
+                width: 150px;              
             }
 
             button {
