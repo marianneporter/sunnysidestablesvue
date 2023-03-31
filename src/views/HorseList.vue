@@ -133,7 +133,7 @@
 
     main {
 
-        max-width: 1200px;
+        max-width: 1150px;
         margin: 0 auto;
 
         .horse-cards {
@@ -152,6 +152,7 @@
             justify-content: center;
             align-items: center;
             margin-bottom: 100px;
+            background-color: pink;
 
             button {
                 width: 250px;

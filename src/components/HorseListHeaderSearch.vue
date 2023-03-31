@@ -47,7 +47,9 @@
         input {
             height: inherit;
             border: none;
-            padding-left:18px;
+            padding-left:10px;
+     
+         
           
             flex: 1 0 0;    
                   
@@ -64,11 +66,17 @@
             opacity: 0.5;   
             padding-top: 3px;
             background-color: white;
+
+            &:last-child {
+                padding-right: 5px;           
+            }
         } 
 
         .invisible {
             opacity: 0;
         }
+
+ 
     }
 
     @media screen and (max-width: 767px) {
@@ -78,7 +86,9 @@
             height: 50px;
 
             input {
-                width: 150px;              
+                width: 125px;   
+                font-size: 16px;
+                           
             }
 
             button {
