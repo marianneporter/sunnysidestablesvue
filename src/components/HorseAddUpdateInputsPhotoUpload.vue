@@ -115,7 +115,7 @@
 
     } 
 
-    @media screen and (max-width: 992px) {
+    @media screen and (max-width: 1024px) {
         .photo-area {
             margin-top: 15px;
             margin-bottom: 30px; 

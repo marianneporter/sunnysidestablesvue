@@ -1,6 +1,6 @@
 <template>
     <div class="search-input">
-        <input type="text" placeholder="search by horse's name" v-model="searchTerm"   @keyup.enter="search()">      
+        <input type="text" placeholder="search by horse name" v-model="searchTerm"   @keyup.enter="search()">      
         <button :class="{ invisible: searchTerm==''}"
                 @click="resetSearch()"><font-awesome-icon icon="fa-solid fa-xmark" /></button>            
         <button @click="search()"><font-awesome-icon icon="fa-solid fa-magnifying-glass" /></button>

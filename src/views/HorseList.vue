@@ -152,7 +152,6 @@
             justify-content: center;
             align-items: center;
             margin-bottom: 100px;
-            background-color: pink;
 
             button {
                 width: 250px;
