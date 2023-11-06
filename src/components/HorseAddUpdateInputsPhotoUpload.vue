@@ -86,7 +86,10 @@
             height: 30px;
             width: 110px;
             border: none;
-            border-radius: 10px;    
+            border-radius: 10px;   
+            &:hover {
+                cursor: pointer;
+            } 
         }
 
         .preview-photo {
@@ -96,13 +99,21 @@
 
         .add-btn {   
             background-color: $primary;
-            color: white;           
+            color: white;   
+            
+            &:hover {
+                background-color: darken($primary, 10%);
+            }
         }
 
-        .reset-btn {
+        .reset-btn {   
             margin-top: 10px;
             background-color: $secondary;
             color: white;    
+
+            &:hover {
+                background-color:  darken($secondary, 5%);
+            }
         }
     }  
 

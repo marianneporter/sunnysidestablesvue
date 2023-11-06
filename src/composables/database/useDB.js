@@ -70,7 +70,7 @@ export default function useDB() {
     const addHorse = async (horseFormData) => {
 
         const response = await fetch(` ${baseURL}horses`, 
-        { method: 'POST', 
+              { method: 'POST', 
                 headers: { 'Authorization': getAuthHeaderValue() },     
                 body: horseFormData })   
                 

@@ -82,7 +82,7 @@
                 let userCreds = getUserCreds()       
                 let loginResult = await login(userCreds)
             
-                isLoading.value=false;
+                isLoading.value=false; 
 
                 if (loginResult === 'success') {
                     closeSlider()
@@ -113,7 +113,12 @@
         .close-btn {            
             position: absolute;
             top: 8px;
-            right: 8px;                
+            right: 8px;   
+          
+            &:hover {
+                cursor: pointer;
+            } 
+                    
         }
 
         h1 {
@@ -126,6 +131,9 @@
 
         .login-btn {
             margin-left: 0;
+            &:hover {
+                cursor: pointer;
+            }
         }
 
         .login-btn:disabled {

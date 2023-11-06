@@ -83,10 +83,12 @@
                 display: block;
                 text-decoration: none;
                 color: white;   
-                padding: 16px 24px;                       
-
+                padding: 16px 24px;  
+                
+ 
                 &:hover:not(:last-child) {
-                    background-color: $primaryHighlight;
+                    background-color: $primaryHighlight;                 
+                    cursor: pointer; 
                 }
            }            
         }
@@ -103,6 +105,9 @@
                 color: white;
                 background-color: $primary;
                 border: none;
+                &:hover {
+                    cursor: pointer;
+                }
             }
         }      
     } 
@@ -178,6 +183,10 @@
                      .logout-btn {
                          padding: 20px 0;
                          font-size: 16px;
+                     
+                         &:hover {
+                            cursor: pointer;
+                         }
                      }
                 }
             }            

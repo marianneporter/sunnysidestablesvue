@@ -52,11 +52,18 @@
 </script>
 
 <style lang="scss" scoped>
-    .horse-card {     
+    .horse-card {    
+        position: relative; 
         height: 425px;
         width: 350px;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         padding: 20px 10px;
+        top: 0;
+        transition: top 0.5s;
+
+        &:hover {
+            top: -10px;
+        }
     }
 
     .img-area {

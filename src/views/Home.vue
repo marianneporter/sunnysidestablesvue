@@ -89,7 +89,10 @@
                     width: 200px;
                     font-size: 20px;
                     left: 250px;
+                   
                 }
+
+
             }  
 
         .slide-enter-from   { transform: translateX(800px) }
